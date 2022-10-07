@@ -1,0 +1,30 @@
+body{
+    background-color:#AAC4FF;
+}
+hr{
+    border-width:5px;
+    border-style: none;
+    border-color:green;
+    height:0px;
+    width:100px;
+    border-style:dotted none none none; 
+}  
+h1{
+    color:#3D8361;
+    background-color:aquamarine;
+    letter-spacing:30px;
+    line-height:30px;
+    word-spacing:20px;
+    font-size:20px;
+}
+p{
+    margin-top:10px;
+    margin-right:100px;
+    margin-bottom:10px;
+    margin-left:10px;
+    color:rgb(236, 59, 162);
+    width:1200px;
+    height:40px;
+    border:2px dotted;
+    border-color:blueviolet;
+}

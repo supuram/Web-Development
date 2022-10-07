@@ -1,0 +1,27 @@
+body{
+    margin:0;
+}
+a{
+    text-decoration: none;
+}
+.container{
+    width:100%;
+    background-color: lightblue;
+}
+.dropdown{
+    display:inline-block;
+}
+.dropdown-content{
+    display:none;
+    text-decoration: none;
+}
+.dropdown-content a{
+    display:block;
+}
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+.dropdown:hover .dropdown-content a{
+    display:block;
+    width:50px;
+}

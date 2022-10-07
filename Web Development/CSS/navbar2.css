@@ -1,0 +1,50 @@
+.header{
+    position:absolute;
+    background-color: red;
+    width:100%;
+    left:0;
+    top:0;
+    z-index: 99;
+    padding: 15px;
+}
+.container{
+    max-width: 1170px;
+    background-color:red;
+    margin:auto;
+}
+.header-main{
+    background-color: lightgreen;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+ul{
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+a{
+    text-decoration: none;
+}
+.header .nav-menu{
+    padding:0 15px;
+}
+.header .menu > .menu-item{
+    display:inline-block;
+    margin-left: 15px;
+}
+.header .menu > .menu-item > a{
+    display:block;
+    padding: 15px 0;
+    font-size: 16px;
+    color:brown;
+    font-weight: 600;
+}
+.header .menu > .menu-item:hover > a{
+    color:burlywood;
+}
+.header .menu > .menu-item > .sub-menu{
+    width:220px;
+    position:absolute;
+}

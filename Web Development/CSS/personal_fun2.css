@@ -1,0 +1,31 @@
+body{
+    margin:0;
+    text-align: center;
+}
+
+h1{
+    width:30%;
+}
+
+.A{
+    width:70%;
+    margin:0 auto 0 auto;  /* top right bottom left */
+}
+
+div{
+    background-color: #C6EBC5;
+    border:10px;
+    padding:40px; 
+    position:relative;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.bottom-cloud{
+    position:absolute;
+    left:250px;
+}
+
+.top-cloud{
+    position:absolute;
+    right:250px;
+}
