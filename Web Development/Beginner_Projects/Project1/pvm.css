@@ -1,0 +1,95 @@
+body{
+    margin:0;
+    width:100%;
+}
+
+/* HEAD */
+.h1head{
+    padding:10px;
+}
+.Head-para{
+    line-height: 12px;
+}
+
+.Pranabananda{
+    background-color: rgba(223, 243, 111, 0.735);
+    
+    text-align: center;
+    height:170px;
+}
+
+/* NAVIGATION BAR */
+.A{
+    background-color: white;
+    padding-left:80px;
+}
+.nav-item{
+    padding-right:30px;
+}
+.nav-link{
+    color:orangered;
+    font-size: 17px;
+}
+.nav-link:hover{
+    color:rgb(255, 0, 0);
+}
+.color-di{
+    color:orange;
+}
+.color-di:hover{
+    color:orange;
+}
+
+/* SLIDING PHOTOS*/
+.Sliding-Photos-img{
+    height:350px;
+}
+@keyframes animating-multiple-properties {
+    from {
+      transform: translateY(110vh);
+      filter: brightness(75%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+.Sliding-Photos-h3{
+    z-index:2;
+    text-align: center;
+    position: relative;
+    bottom:175px;
+    color:orange;
+    animation-name:animating-multiple-properties;
+    animation-duration: 2s;
+    transition-timing-function:ease;
+}
+
+/* MOTTO */
+.Motto-head{
+    text-align: center;
+    color:orangered;
+}
+.Motto-row{
+    width:1250px;
+}
+.Motto-img{
+    width:50%;
+    border-radius: 10%;
+}
+.card-body h2{
+    color:orange;
+}
+
+/* THOUGHT OF THE DAY */
+.Thought{
+    text-align: center;
+    background-color: orange;
+}
+
+/* NEWS AND EVENTS*/
+.News h1{
+    text-align: center;
+}
+.News-h3{
+    background-color: lightsalmon;
+}

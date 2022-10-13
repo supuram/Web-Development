@@ -1,0 +1,11 @@
+@media print{
+    h1{
+        color:red;
+    }
+}
+@media (max-width:900px){  /* This says when our screen size is less than 900px the color of h2 will be green*/
+    h2{
+        font-size: 40px;
+        color:rgba(0, 255, 149, 0.463);
+    }
+}

@@ -1,0 +1,60 @@
+#title{
+    background-color:lightcoral;
+}
+.container-fluid{
+    padding:3% 15% 7%; /* 3% -top, 15% -left;right, 7% -bottom*/
+}
+.nav-item{
+    padding-right:100px;
+}
+.download-button{
+    margin:3% 5% 3% 0;
+}
+.image-i{
+    height:400px;
+    transform:rotate(30deg);
+    position:absolute;
+    left:800px;
+}
+#features{
+    padding:7% 15%;
+    background-color: white;
+    position:absolute;
+    z-index: 3;
+}
+.feature-box{
+    text-align: center;
+    padding:5%;
+}
+.feature-box h3{
+    font-weight: bold;
+}
+.icon{
+    color: orangered;
+}
+#testimonials{
+    text-align: center;
+    background-color: lightsalmon;
+    color:whitesmoke;
+}
+.testimonial-image{
+    width:10%;
+    border-radius: 100%;  /* border-radius=100% makes the picture a circle */ 
+    margin:20px;
+}
+#press{
+    padding-bottom:5%;
+    background-color: lightsalmon;
+    text-align: center;
+}
+.press-logo{
+    width:15%;
+    margin:20px;
+}
+.carousel-item{
+    padding:7% 15%;
+}
+#pricing{
+    padding: 100px;
+    text-align: center;
+}
