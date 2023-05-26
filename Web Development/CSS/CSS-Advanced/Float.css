@@ -1,0 +1,18 @@
+.bird{
+    height:100px;
+    float: left;
+}
+
+.bird1{
+    height:100px;
+    width:100px;
+    float:right;
+}
+
+footer{
+    clear:left;
+}
+
+/*
+clear, clears any responsibility to wrap around things that are floating
+*/

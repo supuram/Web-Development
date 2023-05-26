@@ -1,0 +1,15 @@
+body{
+    margin:0;
+}
+.nav-link{
+    color: blue;
+}
+.abc{
+    font-size: 15px;
+    border-radius: 0%;
+    padding:0px;
+    border:0px;
+}
+.color-di:hover{
+    background-color: red;
+}

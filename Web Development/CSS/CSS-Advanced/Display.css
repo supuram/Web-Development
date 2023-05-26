@@ -1,0 +1,27 @@
+.Block{
+    background-color: lightcoral;
+    width:400px;
+    height: 200px;
+    display: block;
+}
+
+.Inline{
+    background-color: rgb(179, 208, 113);
+    width:400px;
+    height: 200px;
+    display: inline;
+}
+/*
+Height and Width of inline elements cannot be changed
+*/
+
+.Inline-Block{
+    background-color: rgb(86, 48, 225);
+    width:400px;
+    height: 200px;
+    display: inline-block;
+}
+
+/*
+Height and Width of an Inline-Block and Block elements can be changed
+*/

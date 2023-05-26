@@ -1,0 +1,21 @@
+h1,h2{
+    color:rgb(20, 249, 112);
+}
+
+.box > p{
+    color:goldenrod;
+}
+
+.box li{
+    color:rgb(83, 59, 238);
+}
+
+li.done{
+    color:rgb(0, 95, 41);
+    font-size: 40px;
+}
+
+ul p.done{
+    color:rgb(255, 0, 0);
+    font-size: 2rem;
+}

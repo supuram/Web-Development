@@ -1,0 +1,188 @@
+*{
+    margin:0;
+    padding:0;
+}
+body{
+    background-color: rgb(3, 3, 54);
+    color:white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.left{
+    font-size: 1.5rem;
+}
+
+nav{
+    display:flex;      /* anything under nav comes under one line*/
+    justify-content: space-around;
+    align-items: center;
+    height:100px;
+    background-color: rgb(16, 16, 88);
+}
+
+nav ul{
+    display:flex;    /* anything under ul comes in one line */
+    justify-content: center;
+}
+
+nav ul li{
+    list-style: none;  /* removes the bullet points from list*/
+    margin: 0 23px;    /* gives space between the lists */
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: white;
+}
+
+nav ul li a:hover{
+    text-decoration: none;
+    color: rgb(241, 219, 219);
+}
+
+.firstSection{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 55px;
+}
+
+.firstSection > div{  /* only the first div inside firstSection gets 40% width*/
+    width:40%;
+}
+
+.leftSection{
+    font-size: 3rem;
+}
+
+.buttons{
+    padding-top:10px;
+}
+
+.btn{
+    padding:12px;
+    background-color: rgb(33, 1, 63);
+    color:white;
+    border:2px solid white;
+    border-radius: 3px;
+    font-size: 20px;
+    cursor:pointer;
+}
+
+#element{
+    color:rgb(240, 236, 6);
+}
+
+.purple{
+    color:blueviolet;
+}
+
+.text-grey{
+    color: grey;
+}
+
+.rightSection img{
+    width:60%;
+    position:relative;
+    margin-left: 100px;
+    margin-top: 20px;
+}
+
+.secondSection{
+    max-width: 80vw;  /*The viewport is the user’s visible area of a web page. It varies with the 
+    device and will be smaller on a mobile phone than on a computer screen1. In web browser terms, 
+    it is generally the same as the browser window, excluding the UI, menu bar, etc. That is the part 
+    of the document you are viewing2. The viewport width is based on the width of the viewport3. 
+    A value of 1vw is equal to 1% of the viewport width */
+    margin:auto;
+    height:80vh;
+}
+
+.secondSection h1{
+    font-size: 1.9rem;;
+}
+
+.box{
+    background: white;
+    width:80vw;
+    height:2px;
+    margin:56px 0;  
+    display:flex;
+}
+
+.vertical{
+    height:93px;
+    width:1px;
+    background-color: white;
+    margin:0 100px;    /* top-bottom left-right*/
+}
+
+.image-top{
+    width:23px;
+    position:relative;
+    top:-32px;
+    left:-9px;
+/*
+In CSS, the top and left properties are used to position an element relative to its nearest 
+positioned ancestor. A positioned element is one whose position property is set to a value other 
+than static, such as relative, absolute, or fixed.
+
+In the example you provided, top: -32px; means that the element will be positioned 32 pixels above 
+its default position. Similarly, left: -9px; means that the element will be positioned 9 pixels to the left of its default position.
+
+It’s important to note that these properties will only have an effect if the element is positioned 
+(i.e., its position property is set to a value other than static). If the element is not positioned, 
+these properties will have no effect.
+*/
+}
+
+.vertical-title{
+    position:relative;
+    top:75px;
+    left:-10px;
+    width:150px;
+    font-size:14px;
+}
+
+.vertical-desc{
+    position:relative;
+    top:100px;
+    left:-10px;
+    width:150px;
+    font-size: 12px;
+    color: rgba(249, 227, 227, 0.701);
+}
+
+footer{
+    background-color: rgb(7, 4, 88);
+}
+
+.footer{
+    padding:23px 122px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footer ul{
+    list-style: none;  /* removes the bullet points from the front of the lists */
+}
+
+.footer > div{
+    width:223px;
+}
+
+.footer li a{
+    text-decoration: none;
+    color:white;
+}
+
+.footer li a:hover{
+    text-decoration: none;
+    color: rgba(199, 250, 255, 0.813);
+}
+
+.footer-text-center{
+    color: grey;
+    text-align: center;
+    padding:12px 0;
+}

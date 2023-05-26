@@ -1,0 +1,31 @@
+div{
+    width:60%;
+}
+
+.first{
+    background-color: greenyellow;
+    height:100px;
+    font-size: 4rem;
+}
+
+.second{
+    background-color: limegreen;
+    height:150px;
+    position:relative;
+    top:30px;
+    left:60px;
+    font-size: 4rem;
+}
+
+.third{
+    background-color: lightgreen;
+    height:200px;
+    font-size: 6rem;
+    padding:30px;
+    position:relative;
+    left:100px;
+}
+
+/*
+Relative position means relative to the position which the particular element was supposed to be
+*/

@@ -1,0 +1,7 @@
+.container{
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* 1fr means 1 fraction. Here the ratio is 1:2. So if 1st column is 
+    100px, second column will be 200px */
+    grid-template-rows: 1fr 1fr;
+    gap:10px;
+}

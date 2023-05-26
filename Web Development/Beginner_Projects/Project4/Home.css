@@ -1,0 +1,35 @@
+body{
+    margin:0;
+}
+
+img{
+    width:50px;
+    height:50px;
+}
+
+.Sup{
+    color:rgb(58, 43, 226);
+}
+
+.para{
+    color:rgb(52, 43, 226)
+}
+
+div,li{
+    display:inline;
+    padding: 25px;
+    font-size: 30px;
+}
+
+ul{
+    background-color: lightgreen;
+}
+
+a{
+    text-decoration: none;
+}
+
+.Homepara{
+    padding: 25px;
+    font-size: 25px;
+}

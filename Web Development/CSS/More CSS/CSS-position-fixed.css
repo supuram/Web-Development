@@ -1,0 +1,29 @@
+/*
+Fixed positioning means position relative to top left corner of browser window. Even if you scroll
+the position of the element will not change
+*/
+
+div{
+    width:60%;
+}
+
+.first{
+    background-color: greenyellow;
+    height:100px;
+    font-size: 2rem;
+}
+
+.second{
+    background-color: limegreen;
+    height:150px;
+    font-size: 2rem;
+}
+
+.third{
+    background-color: lightgreen;
+    height:200px;
+    font-size: 6rem;
+    padding:30px;
+    position:fixed;
+    left:100px;
+}

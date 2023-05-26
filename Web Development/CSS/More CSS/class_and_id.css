@@ -1,0 +1,13 @@
+/* https://www.youtube.com/watch?v=NZ2gJ9ga3u4&list=PLt5mNkGuWcuVa4GNEsDbH5L6ONaIMsbMa&index=5 */
+
+span > p{
+    color:red;
+}
+
+li{
+    color:brown;
+}
+
+li li{
+    color:blue;
+}

@@ -1,0 +1,30 @@
+.bird{
+    width:100px;
+    height:100px;
+    float:left;
+}
+
+.bird1{
+    width:100px;
+    height:100px;
+    float:left;
+}
+
+.div1{
+    display: inline-block;
+    width:500px;
+    background-color: rgb(243, 182, 182);
+}
+
+.div2{
+    display: inline-block;
+    width:500px;
+    background-color: rgb(134, 255, 181);
+}
+
+footer{
+    clear:both;
+    background-color: rgb(254, 178, 255);
+    width:500px;
+    height:200px;
+}

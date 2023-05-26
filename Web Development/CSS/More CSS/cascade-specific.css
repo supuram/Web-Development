@@ -1,0 +1,33 @@
+li{ /* this is an element */
+    color: blue;
+}
+
+#first-id{
+    color: rgb(222, 140, 227);
+}
+
+li[draggable]{    /* draggable is an attribute*/
+    color: rgb(41, 128, 0);
+}
+
+.first-class{
+    color:red;
+}
+
+/*
+Even though id is above draggable still the color of id is seen in the webpage. So order of which 
+will be seen in the actual webpage is id > attribute > class > element
+*/
+
+.second-class{
+    color: lightsalmon;   
+}
+
+.first-class{
+    color: lightgreen;
+}
+
+/*
+Out of first-class and second-class whichever class will be below, that particular color will be 
+shown
+*/

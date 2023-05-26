@@ -1,0 +1,78 @@
+body{
+    margin:0;
+}
+
+/* Navigation Bar Topmost */
+.back{
+    height:30px;
+    background-color: rgb(154, 8, 8);
+}
+.intialnav{
+    color:white;
+    font-weight: 800;
+}
+
+/* LOGO Section */
+.logo{
+    width:80px;
+    height:80px;
+}
+h6{
+    font-size: 10px;
+}
+.logo-button{
+    display: inline;
+}
+
+/* NAVIGATION BAR MAIN */
+.navi{
+    color:black;
+}
+.navi{
+    color:black;
+}
+.navbar-main{
+    font-size: 15px;
+    border-radius: 0%;
+    padding:0px;
+    border:0px;
+}
+.color-di:hover{
+    background-color: red;
+}
+
+/* ANNOUNCEMENTS */
+.announce{
+    background-color: rgb(91, 230, 26);
+    border-left:100px solid red;
+    height:40px;
+    padding:0;
+}
+.announce:before{
+    content:"Announcements";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 60%;
+    left: 0;
+}
+
+@keyframes animating-multiple-properties {
+    from {
+        transform: translateX(5%);
+      }
+      to {
+        transform: translateX(100%);
+      }
+}
+.h4-announce{
+    animation-name:animating-multiple-properties;
+    transform: translateX(80%);
+    animation-duration: 7s;
+    font-size: 20px;
+    transition-property: margin-left;
+    animation-direction: alternate-reverse;
+    transition-timing-function: linear;    
+    animation-iteration-count: infinite;
+}
