@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    gap:10px;
+}
+
+.one{
+    background-color: rgb(147, 147, 218);
+}
+
+.two{
+    background-color: rgb(144, 254, 212);
+}
+
+.three{
+    background-color: rgb(248, 185, 185);
+}

@@ -1,0 +1,60 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    /* flex-basis: 300px; cannot be applied to the container */
+}
+
+.container > div{
+    flex-basis: 30px;
+}
+
+.container1{
+    border:10px solid rgb(0, 0, 0);
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.container1 > *{
+    flex-basis: 50px;
+    /* Here * means that select all the direct descendants of the container1 */
+}
+
+hr{
+    border-color:rgb(0, 0, 0);
+}
+
+.one{
+    background-color: blueviolet;
+}
+
+.two{
+    background-color: rgb(114, 114, 255);
+}
+
+.three{
+    background-color: magenta;
+}
+
+.four{
+    background-color: khaki;
+}
+
+.five{
+    background-color: indianred;
+}
+
+.six{
+    background-color: palegreen;
+}
+
+.seven{
+    background-color: royalblue;
+}
+
+.eight{
+    background-color: chartreuse;
+}
+
+.nine{
+    background-color: violet;
+}

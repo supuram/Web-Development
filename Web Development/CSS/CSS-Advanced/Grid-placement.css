@@ -1,0 +1,46 @@
+.container{
+    height:100vh;
+    display:grid;
+    gap:3rem;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.item{
+    background-color: blueviolet;
+    font-size: 5rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cowboy{
+    background-color: rgb(35, 58, 48);
+    grid-column-start: 2;  
+    grid-column-end: 3;
+    order:2;
+}
+
+.astronaut{
+    background-color: rgb(255, 56, 56);
+    grid-row: span 2;
+}
+
+.book{
+    background-color: rgb(126, 75, 255);
+    order:1; 
+    /* All elements have default order of 0. If order is given as 1 then that means, that
+    element will be the bottom-most element in that container */
+}
+
+.table{
+    background-color: rgb(0, 238, 135);
+    grid-column: span 2;
+}
+
+/*
+Intead of grid-column-start , grid-column-end you can write -
+grid-area:grid-row-start / grid-column-start / grid-row-end / grid-column-end;
+grid-area:2/1/4/3;
+*/

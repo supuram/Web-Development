@@ -1,0 +1,51 @@
+.container{
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+    justify-content: center;
+    border:3px solid darkblue;
+    height:500px;
+}
+
+.container > div{
+    flex-basis: 90px;
+    height: 80px;
+}
+
+.one{
+    background-color: blueviolet;
+}
+
+.two{
+    background-color: rgb(114, 114, 255);
+}
+
+.three{
+    background-color: magenta;
+    align-self: flex-start;
+}
+
+.four{
+    background-color: khaki;
+}
+
+.five{
+    background-color: indianred;
+}
+
+.six{
+    background-color: palegreen;
+    align-self: flex-end;
+}
+
+.seven{
+    background-color: royalblue;
+}
+
+.eight{
+    background-color: chartreuse;
+}
+
+.nine{
+    background-color: violet;
+}
