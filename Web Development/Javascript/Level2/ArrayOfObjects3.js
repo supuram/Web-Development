@@ -20,4 +20,6 @@ items.sort((a, b) => {
   
     // names must be equal
     return 0;
-  });
+});
+
+console.log(items)
