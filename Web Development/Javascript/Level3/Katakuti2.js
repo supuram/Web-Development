@@ -1,21 +1,58 @@
 // With help from Bing
 
+let gridSize = prompt("Enter the size of the grid between 1 to 10:");
+gridSize = parseInt(gridSize)
+
 let items = document.querySelectorAll('.container-item')
+
+let numberOfRows = gridSize
+let numberOfColumns = gridSize
+let items2D = new Array(numberOfRows);
+
+if (isNaN(gridSize) || gridSize < 1 || gridSize > 10) {
+    alert("Invalid grid size. Please enter a number between 1 to 10")
+} 
+else {
+    let container = document.querySelector('.container')
+    container.innerHTML = ''
+    container.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`
+    container.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`
+
+    for (let i = 0; i < gridSize ** 2; i++) {
+        let item = document.createElement('div')
+        item.classList.add('container-item')
+        if (i === 0) {
+            item.classList.add('select')
+        }
+        container.appendChild(item)
+    }
+
+    items = document.querySelectorAll('.container-item')
+    
+    // Setting the fontSize equal to 75 % of box 
+    /*let containerWidth = container.offsetWidth;
+    let containerHeight = container.offsetHeight;
+    let areaBox = ((containerWidth * containerHeight)/(numberOfRows * numberOfColumns)) ** 0.5
+    let finalPixel = 0.75 * areaBox*/
+    
+    items.forEach(item1 => {
+        item1.style.fontSize = `40px`;
+    })
+
+    // Adding items to a 2D array
+    for (let i = 0; i < numberOfRows; i++) {
+        items2D[i] = new Array(numberOfColumns);
+    }
+
+    for (let i = 0; i < items.length; i++) {
+        let row = Math.floor(i / numberOfColumns);
+        let column = i % numberOfColumns;
+        items2D[row][column] = items[i];
+    }
+}
+
 let selectedRowIndex = 0
 let selectedColumnIndex = 0
-let numberOfRows = items.length ** 0.5
-let numberOfColumns = items.length ** 0.5
-
-let items2D = new Array(numberOfRows);
-for (let i = 0; i < numberOfRows; i++) {
-    items2D[i] = new Array(numberOfColumns);
-}
-
-for (let i = 0; i < items.length; i++) {
-    let row = Math.floor(i / numberOfColumns);
-    let column = i % numberOfColumns;
-    items2D[row][column] = items[i];
-}
 
 document.addEventListener("keydown", (event1) => {
 
@@ -36,7 +73,13 @@ document.addEventListener("keydown", (event1) => {
     // User gives either x or 0 to fill the box
     else if(event1.key === 'x' || event1.key === '0'){
         let selectedItem = items2D[selectedRowIndex][selectedColumnIndex]
-        selectedItem.textContent = event1.key    
+        selectedItem.textContent = event1.key  
+        if (event1.key === 'x') {
+            selectedItem.classList.add('select')
+        } 
+        else if (event1.key === '0') {
+            selectedItem.classList.add('select1')
+        }
         checkWin()
     }
 
@@ -45,10 +88,18 @@ document.addEventListener("keydown", (event1) => {
     // For adding the color to the selected box
     items.forEach((item, index) => {
         if(index === selectedIndex){
-            item.classList.add('select')
+            item.classList.add('select2')
+            if(item.textContent === '0'){
+                item.classList.remove('select')
+                item.classList.add('select1')
+            }
+            if(item.textContent === 'x'){
+                item.classList.remove('select1')
+                item.classList.add('select')
+            }
         }
         else{
-            item.classList.remove('select')
+            item.classList.remove('select2')
         }
     })
 });
@@ -57,9 +108,17 @@ document.addEventListener("keydown", (event1) => {
 items.forEach((item, index) => {
     item.addEventListener('click', () => {
         items.forEach((item, index) => {
-            item.classList.remove('select');
+            item.classList.remove('select2')
         });
-        item.classList.add('select');
+        item.classList.add('select2')
+        if(item.textContent === '0'){
+            item.classList.remove('select')
+            item.classList.add('select1')
+        }
+        if(item.textContent === 'x'){
+            item.classList.remove('select1')
+            item.classList.add('select')
+        }
         selectedColumnIndex = index % numberOfColumns
         selectedRowIndex = Math.floor(index / numberOfColumns)
         checkWin()
