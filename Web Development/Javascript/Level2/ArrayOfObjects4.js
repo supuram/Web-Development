@@ -18,9 +18,9 @@ function askQuestion(i)
     if (i < 5) {
         a.question(`Enter your ${(i+1)}th name = `, name1 => {
             obj.Student_name[i] = name1; 
-            a.question('Enter  your ${(i+1)}th roll = ', roll => {
+            a.question(`Enter  your ${(i+1)}th roll = `, roll => {
                 obj.Roll_Number[i] = parseInt(roll);
-                a.question('Enter  your ${(i+1)}th marks = ', marks => {
+                a.question(`Enter  your ${(i+1)}th marks = `, marks => {
                     obj.Total_Marks[i] = parseInt(marks);
                     askQuestion(i + 1);
                 });
@@ -29,7 +29,7 @@ function askQuestion(i)
     } 
     else {
       a.close();
-      console.log(obj)
+      console.log(obj, obj.Roll_Number.length)
     }
 }
 askQuestion(1);

@@ -1,0 +1,48 @@
+.result{
+    width:450px;
+    height: 50px;
+    background-color: lightskyblue;
+    font-size: 45px;
+}
+
+.result1{
+    border:3px solid lightskyblue;
+    width:458px;
+    height: 100px;
+    margin-bottom:5px;
+    margin-left: 5px;
+}
+
+.result2{
+    background-color: rgb(250, 248, 135);
+    font-size: 45px;
+    width:458px;
+    height: 50px;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:  1fr 1fr 1fr 1fr 1fr;
+    width:475px;
+    height: 275px;
+}
+
+.container-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.container-div button{
+    width:90px;
+    height:50px;
+    background-color: rgb(173, 230, 185);
+    border-radius: 10px;
+    border:2px solid black;
+    font-size: 25px;
+}
+
+button:hover{
+    background-color: lightcoral;
+}

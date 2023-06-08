@@ -11,8 +11,8 @@
     font-size: 5rem;
     color: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center;  
+    align-items: center;   /* applies to the text inside class = item */
 }
 
 .cowboy{
