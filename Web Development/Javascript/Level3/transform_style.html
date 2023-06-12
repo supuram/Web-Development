@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transform-Style</title>
+</head>
+<style>
+    div{
+        background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+        border:2px solid rgb(26, 26, 71);
+        width:400px;
+        height:350px;
+        padding:10px;
+    }
+</style>
+<body>
+    <div class = div1></div>
+    <div class = "div2"></div>
+</body>
+<script>
+    divv1 = document.querySelector('.div1')
+    divv1.style.transform = "scale(-0.5, 0.4)" // due to minus sign the div element rotates  by 180 deg
+    divv2 = document.querySelector('.div2')
+    divv2.style.transform = "scale(0.3)"
+</script>
+</html>

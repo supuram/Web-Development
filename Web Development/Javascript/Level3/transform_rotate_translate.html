@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transform-Rotate-Translate</title>
+</head>
+<style>
+    div{
+        background-color: rgb(255, 187, 187);
+        border:2px solid rgb(26, 26, 71);
+        width:40px;
+        height:35px;
+    }
+</style>
+<body>
+    <div></div>
+</body>
+<script>
+    let angle = 0
+    let directionX = 0
+    let reverse = false
+    divv = document.querySelector('div')
+    const a = setInterval(() => {
+        divv.style.transform = "rotate(" + angle + "deg) translate(" + directionX + "px, 10px)";
+        if (!reverse) {
+            directionX += 10
+        } 
+        else {
+            directionX -= 10
+        }
+        angle += 10
+        if (directionX >= document.body.clientWidth) {
+            reverse = true
+        }
+        if (directionX <= 0) {
+            reverse = false
+        }
+    },100)
+</script>
+</html>

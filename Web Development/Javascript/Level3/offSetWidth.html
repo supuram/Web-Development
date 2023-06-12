@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>offsetWidth</title>
+</head>
+<style>
+    div{
+        background-color: rgb(255, 187, 187);
+        border:2px solid rgb(26, 26, 71);
+        width:400px;
+        height:350px;
+        padding:10px;
+        position: absolute; /* if you don't write position getPropertyValueTop, getPropertyValueLeft, 
+        getPropertyValueBottom, getPropertyValueRight will show NaN */
+        right:100px; /* div element is positioned 287px from the right edge of its containing block. */
+    }
+</style>
+<body>
+    <div></div>
+</body>
+<footer>
+    <script>
+        let divv = document.querySelector('div')
+        let offsetWidth = divv.offsetWidth
+        let offsetHeight = divv.offsetHeight
+        let clientWidth = divv.clientWidth
+        let clientHeight = divv.clientHeight
+        let getPropertyValueTop = Math.floor(parseInt(window.getComputedStyle(divv).getPropertyValue("top")))
+        let getPropertyValueLeft = parseInt(window.getComputedStyle(divv).getPropertyValue("left"))
+        let getPropertyValueBottom = parseInt(window.getComputedStyle(divv).getPropertyValue("bottom"))
+        let getPropertyValueRight = parseInt(window.getComputedStyle(divv).getPropertyValue("right"))
+
+        console.log("offsetWidth = ",offsetWidth)
+        console.log("offsetHeight = ",offsetHeight)
+        console.log("clientWidth = ",clientWidth)
+        console.log("clientHeight = ",clientHeight)
+        console.log("getPropertyValueTop = ",getPropertyValueTop)
+        console.log("getPropertyValueLeft = ",getPropertyValueLeft)
+        console.log("getPropertyValueBottom = ",getPropertyValueBottom)
+        console.log("getPropertyValueRight = ",getPropertyValueRight)
+
+        // offsetWidth = Width + Border + Padding
+        // clientWidth = Width + Padding
+    </script>
+</footer>
+</html>

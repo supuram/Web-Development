@@ -1,0 +1,62 @@
+#clock {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #f8a1a1;
+}
+
+#clock:before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 6px;
+    background-color: rgb(14, 92, 64);
+}
+
+.hand{
+    position: absolute; /*This property sets the position of the element to be absolute, meaning that it is 
+    positioned relative to its nearest positioned ancestor, if any; otherwise, it is positioned relative to the 
+    initial containing block. */
+    bottom: 50%; /* This property sets the distance between the bottom of the element and the bottom of its 
+    nearest positioned ancestor (or the initial containing block) to be 50% of the height of the ancestor.*/
+    left: 50%;
+    border: 1px solid;
+    border-top-left-radius: 10px; /*border-top-left-radius: 10px; is a CSS property that sets the rounding of the
+    top-left corner of an element’s border. The border-top-left-radius property is used to create rounded corners 
+    on the top-left corner of an element’s border.
+
+    In this case, a value of 10px means that the top-left corner of the element’s border will be rounded with a 
+    radius of 10 pixels. This will create a smooth, curved corner on the top-left side of the element. */
+    border-top-right-radius: 10px;
+    background-color: rgb(126, 215, 85);
+}
+
+#hour-hand{
+    width: 4px;
+    height: 40px;
+    margin-left: -2px;
+    transform-origin: bottom;
+}
+#minute-hand{
+    width: 3px;
+    height: 60px;
+    margin-left: -1.5px;
+    transform-origin: bottom;
+}
+#second-hand{
+    width: 2px;
+    height: 80px;
+    margin-left: -1px;
+    transform-origin: bottom;
+}
+   
+.number{
+    position: absolute;
+    color:rgb(61, 0, 126);
+    font-weight: bold;
+}

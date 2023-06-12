@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transform-Translate</title>
+</head>
+<style>
+    div{
+        background-color: rgb(255, 187, 187);
+        border:2px solid rgb(26, 26, 71);
+        width:400px;
+        height:350px;
+        padding:10px;
+    }
+    .div2{
+        background-color: rgb(175, 224, 119);
+    }
+</style>
+<body>
+    <div class = div1></div>
+    <div class = "div2"></div>
+</body>
+<script>
+    divv = document.querySelector('.div2')
+    divv.style.transform = "translate(170px,40px)"
+</script>
+</html>
