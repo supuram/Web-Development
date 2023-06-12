@@ -23,8 +23,9 @@ function positionNumbers() {
     console.log(angle,radius*2)
     var distanceFactor = 0.85
     for (var i = 1; i <= 12; i++){
+        console.log(angle)  // angle in radians
         var numberElement = document.createElement("div");
-        numberElement.classList.add("number");
+        numberElement.classList.add("number");  // adding class Name to div element
         numberElement.innerText = i.toString();
         clock.appendChild(numberElement);
         numberElement.style.left = (radius + distanceFactor * radius * Math.cos(angle) - numberElement.offsetWidth / 2) + "px";
@@ -33,4 +34,18 @@ function positionNumbers() {
     }
 }
 console.log(clock)
-setInterval(updateClock, 1000);
+setInterval(updateClock, 1000)
+
+/*
+The horizontal distance from the center of the clock to each number is given by radius * Math.cos(angle), where 
+radius is the radius of the clock and angle is the angle of the number relative to the horizontal axis. This 
+distance is then multiplied by the distanceFactor to position the numbers closer to or further from the center of
+the clock. The numberElement.offsetWidth / 2 term centers the number horizontally within its element.
+
+The angles used in the updateClock function are in degrees. This is because the CSS transform: rotate() function, 
+which is used to rotate the clock hands, takes angles in degrees.
+
+On the other hand, the angles used in the positionNumbers function are in radians. This is because the Math.sin() 
+and Math.cos() functions, which are used to calculate the positions of the numbers on the clock face, take angles 
+in radians.
+*/
