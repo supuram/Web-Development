@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Random canvas circles</title>
+    <title>Begin Path</title>
     <style>
       html {
         width: 100%;
@@ -56,24 +56,23 @@
     }
 
     function draw() {
-      ctx.clearRect(0,0,WIDTH,HEIGHT); /* The clearRect() method is used to clear a rectangular area on a canvas. 
-      It takes four arguments: x, y, width, and height. The x and y arguments specify the coordinates of the 
-      top-left corner of the rectangle to clear, while the width and height arguments specify its dimensions.
-      */
-      for(let i = 0; i < 100; i++) {
         ctx.beginPath();  // start a new path or reset the current path on a canvas
-        ctx.fillStyle = `rgba(${random(200)},${random(700)},${random(400)},${random(300)})`;
-        ctx.arc(random(WIDTH), random(HEIGHT), random(50), 0, 2 * Math.PI);
-        ctx.fill();
-      }
+        ctx.moveTo(50, 100);
+        ctx.lineTo(350, 450);
+        ctx.rect(100,200,400,300) /*It takes four arguments: x, y, width, and height. The x and y arguments specify 
+        the coordinates of the top-left corner of the rectangle, while the width and height arguments specify its 
+        dimensions. */
+        ctx.stroke()
     }
 
 
     btn.addEventListener('click',draw);
+    /*
+    The moveTo() method takes two arguments, x and y, which specify the coordinates to move the current point to. 
+    This method does not draw anything on the canvas, but simply moves the current point to the specified position.
 
-    /* The arc() method takes five arguments: x, y, radius, startAngle, and endAngle. The x and y arguments 
-    specify the center of the arc, while the radius argument specifies its radius. The startAngle and endAngle 
-    arguments specify the start and end angles of the arc, in radians.
+    The lineTo() method also takes two arguments, x and y, which specify the coordinates to draw a line to. This 
+    method draws a line from the current point to the specified position, using the current stroke style.
     */
 
     /* The documentElement property of the document object returns the Element that is the root element of the 
