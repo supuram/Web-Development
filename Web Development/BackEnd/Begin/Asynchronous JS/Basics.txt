@@ -1,0 +1,21 @@
+1)
+What we need is a way for our program to:
+
+1)Start a long-running operation by calling a function.
+2)Have that function start the operation and return immediately, so that our program can still be responsive to 
+other events.
+3)Notify us with the result of the operation when it eventually completes.
+That's precisely what asynchronous functions can do.
+
+2)
+<pre readonly class="event-log"></pre> - The <pre> HTML element represents preformatted text which is to be 
+presented exactly as written in the HTML file. 
+Go to this link - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre
+
+3)
+The loadend event is fired when a request has completed, whether successfully (after load) or unsuccessfully 
+(after abort or error)
+
+4)XMLHttpRequest (XHR) objects are used to interact with servers. You can retrieve data from a URL without having 
+to do a full page refresh. This enables a Web page to update just part of a page without disrupting what the user 
+is doing.

@@ -1,0 +1,41 @@
+1)https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps
+2)How does the internet work - https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/How_does_the_Internet_work
+3)
+
+How does the internet work - The internet is a wire buried in the ground. It may be fibre optic, copper. The 
+internet is useful because two computers connected to this wire can communicate. A server is a special computer 
+connected directly to the internet and webpages are files on that server's harddrive. Every server has a unique 
+internet protocol(IP) address. Just like postal address, IP address help computers find each other. IP address 
+eg - 72.14.205.100. But since these type of numbers are uncomfortable to use we give the name like google.com,
+facebook.com etc. 
+Your comoputer at home is not a server because its not connected directly to the internet. Computers uou and I use 
+evryday are called clients because they are connected indirectly to the internet through an internet service 
+provider (ISP). Whenever an email,webpage or picture travels across the internet, computers break the information 
+into smaller pieces called packets. When information reaches its destination the packets are reassembled in their 
+original order. 
+
+
+     ---------(Facebook.com, a server)               --------(marketresearch.com, another server)
+         |                                              |
+         |                                              |
+         |                                              |
+---------------------------------------------------------------------------(Internet)
+                              |
+You---------------            |
+                  |           |
+                  |----------ISP
+                  |
+Your Boss --------
+
+Now say, your Boss is doing markerresearch.com and you are surfing facebook.com. You are both sending packets back 
+and forth over the internet. But what's keeping your packet from accidentally ending on your boss's screen ? The 
+solution to this problem is IP address and routers. Everything connected directly or indirectly to the internet has 
+an IP address. Anywhere two or more parts of the internet intersects there is a piece of equipment called router. 
+Routers direct your packets around the internet helping each packet to get one step closer to its destination. 
+Everytime you visit a website 10-15 routers help your packet to find its way to and from your computer. Imagine 
+each packet as a piece of candy wrapped in several layers. The first layer is your computer's IP address. Your 
+computer sends the packet to the first router which adds its own IP address. Each time the packet reaches a new 
+router another layer is added until it reaches the destination server like facebook.com. Then when the server sends 
+back information it creates packets with an identical wrapping. As the packet makes its way through the internet 
+back to your computer each router unwraps a layer to discover what is in the packet next until it reaches your 
+computer. 

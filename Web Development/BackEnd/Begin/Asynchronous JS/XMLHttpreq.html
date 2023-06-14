@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="xhr">Click to start request</button>
+    <button id="reload">Reload</button>
+
+    <pre readonly class="event-log"></pre>
+
+</body>
+<script>
+    const log = document.querySelector(".event-log");
+
+    document.querySelector("#xhr").addEventListener("click", () => {
+      log.textContent = "";
+    
+      const xhr = new XMLHttpRequest();
+    
+      xhr.addEventListener("loadend", () => {
+        log.textContent = `${log.textContent}Finished with status: ${xhr.status}`;
+      }); /* The loadend event is fired when a request has completed, whether successfully (after load) or 
+      unsuccessfully (after abort or error) */
+
+      xhr.open(
+        "GET",
+        "https://raw.githubusercontent.com/mdn/content/main/files/en-us/_wikihistory.json"
+      );
+      xhr.send();
+      log.textContent = `${log.textContent}Started XHR request\n`;
+    });
+    
+    document.querySelector("#reload").addEventListener("click", () => {
+      log.textContent = "";
+      document.location.reload();
+    });
+    /*
+    The open() method of the XMLHttpRequest() object initializes a newly-created request, or re-initializes an 
+    existing one. In this case, it is opening a GET request to the specified URL. This method is used to specify the
+    type of request (GET, POST, etc.), the URL to send the request to, and whether the request should be handled 
+    asynchronously or not. The send() method sends the request to the server. If the request is asynchronous 
+    (which is the default), this method returns as soon as the request is sent and the result is delivered using 
+    events.
+    Syntax - 
+    open(method, url)
+    open(method, url, async)
+    open(method, url, async, user)
+    open(method, url, async, user, password)\
+
+    method - The HTTP request method to use, such as "GET", "POST", "PUT", "DELETE", etc. Ignored for non-HTTP(S) 
+    URLs.
+    https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+    */
+</script>
+</html>
