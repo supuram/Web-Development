@@ -1,5 +1,5 @@
 function BellBoy(name, age, languages){
-    this.name = this.name
+    this.name = name
     this.age = age 
     this.languages = languages
     this.moveSuitCase = function(){

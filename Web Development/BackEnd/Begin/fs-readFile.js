@@ -5,4 +5,6 @@ fs.readFile("fs-readFile.txt", "utf8", (err, data) => {
     console.log(data);
 });
 
+console.log("Hello, this will come first as the program runs asynchronously")
+
 // The format of fs.readFile(path[, options], callback)
