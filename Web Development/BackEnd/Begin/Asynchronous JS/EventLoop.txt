@@ -5,11 +5,40 @@ callback queue, some other APIs and stuff. Javascript is made of heaps and calls
 memory allocation happens. Web APIs are extra things that the browser provides. Web APIs consists of DOM, AJAX,
 setTimeout. 
 
+Javascript Runtime can only do one thing at a time. It can't make an AJAX request while you are doing other code. 
+It can't do a setTimeout while you are doing other code. The reason we can do things concurrently because the 
+browser is more than just the runtime. The browser gives us WebAPIs which are effectively threads that you can 
+access and those pieces of the browser are aware of this concurrency. 
+
 See 11:47 of the video. 
 console.log('hi')
 setTimeout(function(){
     console.log('There was a beautiful woman named Ishita')
-},5000)
+},5000) // after waiting for 5s it moves to the callback queue
+setTimeout(function(){
+    console.log('Javascript is not so easy')
+},0)  // // after waiting for 0s it moves to the callback queue
 console.log('Ishita')
-In this code line 9 comes to the call stack and vanishes, then line 13 comes to the call stack and vanishes. But 
-where do the setTimeout function go ? It is not in the call stack. 
+In this code line 14 comes to the call stack and vanishes, then line 21 comes to the call stack and vanishes. But 
+where do the setTimeout function go ? It is not in the call stack. When setTimeout is called we pass the callback
+function and a delay a delay to the setTimeout call. setTimeout is an API provided to us by the browser. It doesn't 
+live in the V8 source. It is the extra stuff we get in the environment we are running the Javascript runtime. See
+13:27 of the above video. So instead of the stack the WebAPI will handle the countdown of the setTimeout. So now
+we have a timer in the WebAPI which after 5 second is gonna complete. 
+Now the WebAPI can't just throw stuff at the stack when it is ready, if it did it would appear randomly in the 
+middle of your code. This is where the task queue or the callback queue kicks in. The WebAPIs pushes the callback
+to the task queue when its done. And finally we get to the event loop which is the simplest piece in this whole
+equation and it has one very simple job. The event loop's job is to look at the stack and look at the task queue.
+If the stack is empty it takes the first thing on the queue and pushes it on the stack which effectively runs it. 
+
+The browser needs to paint the screen every 16.6 milliseconds to ensure smooth scrolling and animation. Everything 
+occupying the main thread, including calculating styles, along with reflow and paint, must take the browser less 
+than 16.67ms to accomplish. This is because animations ought to run at 60 frames per second (fps), which means the 
+browser only has 16.6 milliseconds to paint each frame. But its contrained by what you are doing in javscript, so 
+it can't do a render if there is a code on the stack. Render is like a callback queue, it has to wait till the 
+stack is clear. The difference is that render queue is given a higher priority than the callback queue. So every
+16 milliseconds the browser is going to queue a render, wait till the stack is clear before it can actually do the
+render. 
+
+There are many different JavaScript runtime engines apart from V8 by Chrome like SpiderMonkey by Mozilla, Chakra by 
+Microsoft, etc.

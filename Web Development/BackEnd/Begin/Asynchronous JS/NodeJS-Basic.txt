@@ -1,0 +1,43 @@
+In Node.js, require() is a built-in function that lets you include modules within your project. It uses the CommonJS
+module system and the main object exported by the require() module is a function. When Node invokes the require() 
+function with a file path as its only argument, it goes through a sequence of steps such as resolving and loading, 
+wrapping, execution, returning exports, and caching.
+
+// mathModule.js
+const add = (a, b) => {
+  return a + b;
+}
+
+module.exports = add;
+// index.js
+const addFunction = require('./mathModule');
+
+console.log(addFunction(2, 3)); // logs 5
+In this example, we have a file called mathModule.js that exports a function called add. In index.js, we use 
+require() to include the exported function from mathModule.js and assign it to a variable called addFunction. 
+We can then call addFunction(2, 3) to execute the function and log the result to the console.  We assigned the 
+exported function from mathModule.js to a variable called addFunction, so we need to use that variable name when 
+calling the function. If you try to call addfun(2, 3) instead of addFunction(2, 3), you will get a ReferenceError: 
+addfun is not defined because addfun is not a defined variable.
+---------------------------------------------------------------------------------------------------------------
+
+https://www.youtube.com/watch?v=TlB_eWDSMt4&t=0s
+
+When we receive a request on the server a thread is allocated to handle that request. As part of handling that 
+request it is likely that we are going to query a database and it may take a little while till the results are 
+ready. When the database is executing the query that thread is sitting there waiting. It can't be used to serve 
+another client. We need a new thread to serve another client. What would happen if we had a large number of 
+concurrent client. At some point we are going to run out of thread to serve these clients. So new clients have to 
+wait until new threads are available or if we don't want them to wait we want more servers. This type is called 
+Synchronous Applications. Node applications are asynchronous by default. In Node we have a single thread to handle 
+all requests. When a request arrives that single thread is used to handle that request. If we need to query a 
+database the thread doesn't have to wait for the database to return the data. While the database is executing
+our query that thread will be used to serve another client. When the database prepares the result it puts a message
+in the Event Queue. Node is continuously monitoring this queue in the background. When it finds an event in this 
+event queue it will take it out and process it. This type of architechture helps Node in serving more clients 
+without the need for more hardware. Thats why Node applications are highly scalable. In contrast Node should not be 
+used for CPU intensive apps like a video encoding or an image manipulation service. In this kind of applications
+we have a lot of calculations that should be done by CPU and few operation that touch the file system or the 
+network. Since Node applications are single threaded when performing the calculations to serve one client the other
+clients have to wait. So Node should not be used for CPU intensive applications. It should be used for building 
+data intensive and real time applications. 
