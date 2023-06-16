@@ -1,0 +1,15 @@
+https://www.youtube.com/watch?v=8aGhZQkoFbQ
+
+Javascript is a single threaded non-blocking asynchronous concurrent language. I have a call stack, an event loop,a
+callback queue, some other APIs and stuff. Javascript is made of heaps and callstack. Heap is the place where 
+memory allocation happens. Web APIs are extra things that the browser provides. Web APIs consists of DOM, AJAX,
+setTimeout. 
+
+See 11:47 of the video. 
+console.log('hi')
+setTimeout(function(){
+    console.log('There was a beautiful woman named Ishita')
+},5000)
+console.log('Ishita')
+In this code line 9 comes to the call stack and vanishes, then line 13 comes to the call stack and vanishes. But 
+where do the setTimeout function go ? It is not in the call stack. 

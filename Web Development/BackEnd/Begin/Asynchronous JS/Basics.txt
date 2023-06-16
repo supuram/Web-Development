@@ -19,3 +19,23 @@ The loadend event is fired when a request has completed, whether successfully (a
 4)XMLHttpRequest (XHR) objects are used to interact with servers. You can retrieve data from a URL without having 
 to do a full page refresh. This enables a Web page to update just part of a page without disrupting what the user 
 is doing.
+
+5)Consider a scenario where we request a backend database for the details of user1 and user2 and then print them on 
+the screen/console. The response to this request takes time, but both of the user data requests can be carried out 
+independently and at the same time. In the blocking method, user2's data request is not initiated until user1's 
+data is printed to the screen.
+
+If this was a web server, we would have to start a new thread for every new user. But JavaScript is single-threaded 
+(not really, but it has a single-threaded event loop, which we’ll discuss a bit later). So this would make JavaScript 
+not very well suited for multi-threaded tasks. In a web server context, one way to handle multiple requests 
+concurrently is to start a new thread for each request. However, as you mentioned, JavaScript is single-threaded, 
+which means that it can only execute one piece of code at a time.
+
+To handle multiple requests concurrently in a single-threaded environment like JavaScript, we can use asynchronous 
+programming techniques such as callbacks, promises, and async/await. These techniques allow the server to process 
+multiple requests concurrently without blocking the main thread.
+
+For example, when using Node.js (a popular JavaScript runtime for building web servers), we can use asynchronous 
+functions to handle requests. When a request is received, the server can start processing it and then move on to 
+the next request without waiting for the first request to complete. When the first request is completed, its result 
+can be sent back to the client without blocking the processing of other requests.

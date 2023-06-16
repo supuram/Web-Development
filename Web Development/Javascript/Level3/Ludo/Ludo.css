@@ -1,0 +1,168 @@
+.parent-div{
+    width:95%;
+    height:500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.parent-div > .child-div > div > div{
+    width:10px;
+    height:10px;
+    border:2px solid rgb(0, 0, 0);
+    border-radius: 50%;
+}
+
+.child-div{
+    background-color: rgb(219, 236, 155);
+    width:100%;
+    height:100%;
+    border: 2px solid black;
+}
+
+.red{
+    background-color: rgb(255, 0, 0);
+    display: flex;
+    justify-content: center;
+}
+.red-child{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: rgb(255, 0, 0);
+    width:150px;
+    height:150px;
+    justify-content: center;
+    align-items: center;
+}
+
+.red-child-circle{
+    background-color: rgb(253, 17, 17);
+}
+
+.green{
+    background-color: rgb(30, 255, 0);
+    display: flex;
+    justify-content: center;
+}
+.green-child{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: rgb(30, 255, 0);
+    width:150px;
+    height:150px;
+    justify-content: center;
+    align-items: center;
+}
+
+.green-child-circle{
+    background-color: rgb(30, 255, 0);
+}
+
+.blue{
+    background-color: rgb(0, 21, 255);
+    display: flex;
+    justify-content: center;
+}
+.blue-child{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: rgb(0, 21, 255);
+    width:150px;
+    height:150px;
+    justify-content: center;
+    align-items: center;
+}
+
+.blue-child-circle{
+    background-color: rgb(0, 21, 255);
+}
+
+.yellow{
+    background-color: rgb(255, 230, 0);
+    display: flex;
+    justify-content: center;
+}
+.yellow-child{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-color: rgb(255, 230, 0);
+    width:150px;
+    height:150px;
+    justify-content: center;
+    align-items: center;
+}
+
+.yellow-child-circle{
+    background-color: rgb(255, 230, 0);
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.grid-child{
+    border:2px solid black;
+    background-color: rgb(255, 153, 0);
+}
+
+.grid1{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.grid-child1{
+    border:2px solid black;
+    background-color: rgb(255, 153, 0);
+}
+
+.button-class{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap:2px;
+}
+
+.image-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    background-color: lightgoldenrodyellow;
+}
+
+img{
+    width:70px;
+    height:70px;
+}
+
+button{
+    background-color: lightcoral;
+    border:2px solid darkblue;
+    height: 50px;
+    width:60px;
+    border-radius: 10px;
+}
+
+.button-red{
+    background-color: rgb(255, 0, 0);
+    width:70px;
+}
+.button-green{
+    background-color: rgb(30, 255, 0);
+    width:70px;
+}
+.button-blue{
+    background-color: rgb(0, 21, 255);
+    width:70px;
+}
+.button-yellow{
+    background-color: rgb(255, 230, 0);
+    width:70px;
+}
