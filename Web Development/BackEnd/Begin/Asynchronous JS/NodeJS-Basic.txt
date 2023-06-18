@@ -7,12 +7,12 @@ wrapping, execution, returning exports, and caching.
 const add = (a, b) => {
   return a + b;
 }
-
 module.exports = add;
+
 // index.js
 const addFunction = require('./mathModule');
-
 console.log(addFunction(2, 3)); // logs 5
+
 In this example, we have a file called mathModule.js that exports a function called add. In index.js, we use 
 require() to include the exported function from mathModule.js and assign it to a variable called addFunction. 
 We can then call addFunction(2, 3) to execute the function and log the result to the console.  We assigned the 

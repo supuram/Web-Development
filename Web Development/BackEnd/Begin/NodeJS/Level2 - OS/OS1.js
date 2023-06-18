@@ -1,0 +1,7 @@
+let a = require('os')
+console.log(a.freemem())
+console.log(a.totalmem())
+console.log(a.networkInterfaces())
+console.log(a.platform())
+console.log(a.release())
+console.log(a.version())
