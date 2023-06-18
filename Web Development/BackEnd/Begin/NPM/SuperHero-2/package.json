@@ -1,0 +1,15 @@
+{
+  "name": "superhero-2",
+  "version": "1.0.0",
+  "description": "This is a superhero ",
+  "main": "superhero.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Supratik Sarkar 14th June 2023",
+  "license": "ISC",
+  "dependencies": {
+    "superheroes": "^3.0.0"
+  }
+}
