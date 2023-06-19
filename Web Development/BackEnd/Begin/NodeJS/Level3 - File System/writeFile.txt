@@ -1,0 +1,8 @@
+This is good In this example, we have a file called mathModule.js that exports a function called add. In index.js, we use 
+require() to include the exported function from mathModule.js and assign it to a variable called addFunction. 
+We can then call addFunction(2, 3) to execute the function and log the result to the console.  We assigned the 
+exported function from mathModule.js to a variable called addFunction, so we need to use that variable name when 
+calling the function. If you try to call addfun(2, 3) instead of addFunction(2, 3), you will get a ReferenceError: 
+addfun is not defined because addfun is not a defined variable. To handle multiple requests concurrently in a single-threaded environment like JavaScript, we can use asynchronous 
+programming techniques such as callbacks, promises, and async/await. These techniques allow the server to process 
+multiple requests concurrently without blocking the main thread.
