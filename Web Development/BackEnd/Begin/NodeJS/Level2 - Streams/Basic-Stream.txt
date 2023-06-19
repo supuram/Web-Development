@@ -1,0 +1,9 @@
+https://www.youtube.com/watch?v=Oe421EPjeBE&t=807s  - See 3:25:10
+
+Streams are used to read or write sequentially. When we have to handle and manipulate streaming data, for eg - 
+continuous source or a big file - streams come in handy. 
+Four different types of streams - Writeable, Readable, Duplex, Transform. Duplex is used to both read and write
+data sequentially. Transform modiefies data while writing or reading. 
+
+const first = await readFile('textFile.txt', 'utf8') Here you have stored the textFile in first. But if the file 
+is too big first cannot store that file. So that time we use stream.
