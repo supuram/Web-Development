@@ -1,0 +1,21 @@
+Now, when we're talking about APIs, you will often need to think about things including endpoints, paths,
+
+parameters, and authentication.
+
+The first thing I want to show you is an API endpoint. Every API that interacts with a external system,
+
+like a server, will have an endpoint.
+
+In addition to endpoints, there’s also API paths and parameters that you can use in order to narrow down on a 
+
+specific piece of data you want from an external server. 
+
+So every time you make a request through the API, they have to be able to identify you as the developer,
+
+and they have to keep track of how often you're using their server to get data, and then charge you, or
+
+limit you, accordingly. In order to illustrate this concept of authentication,
+
+we’re going to use the openweathermap.
+
+org’s API.
