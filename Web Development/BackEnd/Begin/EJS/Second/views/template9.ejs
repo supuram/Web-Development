@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/" method="POST">
+        <label for="title">Enter a id</label>
+        <input type="number" id="title" name="input">
+        <button type="submit">Submit</button>
+    </form>
+
+    <% if (typeof input !== 'undefined') { %>
+        <% data.response.forEach(data => { %>
+            <% if (data.id == input) { %>
+                <h1><%= data.name %></h1>
+                <p>ID: <%= data.id %></p>
+                <p>Type: <%= data.type %></p>
+                <p>Logo: <img src="<%= data.logo %>" alt="<%= data.name %>"></p>
+                <p>Country: <%= data.country.name %></p>
+                <p>Country Id: <%= data.country.id %></p>
+                <p>Season: <%= data.seasons[0].season %></p>
+            <% } %>
+        <% }) %>
+    <% } %>
+    
+</body>
+</html>

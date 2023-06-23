@@ -11,9 +11,3 @@ app.get('/', function(){
 app.listen(3000, function(){
     console.log('Server is runnung')
 })
-
-/*
-response is an object representing the HTTP response from the API. The response.on('data', function(data){...}) 
-method is used to listen for data events emitted by the response object. When a data event is emitted, the callback 
-function is called with the data as an argument.
-*/
