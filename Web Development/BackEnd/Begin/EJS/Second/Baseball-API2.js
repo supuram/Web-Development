@@ -91,29 +91,45 @@ In this example, the req.query property is used to access the query parameters o
 The res.send() method is then used to send a response back to the client with the text 'Hello World!'.
 */
 /**
- * !Q)if I don't write JSON.strigify then in the output i only see [object Object]. but i should show the JSON 
- * ! object which contains the values. why it only shows [object Object], why not the data itself?
- *? In JavaScript, when you try to convert an object to a string (for example, by concatenating it with a string 
- *? or passing it to a method that expects a string), the default behavior is to return the string '[object Object]'. 
- *? This is why you see '[object Object]' instead of the actual data when you don’t use JSON.stringify() to convert
- *? the data object to a JSON string.
- * 
- * !Q)But when i write console.log(response.data), i can see all the data inside the JSON object ? Why ?
- * ? When you use console.log(response.data) to log the response.data object to the console, the console will 
- * ? display a string representation of the object that includes its properties and values. This is because the 
- * ? console.log() method has built-in functionality to display objects in a human-readable format.
+* !Q)if I don't write JSON.strigify then in the output i only see [object Object]. but i should show the JSON 
+* ! object which contains the values. why it only shows [object Object], why not the data itself?
+*? In JavaScript, when you try to convert an object to a string (for example, by concatenating it with a string 
+*? or passing it to a method that expects a string), the default behavior is to return the string '[object Object]'. 
+*? This is why you see '[object Object]' instead of the actual data when you don’t use JSON.stringify() to convert
+*? the data object to a JSON string.
+* 
+* !Q)But when i write console.log(response.data), i can see all the data inside the JSON object ? Why ?
+* ? When you use console.log(response.data) to log the response.data object to the console, the console will 
+* ? display a string representation of the object that includes its properties and values. This is because the 
+* ? console.log() method has built-in functionality to display objects in a human-readable format.
 
- * ? In contrast, when you pass an object to a method that expects a string (such as res.send() or res.render()), 
- *? the object is automatically converted to a string using its toString() method. For most objects, the default 
- *? behavior of the toString() method is to return the string '[object Object]', which is why you see this string 
- *? instead of the actual data when you don’t use JSON.stringify() to convert the object to a JSON string.
+*? In contrast, when you pass an object to a method that expects a string (such as res.send() or res.render()), 
+*? the object is automatically converted to a string using its toString() method. For most objects, the default 
+*? behavior of the toString() method is to return the string '[object Object]', which is why you see this string 
+*? instead of the actual data when you don’t use JSON.stringify() to convert the object to a JSON string.
 
- *! Q)So res.render sends data form my server to the client and can use some file like .ejs for it ?
- *? Yes, that is correct. res.render() is a method in the Express.js web application framework that is used to 
- *? render a view template and send the resulting HTML to the client. It takes the name of the view template to 
- *? render and an object containing the data to be passed to the template as arguments.
+*! Q)So res.render sends data from my server to the client and can use some file like .ejs for it ?
+*? Yes, that is correct. res.render() is a method in the Express.js web application framework that is used to 
+*? render a view template and send the resulting HTML to the client. It takes the name of the view template to 
+*? render and an object containing the data to be passed to the template as arguments.
 
- *? In your code snippet, res.render('template', {data: formattedData}) is used to render a view template named 
- *? 'template' using the data contained in the formattedData variable. The resulting HTML is then sent to the 
- *? client as part of the HTTP response.
- */
+*? In your code snippet, res.render('template', {data: formattedData}) is used to render a view template named 
+*? 'template' using the data contained in the formattedData variable. The resulting HTML is then sent to the 
+*? client as part of the HTTP response.
+*/
+
+/**
+In the JSON data you provided, data is an object that contains a property named response. The value of this response
+property is an array of objects, each representing a league.
+
+When you make an API request using axios, the response data is returned as a JavaScript object. This object has the 
+same structure as the JSON data returned by the API. So, if the API returns JSON data with a response property that 
+is an array, then the data object returned by axios will also have a response property that is an array.
+
+In your code, you’re assigning the value of response.data to a variable named data. This means that data is an 
+object that represents the entire response from the API. To access the array of leagues within this object, you can 
+use the response property of the data object: data.response.
+
+So, in summary: data is an object that represents the entire response from the API. This object has a property 
+named response, which is an array of objects representing leagues. You can access this array using data.response.
+*/
