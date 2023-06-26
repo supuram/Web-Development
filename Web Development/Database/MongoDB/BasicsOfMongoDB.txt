@@ -1,0 +1,81 @@
+https://www.mongodb.com/collateral/jumpstart-video-series?utm_source=Iterable&utm_medium=email&utm_campaign=campaign_6533902
+
+Structured Query Language(SQL) - It is a relational database. SQL data is structured like an excel spreadsheet.
+In relational database data is stored in rows and columns. Each row and column is a record field. We can have 
+multiple tables related to the original table of records. Most SQL databases scale up vertically(which are more 
+expensive) and those that can scale horizontally are difficult to configure. This means you have to upgrade to 
+larger and more expensive servers as your database grows. 
+
+NoSQL - It is also called non-relational database. They don't store data in related tables. A big misconception
+is that non-relational databases cannot store relational data. Relational data can be stored in NoSQL databases.
+There are several types of NoSQL databases - Key-Value Database, Wide-Column Stores, Graph Database, Document 
+Databases. MongoDB is a document database. Document databases store data in documents, specifically JSON. Although
+the documents that you work with are in JSON format, MongoDB stores the data in the server in bson format. bson is
+an extension of json and adds support for expanded data types. Schemas within MongoDB are very flexible. By default 
+there are no rules in place. You can store any type of data in any document. Scaling is very cost-effective in 
+MongoDB. Instead of scaling vertically NoSQL databases scale horizontally which means instead of going up to a 
+more expensive server you can use multiple cheaper servers at a fraction of the cost. So this type of dataases 
+are very efficient. 
+Parts of MongoDB - 
+1)MongoDB Self Hosted - This allows you to hostt your own MongoDB server on your hardware. This requires that you 
+manage your server, updates and any other maintenance. For this download the MongoDB Open Source Community Software.
+2)MongoDB Atlas - If you don't want to go the old school route of maintaining all of this on your own you need 
+MongoDB Atlas. Atlas utilizes software as a service approach and is a global cloud database as a service for 
+modern applications. With it you can deploy a fully managed MongoDB server across AWS, google cloud and azure 
+with best in class automation and proven practices that gurantee availability, scalability and compliance with 
+all of the most demanding data security and privacy standards. 
+3)MongoDB Compass - Compass is the GUI for MongoDB. It allows you to visually explore your data, run ad-hoc queries 
+in seconds, interact with your data with full CRUD functionality, view and optimize your query performance and 
+make smaller decisions about indexing document validation.
+4)MongoDB Realm - You can build better apps faster with edge to cloud sync and fully managed backend services
+including triggers, functions and graphql.
+5)MongoDB Atlas Search - Makes it easy to build fast relevant full-text search capabilities on top of your data
+in the cloud available exclusively with MongoDB Atlas. 
+6)MongoDB Charts - It is a modern data visualization tool that is integrated with the MongoDB cloud data platform. 
+7)MongoDB Atlas Data Lake - Query and analyze data across AWS. 
+-----------------------------------------------------------------------------------------------------------------
+A cluster is several MongoDB servers working together
+The MongoDB database is at the core of atlas which is the developer data platform. 
+How MongoDB stores our data ? - The MongoDB database structures data in documents which are similar to JSON objects.
+While documents are displayed in JSON format they are stored in the database in a format called BSON, short for 
+binary JSON. BSON also add support for additional data types unavailable in standard JSON.Because MongoDB stores data
+in BSON, the database can support a huge range of datatypes. It supports all JSON data types, dates, numbers, object
+IDs and more. Object ID is a special datatype used in MongoDB to create unique identifiers. In the database every 
+document requires an ID field that acts as a primary key. 
+-------------------------------------------------------------------------------------------------------------------
+MongoDB Data Modelling Intro
+Data modeling is the process of defining how data is stored and the relationships that exist among different entities 
+in your data. We refer to the organization of data inside a database as a schema. 
+Each document in MongoDB can be different which is known as polymorphism. So MongoDB is considered to be schema
+flexible,i.e, you are encouraged to define a schema, you can use schema validation and you can store any type of 
+data in MongoDB. You can even store documents that have other documents that are nested or embedded. 
+
+https://learn.mongodb.com/learn/course/introduction-to-mongodb-data-modeling/lesson-2-types-of-data-relationships/learn?page=1
+Data that is accessed together should be stored together
+Types of relationships your data can have - One-to-one, One-to-many, Many-to-many. Two main ways to model these 
+relationships are - embedding and referencing. Structure your data to match the ways that your application queries
+and updates it. One-to-one is a relationship where data entity in one set is connected to exactly one data entity in
+another set. One-to-many is a relationship where data entity in one set is connected to exactly any number of data 
+entities in another set. Many-to-many is a relationship where any number of data entities in one set is connected 
+to any numner of data entities in another set. 
+Embedding means when we take related data and insert it into our document. Referencing is when we refer to documents
+in another collection in our document. 
+Embedding is used when you have one-to-many or many-to-many relationships in the data that's being stored. eg-
+{name:
+    {firstName:"Supratik", lastName:"Sarkar"}
+}
+Here firstName and lastName are embedded in a name field. This is also an example of one-to-many relationships.
+Referencing - References store the id_field of one document in another document as a link between the two. Using
+references is sometimes called linking or data normalization. 
+
+Unbounded documents grow infinitely. This can happen when we use document embedding. 
+See Scaling a Data Model - Very informative
+Schema design patterns are guidelines that help developers plan, organize and model data. Most common schema 
+anti-patterns include - massive arrays, massive number of collections, bloated documents, unnecessary indexes,
+queries without indexes, data thats accessed together but stored in different collections.
+-------------------------------------------------------------------------------------------------------------------
+mongodb+srv://Supratik:<password>@cluster0.raky1pw.mongodb.net/  - Connection String
+It begins with a required prefix mongodb that identifies it as a MongoDB connection string. The connection string
+from the Atlas dashboard uses a DNS seed list entry, which has a list of hosts behind it that we can connect to.
+srv edition automatically sets the TLS security option to true and tells MongoDB to use the DNS seed list. cluster0
+is the host and after it we have optional port number to our database.  

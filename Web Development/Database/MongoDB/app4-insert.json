@@ -1,0 +1,13 @@
+{
+    "student_id":12345,
+    "scores":[
+        {
+            "type":"quiz",
+            "score":50
+        },
+        {
+            "type":"homework",
+            "score":70
+        }
+    ]
+}
