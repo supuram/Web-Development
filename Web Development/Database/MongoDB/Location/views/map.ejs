@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <style>
+        #map { height: 180px; }
+     </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+     <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        /*
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L is a global object created by the leaflet.js library when it is loaded on a web page. It serves 
+        as the namespace for all Leaflet-related classes and functions.
+        In the code you provided, the L.map method is used to create a new map object. The L object is 
+        used to access the map method, which is a method of the L object.
+        This line of code creates a new Leaflet map and assigns it to the map variable. The L.map('map') 
+        part of the code creates a new map object and associates it with the div element on the page with 
+        the id of map. The .setView([51.505, -0.09], 13) part of the code sets the initial view of the map 
+        to the specified latitude and longitude coordinates ([51.505, -0.09]) and zoom level (13).
+        */
+
+        /*
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+        This line of code creates a new tileLayer object in Leaflet, using the specified URL template to 
+        load map tiles from OpenStreetMap. A tileLayer is a layer that displays map tiles from a specified
+        source, such as OpenStreetMap or another map tile provider.
+
+        The URL template 'https://tile.openstreetmap.org/{z}/{x}/{y}.png' specifies the format of the URLs
+        used to load the map tiles. The {z}, {x}, and {y} placeholders in the URL template are replaced 
+        with the zoom level, x-coordinate, and y-coordinate of each tile, respectively, to generate the 
+        final URL for each tile.
+
+        In summary, this line of code creates a new tileLayer object that displays map tiles from 
+        OpenStreetMap on the Leaflet map.
+        */
+    </script>
+</body>
+</html>
