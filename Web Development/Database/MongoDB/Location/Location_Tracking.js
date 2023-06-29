@@ -1,3 +1,5 @@
+// This code does not work
+
 const { MongoClient } = require('mongodb')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -13,7 +15,7 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-    res.render('map.ejs')
+    res.render('map1.ejs')
 })
 
 const socketHandler = (io) => {
@@ -24,12 +26,13 @@ const socketHandler = (io) => {
             const { email, location } = data
             await location.findOneAndUpdate({ email }, { $set: { currentLocation: location } })
         })
-
+        console.log(socket)
         socket.on('disconnect', () => {
             console.log('A user disconnected')
         })
     })
 }
+//console.log(io)
 
 server.listen(5000, async () => {
     try {
@@ -42,6 +45,8 @@ server.listen(5000, async () => {
 })
 
 const watcher = async (io) => {
+    // https://www.mongodb.com/docs/manual/reference/method/db.collection.watch/
+    // db.collection.watch() only notifies on data changes that have persisted to a majority of data-bearing members.
     const changeStream = location.watch([], { fullDocument: 'updateLookup' });
     changeStream.on('change', (event) => {
         if (event.operationType === 'update') {
@@ -50,3 +55,39 @@ const watcher = async (io) => {
         }
     })
 }
+io.on('connection', function(socket){
+    console.log('a user connected');
+});
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } 
+    else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    let latitude = position.coords.latitude 
+    let longitude = position.coords.longitude
+    let timestamp = position.timestamp
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+          x.innerHTML = "User denied the request for Geolocation."
+          break;
+        case error.POSITION_UNAVAILABLE:
+          x.innerHTML = "Location information is unavailable."
+          break;
+        case error.TIMEOUT:
+          x.innerHTML = "The request to get user location timed out."
+          break;
+        case error.UNKNOWN_ERROR:
+          x.innerHTML = "An unknown error occurred."
+          break;
+    }
+}
+navigator.geolocation.getCurrentPosition(showPosition, showError);

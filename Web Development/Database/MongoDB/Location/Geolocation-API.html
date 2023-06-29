@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p id = "demo"></p>
+  <script>
+    const x = document.getElementById("demo");
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } 
+      else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      x.innerHTML = "Latitude: " + position.coords.latitude +
+      "<br>Longitude: " + position.coords.longitude+
+      "<br>TimeStamp: " + position.timestamp;
+    }
+
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          x.innerHTML = "User denied the request for Geolocation."
+          break;
+        case error.POSITION_UNAVAILABLE:
+          x.innerHTML = "Location information is unavailable."
+          break;
+        case error.TIMEOUT:
+          x.innerHTML = "The request to get user location timed out."
+          break;
+        case error.UNKNOWN_ERROR:
+          x.innerHTML = "An unknown error occurred."
+          break;
+      }
+    }
+    
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+
+    /*
+    Q1)navigator.geolocation - is this predefined ?
+    Ans)Yes, navigator.geolocation is a predefined property of the Navigator object in web browsers. It returns a 
+    Geolocation object that gives web content access to the location of the device. This allows a website or app 
+    to offer customized results based on the user’s location. However, it is important to note that this feature
+    is only available in secure contexts (HTTPS) and the user must grant permission for the website or app to 
+    access their location information.
+
+    Q2)navigator.geolocation.getCurrentPosition(showPosition) - what does it do ?
+    Ans)
+    */
+    
+  </script>
+</body>
+</html>
