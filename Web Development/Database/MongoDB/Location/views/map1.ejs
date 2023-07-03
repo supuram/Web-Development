@@ -13,7 +13,7 @@
     const x = document.getElementById("demo");
     function getLocation() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.watchPosition(showPosition);
       } 
       else {
         x.innerHTML = "Geolocation is not supported by this browser.";
@@ -27,8 +27,8 @@
         let latitude = position.coords.latitude 
         let longitude = position.coords.longitude
         let timestamp = position.timestamp
-
-        socket.emit('locationUpdate', {latitude, longitude, timestamp});
+        console.log(`Sending position update: ${latitude}, ${longitude}, ${timestamp}`);
+        socket.emit('positionUpdate', {latitude, longitude, timestamp});
     }
 
     function showError(error) {
@@ -47,7 +47,31 @@
           break;
       }
     }
-    navigator.geolocation.getCurrentPosition(showPosition, showError);
+    navigator.geolocation.watchPosition(showPosition, showError, {maximumAge: 1000});
+    /*
+    The timestamp property of the position object returned by the navigator.geolocation.watchPosition method 
+    represents the time at which the position data was obtained. This value is updated each time the watchPosition 
+    method calls the specified callback function with new position data.
+
+    The frequency at which the watchPosition method updates the position data and calls the callback function 
+    depends on several factors, including the accuracy and availability of location data from the device’s sensors, 
+    as well as the device’s power and performance characteristics.
+
+    In general, the watchPosition method tries to balance accuracy and responsiveness with power consumption and 
+    performance, so it may not update the position data at a fixed interval. Instead, it will update the position 
+    data whenever it determines that a significant change in position has occurred, or when new location data 
+    becomes available from the device’s sensors.
+
+    You can specify a custom interval for updating the position data by passing an options object as the third 
+    argument to the watchPosition method. This object can include a maximumAge property, which specifies the 
+    maximum age (in milliseconds) of cached position data that is acceptable to return. For example, to update the 
+    position data at least once every 10 seconds, you can call the watchPosition method like this:
+
+    navigator.geolocation.watchPosition(showPosition, showError, {maximumAge: 10000});
+    This will ensure that the watchPosition method calls the specified callback function with new position data at 
+    least once every 10 seconds. However, keep in mind that this may increase power consumption and reduce 
+    performance on some devices.
+    */
   </script>
 </body>
 </html>

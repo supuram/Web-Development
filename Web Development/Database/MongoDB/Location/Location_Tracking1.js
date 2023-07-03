@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+    console.log('client')
     socket.on('positionUpdate', (data) => {
         let {latitude, longitude, timestamp} = data;
         console.log(`Position updated: ${latitude}, ${longitude}, ${timestamp}`);
