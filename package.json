@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "name": "html",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "supratiksarkar4thjuly2023",
+  "license": "ISC",
+  "description": ""
+}

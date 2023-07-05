@@ -1,4 +1,4 @@
-https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice
+//  https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
