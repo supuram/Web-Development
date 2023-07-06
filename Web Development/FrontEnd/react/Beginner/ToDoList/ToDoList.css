@@ -1,0 +1,366 @@
+/* RESETS */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/*
+The above statement means - 
+The statement you provided is a CSS code snippet that applies a box-sizing property to three selectors: "*", "*::
+before", and "*::after". 
+The box-sizing property is used to alter the default CSS box model for an element. By default, when you set the 
+width or height of an element, the specified dimensions are applied to the content area of the box, and any padding 
+and border are added to the dimensions. This can sometimes lead to unexpected results when working with box dimensions.
+The value "border-box" in the box-sizing property includes the padding and border within the specified width and 
+height of an element. In other words, it makes the specified dimensions of an element to include the padding and 
+border, rather than being added to them.
+Applying the box-sizing property to the "*" selector means that it will be applied to all elements in the document. 
+The "*::before" and "*::after" selectors target the pseudo-elements "before" and "after" of all elements, 
+respectively.
+By setting box-sizing: border-box; to these selectors, it ensures that the specified width and height values for 
+elements, including their before and after pseudo-elements, will include the padding and border within their 
+dimensions. This can be useful in maintaining consistent layouts and calculations when working with box dimensions 
+in CSS.
+*/
+*:focus {
+  outline: 3px dashed #228bec;
+  outline-offset: 0;
+}
+/* The above statement is a CSS rule that targets the ":focus" pseudo-class selector. It applies a visual effect 
+to an element when it is in focus, typically when it is selected by the user (e.g., through keyboard navigation 
+or clicking).
+The properties within the rule are as follows -
+"outline": Specifies the style of the outline around the focused element. In this case, it is set to a 3-pixel wide 
+dashed line.
+"outline-offset": Determines the distance between the outline and the edge of the element. In this case, it is set 
+to 0, meaning the outline will be right up against the element's edge.
+*/
+html {
+  font: 62.5% / 1.15 sans-serif;
+}
+h1,
+h2 {
+  margin-bottom: 0;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  appearance: none;
+}
+/*
+The above CSS statements are related to font smoothing, which is a technique used to improve the visual rendering 
+of fonts on screens. Let's break down the meaning of each statement:
+
+1. `-webkit-font-smoothing: inherit;`
+This statement sets the font smoothing behavior for webkit-based browsers (such as Google Chrome and Safari) to 
+inherit from its parent element. The `inherit` value means that the element will adopt the font smoothing behavior 
+of its parent. If the parent element has a different value for `font-smoothing`, the element will inherit that value.
+
+2. `-moz-osx-font-smoothing: inherit;`
+This statement sets the font smoothing behavior for Mozilla Firefox on macOS to inherit from its parent element. 
+Similar to the previous statement, the `inherit` value means that the element will adopt the font smoothing 
+behavior of its parent.
+
+By using these statements, you can control the font smoothing behavior of specific elements on a webpage, ensuring 
+consistent rendering across different browsers and platforms.
+*/
+button::-moz-focus-inner {
+  border: 0;
+}
+/*
+-moz-focus-inner is a predefined pseudo-element in Mozilla Firefox. It is used to style the inner focus border of 
+certain elements when they receive focus. It is specific to Firefox and not recognized by other browsers.
+*/
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+button,
+input {
+  overflow: visible;
+}
+/* The line overflow: visible; is a CSS property that controls how content overflows its container when it exceeds 
+the available space. By setting it to "visible," it means that any content that extends beyond the dimensions of 
+the button or input element will be visible and not clipped or hidden. This allows the content to be displayed 
+outside of the element's boundaries.
+*/
+input[type="text"] {
+  border-radius: 0;
+}
+body {
+  width: 100%;
+  max-width: 68rem;
+  margin: 0 auto;
+  font: 1.6rem/1.25 Arial, sans-serif;
+  background-color: #f08585;
+  color: #1530b5;
+}
+@media screen and (min-width: 620px) {
+  body {
+    font-size: 1.9rem;
+    line-height: 1.31579;
+  }
+}
+/*
+The above statement is a CSS (Cascading Style Sheets) media query rule. It specifies a set of CSS styles that will 
+be applied to the `body` element when the viewport width is at least 620 pixels.
+
+Inside the rule, there are two CSS properties applied to the `body` element:
+
+1. `font-size: 1.9rem;`: This property sets the font size of the `body` element to 1.9 times the size of the root 
+element's font size. The actual size will depend on the default font size defined for the document or any other 
+inherited font sizes.
+
+2. `line-height: 1.31579;`: This property sets the line height of the text within the `body` element to 1.31579 
+times the font size. This affects the spacing between lines of text.
+
+In summary, when the viewport width is at least 620 pixels, the text within the `body` element will have a font 
+size of 1.9 times the root font size and a line height of 1.31579 times the font size.
+*/
+/*END RESETS*/
+/* GLOBAL STYLES */
+.form-group > input[type="text"] {
+  display: inline-block;
+  margin-top: 0.4rem;
+}
+.btn {
+  padding: 0.8rem 1rem 0.7rem;
+  border: 0.2rem solid #4d4d4d;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.btn.toggle-btn {
+  border-width: 1px;
+  border-color: #d3d3d3;
+}
+.btn.toggle-btn[aria-pressed="true"] {
+  text-decoration: underline;
+  border-color: #4d4d4d;
+}
+.btn__danger {
+  color: #fff;
+  background-color: #ca3c3c;
+  border-color: #bd2130;
+}
+.btn__filter {
+  border-color: lightgrey;
+}
+.btn__primary {
+  color: #fff;
+  background-color: #000;
+}
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+}
+.btn-group > * {
+  flex: 1 1 49%;
+}
+.btn-group > * + * {
+  margin-left: 0.8rem;
+}
+.label-wrapper {
+  margin: 0;
+  flex: 0 0 100%;
+  text-align: center;
+}
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+[class*="stack"] > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* The above CSS statement is a selector that targets all elements that are direct children of a parent element 
+with a class name that includes the word "stack". The selector class*="stack" selects elements with a class 
+attribute that contains the word "stack" anywhere in its value. */
+.stack-small > * + * {
+  margin-top: 1.25rem;
+}
+/* .stack-small is a class selector that selects elements with the class "stack-small".
+> * is a child combinator that selects all immediate child elements of the elements with the class "stack-small".
++ * is an adjacent sibling combinator that selects all elements that are siblings and immediately follow the 
+elements selected by the previous selector (> *).
+*/
+.stack-large > * + * {
+  margin-top: 2.5rem;
+}
+@media screen and (min-width: 550px) {
+  .stack-small > * + * {
+    margin-top: 1.4rem;
+  }
+  .stack-large > * + * {
+    margin-top: 2.8rem;
+  }
+}
+.stack-exception {
+  margin-top: 1.2rem;
+}
+/* END GLOBAL STYLES */
+.todoapp {
+  background: #68ee7c;
+  margin: 2rem 0 4rem 0;
+  padding: 1rem;
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2.5rem 5rem 0 rgba(0, 0, 0, 0.1);
+}
+@media screen and (min-width: 550px) {
+  .todoapp {
+    padding: 4rem;
+  }
+}
+.todoapp > * {
+  max-width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.todoapp > form {
+  max-width: 100%;
+}
+.todoapp > h1 {
+  display: block;
+  max-width: 100%;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+.label__lg {
+  line-height: 1.01567;
+  font-weight: 300;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.input__lg {
+  padding: 2rem;
+  border: 2px solid #000;
+}
+.input__lg:focus {
+  border-color: #4d4d4d;
+  box-shadow: inset 0 0 0 2px;
+}
+[class*="__lg"] {
+  display: inline-block;
+  width: 100%;
+  font-size: 1.9rem;
+}
+[class*="__lg"]:not(:last-child) {
+  margin-bottom: 1rem;
+}
+@media screen and (min-width: 620px) {
+  [class*="__lg"] {
+    font-size: 2.4rem;
+  }
+}
+/* Todo item styles */
+.todo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.todo > * {
+  flex: 0 0 100%;
+}
+.todo-text {
+  width: 100%;
+  min-height: 4.4rem;
+  padding: 0.4rem 0.8rem;
+  border: 2px solid #565656;
+}
+.todo-text:focus {
+  box-shadow: inset 0 0 0 2px;
+}
+/* CHECKBOX STYLES */
+.c-cb {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  display: block;
+  position: relative;
+  min-height: 44px;
+  padding-left: 40px;
+  clear: left;
+}
+.c-cb > label::before,
+.c-cb > input[type="checkbox"] {
+  box-sizing: border-box;
+  top: -2px;
+  left: -2px;
+  width: 44px;
+  height: 44px;
+}
+.c-cb > input[type="checkbox"] {
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  margin: 0;
+  opacity: 0;
+}
+.c-cb > label {
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 8px 15px 5px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.c-cb > label::before {
+  content: "";
+  position: absolute;
+  border: 2px solid currentcolor;
+  background: transparent;
+}
+.c-cb > input[type="checkbox"]:focus + label::before {
+  border-width: 4px;
+  outline: 3px dashed #228bec;
+}
+.c-cb > label::after {
+  box-sizing: content-box;
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 9px;
+  width: 18px;
+  height: 7px;
+  transform: rotate(-45deg);
+  border: solid;
+  border-width: 0 0 5px 5px;
+  border-top-color: transparent;
+  opacity: 0;
+  background: transparent;
+}
+.c-cb > input[type="checkbox"]:checked + label::after {
+  opacity: 1;
+}

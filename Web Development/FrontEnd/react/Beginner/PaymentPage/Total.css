@@ -1,0 +1,8 @@
+.totalMainDiv{
+    line-height: 0.3;
+}
+
+.totalDiv{
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,0 +1,9 @@
+.productImage{
+    width:100px;
+    height: 70px;
+}
+
+.productsdiv1{
+    display: flex;
+    justify-content: space-around;
+}
