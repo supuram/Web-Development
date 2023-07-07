@@ -1,0 +1,33 @@
+.toggle-list {
+    position: relative;
+    cursor: pointer;
+    list-style-type: none;
+}
+  
+.arrow {
+    display: inline-block;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+}
+  
+.open .arrow {
+    transform: rotate(90deg);
+}
+  
+.nested-list {
+    display: none;
+}
+
+.nested-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background-color: #ff9f9f;
+    padding: 5px;
+}
+  
+.toggle-list:hover .nested-list {
+    display: block;
+    text-decoration: none;
+}
