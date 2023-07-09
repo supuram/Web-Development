@@ -59,6 +59,34 @@ request to the server with the form data in the request body.
 
 *TODO In Express.js, you can use the app.get method to define a route handler for GET requests and the app.post 
 method to define a route handler for POST requests.
+
+app.get and app.post are server-side functions that define the routes and specify the behavior when the server 
+*? receives a GET or POST request at a particular endpoint. These routes are defined on the server using the Express
+framework.
+
+On the client-side, you can use fetch to send GET or POST requests to the server's defined endpoints. The server's 
+*! app.get or app.post route handlers will then execute the specified logic to handle these requests and send the 
+*? appropriate response back to the client.
+
+In summary, app.get and app.post are used on the server-side to define routes, while fetch is used on the 
+*? client-side to send HTTP requests to those routes on the server.
+==================================================================================================================
+*! In the provided code, `app.get` is used to define a route that handles the GET request sent by the browser to a 
+*! specific endpoint. In this case, the endpoint is `'/'`, which corresponds to the root URL of your application.
+
+When the browser navigates to the root URL (e.g., `http://localhost:4000/`), it sends a GET request to the server. 
+*? The `app.get` route handler in your code specifies the behavior for this GET request. It uses the Axios library 
+*? to make an additional GET request to an external API (`https://v1.baseball.api-sports.io/leagues`) and retrieves 
+*? the response data.
+
+Once the response data is obtained, the server renders an EJS template (`template9`) and passes the data as a 
+*! variable (`data`). Finally, the server sends the rendered template as the response back to the browser, which 
+*! can then display the requested page with the data.
+
+In summary, `app.get` is used to handle the GET request sent by the browser to a specific endpoint on the server. 
+*? The server can perform additional operations, such as making requests to external APIs, processing data, or 
+*? rendering templates, and then send the response back to the browser.
+===================================================================================================================
 */
 
 /**
