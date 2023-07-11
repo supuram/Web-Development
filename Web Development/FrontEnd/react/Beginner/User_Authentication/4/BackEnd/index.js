@@ -4,7 +4,7 @@ import cors from 'cors'
 const app = express()
 app.use(cors())
 
-app.get('/', (req, res) => {
+app.get('/getData', (req, res) => {
     const data = { showHome: true }
     res.json(data)
 })
