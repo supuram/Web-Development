@@ -1,0 +1,19 @@
+.topbarul{
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+}
+
+.topbarul li{
+    position: relative;
+    padding-right: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.topbarul li:not(:last-child)::after {
+    content: "|";
+    position: relative;
+    font-weight: bold; /* Make the vertical line bold */
+    padding-left: 10px; /* Add space after the vertical line */
+}
