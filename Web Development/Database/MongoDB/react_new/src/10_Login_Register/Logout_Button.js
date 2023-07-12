@@ -1,10 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
 
-export default function Logout_Button(){
-    return(
-        <div>
-            <button><Link to='/'>Logout</Link></button>
-        </div>
+export default function Logout_Button({onLogout}) {
+    return (
+        <button onClick={onLogout}>Logout</button>
     )
 }

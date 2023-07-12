@@ -4,6 +4,11 @@ import Axios from "axios";
 import Register_Button from "./Register_Button";
 
 export default function Login_Page(){
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
@@ -11,11 +16,21 @@ export default function Login_Page(){
     const handleSubmit = (event) => {
         event.preventDefault()
         Axios.post('/Login-Page-Form', {email, password})
-            .then(response => {
-                console.log(response)
+        .then(response => {
+            if(response.data.token){
+                document.cookie = `authToken = ${response.data.token}; path=/` /* The path attribute 
+specifies the URL path for which the cookie should be sent, not the URL to which the user should be 
+redirected */
                 navigate('/LoggedInHomePage')
-            })
-            .catch(err => console.log(err))
+            }
+        })
+        .catch(err => console.log(err))
+
+        Axios.get('/protected-route', {
+            headers: {
+                Authorization: `Bearer ${getCookie('authToken')}`
+            }
+        })
    }
 
     return(

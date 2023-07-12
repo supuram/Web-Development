@@ -3,11 +3,14 @@ import cors from 'cors'
 import { MongoClient } from 'mongodb'
 import uri from './first.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import session from 'express-session'
 
 const client = new MongoClient(uri)
 const app = express()
 app.use(cors())
 app.use(express.json())
+const jwtSecret = 'your-secret-key'
 
 async function startServer() {
     try {
@@ -19,6 +22,55 @@ async function startServer() {
             const data = { showHome: true }
             res.json(data)
         })
+        
+        app.use(session({
+            secret: 'your-secret-key',
+            resave: false,
+            saveUninitialized: false
+        }));
+
+        // Assuming you're using Express.js framework
+        app.get('/logout', (req, res) => {
+    // Perform any necessary operations for logout
+    // For example, you can clear the user's session or delete the associated token
+    
+    // Assuming you're using Express-session for managing sessions
+            req.session.destroy((err) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).send('Error occurred during logout');
+                } 
+                else {
+                    res.clearCookie('authToken');
+                    res.redirect('/')
+                }
+            });
+        });
+  
+
+        // Verifies the JWT and authenticates the user
+        app.get('/protected-route', (req, res) => {
+            // Get JWT from Authorization header
+            const authHeader = req.headers.authorization
+            const token = authHeader && authHeader.split(' ')[1]
+        
+            if (!token) {
+                // No JWT provided
+                res.status(401).send('Unauthorized')
+                return
+            }
+        
+            try {
+                // Verify JWT
+                const decoded = jwt.verify(token, jwtSecret)
+        
+                // Authentication successful
+                res.status(200).send('Protected data')
+            } catch (error) {
+                // Invalid JWT
+                res.status(403).send('Forbidden')
+            }
+        })        
 
         // For the form inside About.js on the client side
         app.post('/submit-form', async (req, res) => {
@@ -64,7 +116,8 @@ async function startServer() {
                 if(userExist){
                     const isPasswordMatch = await bcrypt.compare(password, userExist.password);
                     if(isPasswordMatch){
-                        res.redirect('/')
+                        const token = jwt.sign({email}, jwtSecret, {expiresIn: '10h'})
+                        res.status(200).send({token})
                         return
                     }
                 }
