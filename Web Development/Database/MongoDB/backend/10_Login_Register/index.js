@@ -29,12 +29,11 @@ async function startServer() {
             saveUninitialized: false
         }));
 
-        // Assuming you're using Express.js framework
         app.get('/logout', (req, res) => {
-    // Perform any necessary operations for logout
-    // For example, you can clear the user's session or delete the associated token
+        // Perform any necessary operations for logout
+        // For example, you can clear the user's session or delete the associated token
     
-    // Assuming you're using Express-session for managing sessions
+        // Assuming you're using Express-session for managing sessions
             req.session.destroy((err) => {
                 if (err) {
                     console.log(err);
