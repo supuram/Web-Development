@@ -94,7 +94,7 @@ In summary, `app.get` is used to handle the GET request sent by the browser to a
 *? The form data is encoded as key-value pairs, where the keys are the name attributes of the form fields and the 
 *? values are their corresponding values.
 
-*!In your example, you have an <input> element with a name attribute of "input". When you submit the form, the 
+*! In your example, you have an <input> element with a name attribute of "input". When you submit the form, the 
 browser will send a POST request to the server with the form data in the request body. The form data will include a 
 key-value pair with the key "input" and the value equal to the current value of the <input> element.
 

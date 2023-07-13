@@ -10,6 +10,9 @@ export default function LogInHome(){
         Axios.get('/logout')
         .then(() => {
             document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+            // Clear Local Storage data
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userToken');
             navigate('/')
         })
         .catch((err) => console.log(err));

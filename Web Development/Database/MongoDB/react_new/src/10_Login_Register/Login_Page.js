@@ -21,6 +21,9 @@ export default function Login_Page(){
                 document.cookie = `authToken = ${response.data.token}; path=/` /* The path attribute 
 specifies the URL path for which the cookie should be sent, not the URL to which the user should be 
 redirected */
+                /** Store user data in Local Storage  */
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userToken', response.data.token);
                 navigate('/LoggedInHomePage')
             }
         })
