@@ -16,7 +16,6 @@ const VerifyEmailPage = () => {
         console.error(error);
       }
     }
-
     verifyEmail(token);
   }, [token]);
 
