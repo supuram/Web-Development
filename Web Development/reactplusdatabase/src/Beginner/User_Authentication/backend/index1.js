@@ -37,7 +37,7 @@ async function startServer() {
         })
         
         app.use(session({
-            secret: 'your-secret-key',
+            secret: jwtSecret,
             resave: false,
             saveUninitialized: false
         }));
@@ -309,30 +309,34 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                             res.status(200).send({token})
                             return
                         }
-                        else{
-                            console.log('Please verify your email before logging in')
-                            res.status(401).send({ message: 'Please verify your email before logging in' });
-                            return;
-                        }
+                        // else{
+                        //     console.log('Please verify your email before logging in')
+                        //     res.status(401).send({ message: 'Please verify your email before logging in' });
+                        //     return;
+                        // }
                     }
-                    else{
-                        console.log('Invalid email or password')
-                        res.status(401).send({ message: 'Invalid email or password' });
-                        return
-                    }
+                    // else{
+                    //     console.log('Invalid email or password')
+                    //     res.status(401).send({ message: 'Invalid email or password' });
+                    //     return
+                    // }
                 }
                 else{
-                    console.log('Invalid email or password again')
-                    res.status(401).send({ message: 'Invalid email or password' });
+                    res.redirect('/')
                     return
                 }
+                // else{
+                //     console.log('Invalid email or password again')
+                //     res.status(401).send({ message: 'Invalid email or password' });
+                //     return
+                // }
             } 
             catch (error) {
                 console.log(error)
                 res.status(500).send('Error saving form data')
             }
         })
-
+        
         app.listen(5000, () => {
             console.log('App is running')
         })

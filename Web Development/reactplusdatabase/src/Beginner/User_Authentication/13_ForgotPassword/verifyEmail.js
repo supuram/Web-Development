@@ -1,15 +1,17 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const VerifyEmailPage = () => {
   const { token } = useParams();
-
+  console.log(token)
   useEffect(() => {
     async function verifyEmail(token) {
       try {
+        console.log('i am in')
         const response = await axios.get(`/verify/${token}`);
         // Process the response if needed
+        console.log('I am out')
         console.log(response.data);
       } catch (error) {
         // Handle errors
