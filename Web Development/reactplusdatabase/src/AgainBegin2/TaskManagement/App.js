@@ -5,6 +5,7 @@ import Register from './Register';
 import Login from './Login';
 import ForgotPassword from './ForgotPassword';
 import Home from './Home';
+import Profile from './Profile.js'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path='/home/profile' element={<Profile />} />
           {isLoggedIn && <Route path="/home" element={<Home />} />} 
         </Routes>
       </div>

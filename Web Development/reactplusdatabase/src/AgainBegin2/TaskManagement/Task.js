@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import DropdownMenuinTask from "./DropDownMenuinTask";
+import UserProfile from "./UserProfile";
 
 const db = firebase.firestore();
 export default function Task(){
@@ -34,6 +36,8 @@ export default function Task(){
     };
     return(
         <div>
+            <UserProfile />
+            <DropdownMenuinTask />
             <form onSubmit={handleSubmit}>
                 <label>Enter the name of the Employee</label>
                 <input type="name" value={name} onChange={event => {

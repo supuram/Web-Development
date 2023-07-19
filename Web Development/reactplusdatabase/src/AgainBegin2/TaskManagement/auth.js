@@ -1,6 +1,10 @@
 // auth.js
 import 'firebase/auth';
 import { auth } from './firebase';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+
+const db = firebase.firestore();
 
 // Register a new user
 export const register = async(username, email, password) => {
@@ -11,6 +15,11 @@ export const register = async(username, email, password) => {
   // Update the user's profile with their username
   await user.updateProfile({
     displayName: username,
+  });
+
+  await db.collection('users').doc(user.uid).set({
+    username: username,
+    email: email,
   });
 };
 

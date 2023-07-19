@@ -12,7 +12,7 @@ div{
     background-color: limegreen;
     height:150px;
     position:relative;
-    top:30px;
+    top:30px; /* moves the element 30 pixels down from its normal position */
     left:60px;
     font-size: 4rem;
 }
