@@ -1,0 +1,11 @@
+.ulLeftDashBoard{
+    list-style-type: none;
+    font-size: 1.5rem;
+}
+
+.divLeftDashBoard{
+    width:200px;
+    height:600px;
+    background-color: lightskyblue;
+    margin-right:30px;
+}

@@ -1,64 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
+import React from 'react';
 
-const db = firebase.firestore();
-
-// Get all registered usernames
-const getAllUsernames = async () => {
-  // Get a reference to the "users" collection
-  const usersRef = db.collection('users');
-
-  // Get all documents in the "users" collection
-  const snapshot = await usersRef.get();
-  console.log(snapshot)
-
-  // Create an array to store the usernames
-  const usernames = [];
-
-  // Loop over each document in the snapshot
-  snapshot.forEach((doc) => {
-    // Get the data of the document
-    const data = doc.data();
-
-    // Get the username from the data
-    const username = data.username;
-
-    // Add the username to the array
-    usernames.push(username);
-  });
-
-  // Return the array of usernames
-  return usernames;
-};
-
-const DropdownMenuinTask = () => {
-  const [usernames, setUsernames] = useState([]);
-
-  useEffect(() => {
-    const fetchUsernames = async () => {
-      const usernames = await getAllUsernames();
-      setUsernames(usernames);
-    };
-
-    fetchUsernames();
-  }, []);
-
+const DropdownMenuinTask = ({ currentUser }) => {
   return (
     <div>
-        <label htmlFor="employeeName">Name of Employee:</label>
-        <select id="employeeName">
-            <option value="">Select an employee</option>
-            {usernames.map((username) => (
-                <option key={username} value={username}>
-                {username}
-            </option>
-            ))}
-        </select>
+        <label>Task Assigned by</label>
+        <p>{currentUser}</p>
     </div>
   );
 };
 export default DropdownMenuinTask;
+
 
 /**
 *! Q)Why do we need useEffect here ? We could have directly written 

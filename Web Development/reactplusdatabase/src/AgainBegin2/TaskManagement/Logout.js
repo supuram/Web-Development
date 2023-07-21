@@ -15,7 +15,11 @@ export default function Logout(){
     };
     return(
         <div>
-            <Link onClick={handleLogout}>Logout</Link>
+            <Link 
+                onClick={handleLogout}
+                style={{
+                    textDecoration:'none'
+                }}>Logout</Link>
         </div>
     )
 }

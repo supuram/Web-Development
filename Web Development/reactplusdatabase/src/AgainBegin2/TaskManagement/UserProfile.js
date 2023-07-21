@@ -27,7 +27,7 @@ const UserProfile = () => {
     <div className={`divUserProfile ${isVisible ? 'visible' : ''}`}>
       <button className="buttonUserProfile" onClick={toggleVisibility}>Profile</button>
       {isVisible && (
-        <UserProfileDashBoard ref={subMenuRef} />
+        <UserProfileDashBoard ref={subMenuRef} style={{display:'block'}}/>
       )}
     </div>
   );
