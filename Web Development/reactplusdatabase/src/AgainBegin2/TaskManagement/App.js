@@ -20,8 +20,6 @@ const db = firebase.firestore();
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUsername, setCurrentUsername] = useState("");
-  const [leaveRequestData, setLeaveRequestData] = useState({});
-
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -56,7 +54,7 @@ const App = () => {
   }, []);
 
   const handleFormSubmit = (data) => {
-    setLeaveRequestData(data);
+    db.collection("leaveRequests").add(data);
   };
 
   return (
@@ -91,10 +89,8 @@ const App = () => {
           <Route path='/home/brainstorm' element={<Brainstorm />} />
           <Route path='/home/employeelist' element={<EmployeeList />} />
           <Route path='/home/codeofconduct' element={<CodeOfConduct />} />
-          <Route path='/home/leave' element={<LeaveApplication setLeaveRequestData={setLeaveRequestData}
-          onFormSubmit={handleFormSubmit} />} />
-          <Route path='/home/lrr' element={<LeaveRequestReceived {...leaveRequestData}
-          currentUser={currentUsername} />} />
+          <Route path='/home/leave' element={<LeaveApplication onFormSubmit={handleFormSubmit} />} />
+          <Route path='/home/lrr' element={<LeaveRequestReceived currentUser={currentUsername} />} />
           {isLoggedIn && <Route path="/home" element={<Home />} />} 
         </Routes>
       </div>

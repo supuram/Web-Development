@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAllUsernames } from "./DropdownMenuinTaskAssignedTo";
 
-export default function LeaveApplication({setLeaveRequestData, onFormSubmit}){
+export default function LeaveApplication({onFormSubmit}){
     const [employeeName, setEmployeeName] = useState("");
     const [reason, setReason] = useState("");
     const [fromDate, setFromDate] = useState("");
@@ -40,9 +40,6 @@ export default function LeaveApplication({setLeaveRequestData, onFormSubmit}){
         setFromDate("");
         setToDate("");
         setLeaveby("");
-       
-         // Pass the values up to the App component using the setLeaveRequestData function
-         setLeaveRequestData({ employeeName: employeeNameValue, reason: reasonValue, fromDate: fromDateValue, toDate: toDateValue, leaveby: leavebyValue });
     }
     return(
         <div>

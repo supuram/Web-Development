@@ -1,28 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
-export function LeaveRequestReceived({ employeeName, reason, fromDate, toDate, leaveby, currentUser }) {
-  // Check if all props are defined and match the provided employeeName and leaveby
-  if (employeeName && reason && fromDate && toDate && leaveby) {
-    console.log(employeeName)
-    // Check if the current leave request matches the provided employeeName and leaveby
-    if (employeeName === currentUser) {
-      // All props are defined and the employeeName and leaveby match the provided values, so we can render the content
-      return (
-        <div>
-          <p>{`Leave Request Applied To - ${employeeName}`}</p>
-          <p>{`Reason for Leave - ${reason}`}</p>
-          <p>{`Begin Date for Leave - ${fromDate}`}</p>
-          <p>{`End Date for Leave - ${toDate}`}</p>
-          <p>{`Leave applied by - ${leaveby}`}</p>
-          <button>Approve Leave</button>
-        </div>
-      );
-    } else {
-      // Some props are defined, but the employeeName or leaveby do not match the provided values, so we render nothing
-      return null;
-    }
-  } else {
-    // Some props are undefined, so we render nothing
-    return null;
-  }
+const db = firebase.firestore();
+
+export function LeaveRequestReceived({ currentUser }) {
+  const [leaveRequests, setLeaveRequests] = useState([]);
+
+  useEffect(() => {
+    // Fetch leave requests that match the current user's username as employeeName or leaveby
+    const fetchLeaveRequests = async () => {
+      const snapshot = await db
+        .collection("leaveRequests")
+        .where("employeeName", "==", currentUser)
+        .get();
+
+      const leaveRequestsData = snapshot.docs.map((doc) => doc.data());
+      setLeaveRequests(leaveRequestsData);
+    };
+
+    fetchLeaveRequests();
+  }, [currentUser]);
+
+  return (
+    <div>
+      {leaveRequests.map((request, index) => {
+        const { employeeName, reason, fromDate, toDate, leaveby } = request;
+        return (
+          <div key={index}>
+            <p>{`Leave Request Applied To - ${employeeName}`}</p>
+            <p>{`Reason for Leave - ${reason}`}</p>
+            <p>{`Begin Date for Leave - ${fromDate}`}</p>
+            <p>{`End Date for Leave - ${toDate}`}</p>
+            <p>{`Leave applied by - ${leaveby}`}</p>
+            <button>Approve Leave</button>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
