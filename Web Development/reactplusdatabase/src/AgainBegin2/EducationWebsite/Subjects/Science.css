@@ -1,18 +1,18 @@
-.imgCoding{
+.imgScience{
     width: 250px;
     height: 250px;
     margin-left: 30px;
     margin-top: 30px;
 }
 
-.divchildCoding{
+.divchildScience{
     display: flex;
     gap:40px;
 }
 
-.divchildCoding p{
-    margin: 30px;
+.divchildScience p{
+    margin: 10px;
     padding: 50px;
-    font-size: 1.43rem;
+    font-size: 1.65rem;
     line-height: 1.6;
 }

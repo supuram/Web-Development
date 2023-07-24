@@ -1,6 +1,7 @@
 *{
     margin:0;
 }
+
 .ulSubjects{
     list-style-type: none;
     display: flex;
@@ -14,4 +15,10 @@
 .ulSubjects li{
     margin-right: 20px;
     cursor: pointer;
+}
+
+.divSubjects{
+    background: linear-gradient(to right, rgba(143, 244, 134, 0.5), rgba(255, 140, 68, 0.8));
+    overflow: hidden;
+    height: 600px;
 }
