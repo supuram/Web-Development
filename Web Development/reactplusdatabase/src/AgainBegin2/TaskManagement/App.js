@@ -15,6 +15,7 @@ import EmployeeList from './EmployeeList.js'
 import CodeOfConduct from './CodeOfConduct.js'
 import LeaveApplication from './LeaveApplication'
 import {LeaveRequestReceived} from './LeaveRequestReceived.js'
+import LeaveApplicationApproval from './LeaveApplicationApproval';
 
 const db = firebase.firestore();
 const App = () => {
@@ -53,6 +54,7 @@ const App = () => {
     return () => unsubscribe();
   }, []);
 
+  //represents the form data submitted by the user in the LeaveApplication component.
   const handleFormSubmit = (data) => {
     db.collection("leaveRequests").add(data);
   };
@@ -91,6 +93,7 @@ const App = () => {
           <Route path='/home/codeofconduct' element={<CodeOfConduct />} />
           <Route path='/home/leave' element={<LeaveApplication onFormSubmit={handleFormSubmit} />} />
           <Route path='/home/lrr' element={<LeaveRequestReceived currentUser={currentUsername} />} />
+          <Route path='/home/leaveapproval' element={<LeaveApplicationApproval />} />
           {isLoggedIn && <Route path="/home" element={<Home />} />} 
         </Routes>
       </div>

@@ -1,4 +1,35 @@
 .divContactus{
-    height:600px;
     background: linear-gradient(to right, rgba(244, 134, 195, 0.5), rgba(248, 255, 121, 0.8));
+    overflow: hidden;
+}
+
+.divContactus h1{
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+.divchildContactus{
+    height:510px;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+.imgContactus{
+    width: 180px;
+    height: 150px;
+}
+
+.imgandpindivContactus{
+    display: flex;
+}
+
+.imgandpindivContactus p{
+    font-size: 3rem;
+    margin-top: 20px;
+    font-weight: bold;
+    color: rgb(13, 0, 255);
+}
+
+.h1Contactus{
+    color: rgb(255, 0, 0);
 }

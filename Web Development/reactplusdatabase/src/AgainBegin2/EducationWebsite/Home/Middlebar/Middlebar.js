@@ -1,6 +1,7 @@
 import React from "react";
 import learning from './../../images/learning.png'
 import './Middlebar.css'
+import { Link } from 'react-router-dom'
 
 export default function Middlebar(){
     return(
@@ -12,7 +13,7 @@ export default function Middlebar(){
                     <p>Online education positively transforms the future, serving as the progressive path forward. With accessibility, flexibility, and global reach, it empowers learners worldwide, bridging gaps and enabling lifelong learning, revolutionizing education.</p>
                 </div>
             </div>
-            <button className="buttonMiddlebar1">BOOK TRIAL</button>
+            <button className="buttonMiddlebar1"><Link to='/contactus' className="navButton">BOOK TRIAL</Link></button>
         </div>
     )
 }
