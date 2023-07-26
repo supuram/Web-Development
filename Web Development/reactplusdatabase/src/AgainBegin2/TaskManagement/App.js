@@ -79,23 +79,22 @@ const App = () => {
             )}
           </ul>
         </nav>
-
-        <Routes>
-          <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path='/home/profile' element={<Profile />} />
-          <Route path='/home/tabo' element={<TasksAssignedByOthers currentUser={currentUsername} />} />
-          <Route path='/home/tgto' element={<TasksGivenToOthers currentUser={currentUsername} />} />
-          <Route path='/home/brainstorm' element={<Brainstorm />} />
-          <Route path='/home/employeelist' element={<EmployeeList />} />
-          <Route path='/home/codeofconduct' element={<CodeOfConduct />} />
-          <Route path='/home/leave' element={<LeaveApplication onFormSubmit={handleFormSubmit} />} />
-          <Route path='/home/lrr' element={<LeaveRequestReceived currentUser={currentUsername} />} />
-          <Route path='/home/leaveapproval' element={<LeaveApplicationApproval />} />
-          {isLoggedIn && <Route path="/home" element={<Home />} />} 
-        </Routes>
+          <Routes>
+              <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path='/home/profile' element={<Profile />} />
+              <Route path='/home/tabo' element={<TasksAssignedByOthers currentUser={currentUsername} />} />
+              <Route path='/home/tgto' element={<TasksGivenToOthers currentUser={currentUsername} />} />
+              <Route path='/home/brainstorm' element={<Brainstorm />} />
+              <Route path='/home/employeelist' element={<EmployeeList />} />
+              <Route path='/home/codeofconduct' element={<CodeOfConduct />} />
+              <Route path='/home/leave' element={<LeaveApplication onFormSubmit={handleFormSubmit} />} />
+              <Route path='/home/lrr' element={<LeaveRequestReceived currentUser={currentUsername} />} />
+              <Route path='/home/leaveapproval' element={<LeaveApplicationApproval currentUser={currentUsername} />} />  
+              {isLoggedIn && <Route path="/home" element={<Home />} />} 
+            </Routes>
       </div>
     </Router>
   );
