@@ -1,0 +1,38 @@
+*{
+    margin:0;
+}
+
+.divAd{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+/*
+When you set height: 100vh; on the .divAd class, you are making the container (.divAd) take up the full viewport height (100% of the viewport height). This effectively means that the container will be as tall as the entire visible area of the browser window.
+
+Next, you have display: flex; on the .divAd class. This turns the container into a flex container, and then you set justify-content: center; and align-items: center;. These two properties work together to center the children (in this case, the form) both horizontally and vertically within the container.
+
+Without height: 100vh;, the container's height would be determined by its content, and it would not fill the entire screen. As a result, the form would not be perfectly centered vertically, leaving some space at the top or bottom depending on the content of the container. By setting height: 100vh;, you guarantee that the container takes up the full viewport height, and the flexbox properties can center the form precisely in the center of the screen.
+*/
+}
+
+.formAd{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    width:300px;
+}
+
+.inputAd{
+    border:2px solid rgb(231, 117, 117);
+    height: 25px;
+}
+
+.optionMFAD , .optionstatusAd , .optionwantAd {
+    border:2px solid rgb(0, 0, 255);
+    background-color: lightskyblue;
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    padding-right: 20px;
+}

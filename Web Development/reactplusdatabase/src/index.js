@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './AgainBegin2/TaskManagement/App';
-import reportWebVitals from './reportWebVitals';
+import App from './AgainBegin2/PatroPatri/Home/App.js';
+import reportWebVitals from './reportWebVitals.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

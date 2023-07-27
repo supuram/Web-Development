@@ -1,0 +1,13 @@
+.ulHomePatro{
+    list-style-type: none;
+    display: flex;
+    gap:200px;
+    font-size: 2rem;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    padding: 30px;
+}
+
+.ulHomePatro li .liHomePatro{
+    text-decoration: none;
+}
