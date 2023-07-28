@@ -1,0 +1,380 @@
+See Location_Tracking.js code for context 
+
+const socketHandler = (io) => {
+    io.on('connection', (socket) => {
+      console.log('A user connected');
+      socket.on('disconnect', () => {
+        console.log('A user disconnected');
+      });
+    });
+};
+
+1)Sure, here's an explanation of the code you provided:
+
+1. `const socketHandler = (io) => { ... }`: This line defines a constant variable named `socketHandler` and assigns
+it to an arrow function that takes one argument, `io`.
+2. `io.on('connection', (socket) => { ... })`: This line sets up an event listener on the `io` object for the 
+`'connection'` event. When a client connects to the server, the callback function is called with a `socket` object 
+representing the connection to the client.
+3. `console.log('A user connected')`: This line logs the message `'A user connected'` to the console when a client 
+connects to the server.
+4. `socket.on('disconnect', () => { ... })`: This line sets up an event listener on the `socket` object for the 
+`'disconnect'` event. When a client disconnects from the server, the callback function is called.
+5. `console.log('A user disconnected')`: This line logs the message `'A user disconnected'` to the console when a 
+client disconnects from the server.
+This code defines a function named `socketHandler` that takes an instance of a Socket.IO server (`io`) as an 
+argument. The function sets up event listeners on the server to log messages to the console when clients connect 
+and disconnect.
+
+Q2)socket.on('disconnect'...
+How does the code understands that 'disconnect' is disconnect from the server? Is it predefined in socket.io? If 
+i use any other event say 'discont' will it not indicate disconnect ?
+Ans)Yes, 'disconnect' is a predefined event in Socket.IO that is emitted when a client disconnects from the server. 
+The socket.on('disconnect', ...) line sets up an event listener for this specific event.
+If you use a different event name, such as 'discont', it will not automatically indicate a disconnect. You would 
+need to manually emit that event from the client-side code using socket.emit('discont') and set up a corresponding 
+event listener on the server-side using socket.on('discont', ...). However, it’s recommended to use the built-in 
+'disconnect' event for handling disconnections.
+
+Q3)Is (io) and 'connection' predefined in socket.io?
+Ans)Yes, io and 'connection' are both predefined in Socket.IO.
+
+io is an instance of the Server class in Socket.IO, which represents a Socket.IO server. It is usually created by 
+calling the require('socket.io')(httpServer) function, where httpServer is an instance of a Node.js HTTP server.
+
+The 'connection' event is a predefined event in Socket.IO that is emitted on the server-side when a new client 
+connects to the server. You can listen for this event using the io.on('connection', (socket) => { ... }) method, 
+where the callback function is called with a socket object representing the connection to the client.
+
+Q4)io.on('connection') is emitted by the server ?
+Ans)Yes, the connection event is emitted by the socket.io server when a new client connects to it. In the code you 
+provided earlier, the io variable represents a socket.io server instance, and the io.on('connection', ...) line 
+sets up an event listener for the connection event on the server. When a new client connects to the server, the 
+callback function passed as the second argument to the on method is called with a socket object representing the 
+connected client as its argument.
+
+Q5)io.on('connection', (socket) => {
+Here connection is the event and socket is the listener. but where do you raise the event 'connection'?
+Ans)In the code you provided, `connection` is the name of the event that is being listened for, and the second 
+argument to the `on` method is a callback function that is called when the event is emitted. The `socket` parameter 
+of the callback function represents the `socket` object associated with the connected client.
+
+The `connection` event is automatically emitted by the `socket.io` server whenever a new client connects to it. You
+do not need to manually emit this event. When a new client connects to the server, the server will automatically 
+emit the `connection` event and call any event listeners that have been registered for this event, passing the 
+`socket` object associated with the connected client as an argument to the callback function.
+
+Q6)io.on('connection', (socket) => 
+So here socket is the listener too and is called when the event is raised?
+Ans)In the code you provided, `socket` is not the listener, but rather a parameter of the callback function that is 
+called when the `connection` event is emitted by the `socket.io` server. The listener in this case is the callback 
+function itself, which is passed as the second argument to the `on` method.
+When a new client connects to the `socket.io` server, the server emits the `connection` event and calls any event 
+listeners that have been registered for this event. In this case, the event listener is the callback function that 
+you provided as the second argument to the `on` method. When this callback function is called, it is passed as a 
+`socket` object representing the connected client as its first argument. This `socket` object can be used to 
+communicate with the connected client and to listen for events emitted by the client.
+
+Q7)What purpose does on and io serve ? 
+Ans)In the code you provided, `io` is a variable that represents a `socket.io` server instance. The `on` method is
+a method of the `Server` class from the `socket.io` library, which is used to register event listeners on the 
+server instance.
+
+The `on` method takes two arguments: the name of the event to listen for, and a callback function to be called when 
+the event is emitted. In the code you provided, the `io.on('connection', ...)` line registers an event listener for
+the `connection` event on the `socket.io` server instance represented by the `io` variable. When a new client 
+connects to the server, the server will emit the `connection` event and call any event listeners that have been 
+registered for this event, including the callback function that you provided as the second argument to the `on` 
+method.
+
+In summary, the purpose of the `io` variable in this code is to represent a `socket.io` server instance, and the 
+purpose of the `on` method is to register event listeners on the server instance.
+
+Q8)And if i have a website on a server , then , when a client connects on my website does my website's server 
+triggers an event on the socket.io server and here my website's server is acting as the client of socket.io server ? 
+Or does the client of my website connect to the server of socket.io directly ?
+Ans)If you have a website hosted on a server, and you want to use `socket.io` to enable real-time communication 
+between the clients of your website and the server, you would typically set up a `socket.io` server on the same 
+server where your website is hosted.
+
+When a client visits your website, their web browser would load the `socket.io` client library and use it to 
+establish a connection to the `socket.io` server. This connection is separate from the initial HTTP connection 
+used to load the website.
+
+Once the connection between the client and the `socket.io` server has been established, the `socket.io` server 
+would emit a `connection` event and call any event listeners that have been registered for this event. The client 
+can then communicate with the server in real-time using `socket.io` events.
+
+In this scenario, the client of your website connects directly to the `socket.io` server, and the `socket.io` 
+server is typically located on the same server as your website.
+
+Q9)socket.on('disconnect', () =>{
+In this case , does the disconnect event being raised by the client side ? Also since no argument is passed inside 
+the callback function, who will handle the server side ?
+Ans)Yes, the disconnect event is emitted by the socket.io client when it disconnects from the server. In the code 
+you provided, the socket.on('disconnect', ...) line sets up an event listener for the disconnect event on the 
+socket object representing a connected client.
+
+When the client disconnects from the server, the server will automatically emit the disconnect event on the socket 
+object associated with the disconnected client, and call any event listeners that have been registered for this 
+event, including the callback function that you provided as the second argument to the on method.
+
+In this case, no arguments are passed to the callback function when it is called. The callback function can still 
+perform any necessary actions on the server side in response to the client disconnecting, such as cleaning up 
+resources associated with the disconnected client or logging a message. The specific actions that are performed 
+depend on the implementation of the callback function.
+
+Q10)io.on('connection', (socket) => {
+Here does the callback function perform necessary action on the client side and the event is emitted by the 
+server ?
+Ans)In the code you provided, the `io.on('connection', ...)` line sets up an event listener for the `connection` 
+event on the `socket.io` server instance represented by the `io` variable. The callback function passed as the 
+second argument to the `on` method is called on the server side when a new client connects to the server.
+
+When a new client connects to the server, the server emits the `connection` event and calls any event listeners 
+that have been registered for this event, including the callback function that you provided as the second argument 
+to the `on` method. The callback function is passed a `socket` object representing the connected client as its 
+first argument.
+
+The callback function can perform any necessary actions on the server side in response to a new client connecting, 
+such as setting up event listeners on the `socket` object to listen for events emitted by the client, or sending a 
+welcome message to the client. The specific actions that are performed depend on the implementation of the callback 
+function.
+
+Q)Here instead of socket.on, can't i write io.on again. If not, why ?
+Ans)In your code example, io is a Socket.IO server instance attached to an instance of http.Server listening for 
+incoming events. The socket argument of the connection event listener callback function is an object that 
+represents an incoming socket connection from a client. Both of them can listen for events with the on method.
+
+So, io.on('connection', ...) listens for the connection event on the server instance and is fired when a new 
+client connects to the server. On the other hand, socket.on('disconnect', ...) listens for the disconnect event 
+on the individual socket object representing the connected client and is fired when that particular client 
+disconnects from the server.
+
+Q)What is a socket connection ?
+Ans)A socket is one endpoint of a two-way communication link between two programs running on a network. It is a 
+software structure within a network node of a computer network that serves as an endpoint for sending and receiving
+data across the network. The structure and properties of a socket are defined by an application programming 
+interface (API) for the networking architecture.
+
+A socket is bound to a port number so that the TCP layer can identify the application that data is destined to be 
+sent to. An endpoint is a combination of an IP address and a port number.
+------------------------------------------------------------------------------------------------------------------
+Q11)server.listen(5000, async () => {
+    try {
+        socketHandler(io)
+        await watcher(io)
+    }
+    catch (error) {
+        console.error(error)
+    }
+})
+What does the above code do ?
+
+The `server.listen` method is used to start the HTTP server and begin listening for incoming connections on the 
+specified port, in this case, port 5000. The first argument to the `server.listen` method is the port number, and 
+the second argument is a callback function that is called when the server starts listening.
+
+In the code you provided, the callback function passed to `server.listen` performs two actions:
+
+1. It calls the `socketHandler` function, passing it the `io` object as an argument. The `socketHandler` function 
+sets up event listeners for the Socket.io server, allowing it to handle incoming connections from clients and 
+respond to events emitted by those clients.
+
+2. It calls the `watcher` function, passing it the `io` object as an argument. The `watcher` function sets up a 
+change stream on the `products` collection in the MongoDB database, allowing it to watch for changes to the data 
+in that collection in real-time. When a change occurs, the `watcher` function emits an event to connected clients 
+using Socket.io, notifying them of the change.
+
+The callback function also includes a `try...catch` block that catches any errors that may occur while setting up 
+the Socket.io server or the change stream. If an error occurs, it is logged to the console using `console.error`.
+
+In summary, this code starts an HTTP server listening on port 5000 and sets up a Socket.io server and a MongoDB 
+change stream to enable real-time communication between connected clients and the server.
+
+-----------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+
+Q12)const app = express()
+const server = http.createServer(app)
+const io = require('socket.io')(server);
+What value does io takes ?
+
+Ans)In the code you provided, `io` is a variable that is assigned the value returned by calling the 
+`require('socket.io')` function with the `server` object as an argument.
+
+The `require('socket.io')` function returns a function that can be called with an HTTP server object(eg - 
+http.createServer()) to create a new instance of the Socket.io `Server` class. When you call this function with 
+the `server` object as an argument, it creates a new Socket.io server that is attached to the HTTP server and can 
+handle incoming connections from clients. Here io is the new instance of the socket.io `Server` class. ( See Q)14 )
+
+The value assigned to the `io` variable is an instance of the Socket.io `Server` class. This object represents 
+the Socket.io server and provides methods for handling incoming connections, sending and receiving messages, 
+and managing connected clients.
+
+You can use the `io` object to set up event listeners for the Socket.io server, emit events to connected clients, 
+and perform other actions related to real-time communication between the server and clients.
+
+Q13)Based on the previous question-
+What is an http server object?
+Ans)An HTTP server object is an instance of the http.Server class in Node.js. This class is used to create HTTP 
+servers that can listen for incoming requests from clients and respond to them.
+
+To create an HTTP server object, you can use the http.createServer method, which takes a request listener function 
+as an argument and returns a new instance of the http.Server class. The request listener function is called each 
+time the server receives a new request from a client, and is responsible for handling the request and sending a 
+response.
+
+Once you have created an HTTP server object, you can use its listen method to start listening for incoming requests
+on a specified port. The server will then be able to accept incoming connections from clients and call the request 
+listener function to handle each incoming request.
+Here is an example of how to create an HTTP server object in Node.js:
+const http = require('http');
+const requestListener = (req, res) => {
+  res.writeHead(200);
+  res.end('Hello, World!');
+}
+const server = http.createServer(requestListener);
+server.listen(3000, () => {
+  console.log('Server is listening on port 3000');
+});
+
+In this example, the http module is imported and used to create a new HTTP server object using the 
+http.createServer method. The createServer method takes a request listener function as an argument, which is 
+called each time the server receives a new request from a client.
+
+In this case, the request listener function simply writes a 200 status code to the response object, indicating that 
+the request was successful, and sends a response body containing the string 'Hello, World!'.
+
+After creating the server object, its listen method is called to start listening for incoming requests on port 
+3000. When the server starts listening, it logs a message to the console indicating that it is ready to accept 
+incoming connections.
+
+Q14)Based on the previous question-
+The `require('socket.io')` function returns a function that can be called with an HTTP server object to create a 
+new instance of the Socket.io `Server` class. Show me an example of this sentence
+Ans)Here is an example that demonstrates how to create a new instance of the Socket.io Server class using an HTTP 
+server object:
+const http = require('http');
+const socketio = require('socket.io');
+
+const httpServer = http.createServer();
+const io = socketio(httpServer);
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+});
+
+httpServer.listen(3000, () => {
+  console.log('HTTP server listening on port 3000');
+});
+In this example, the http and socket.io modules are imported using the require function. The http.createServer 
+method is then called to create a new HTTP server object, which is stored in the httpServer variable.
+
+The socketio function, which was imported from the socket.io module, is then called with the httpServer object as 
+its argument. This creates a new instance of the Socket.io Server class, which is stored in the io variable.
+
+An event listener is then registered on the Socket.io server instance using the on method to listen for the 
+connection event. When a new client connects to the server, the callback function passed to the on method is 
+called with a socket object representing the connected client as its argument.
+
+Finally, the listen method is called on the HTTP server object to start listening for incoming requests on port 
+3000. When the server starts listening, it logs a message to the console indicating that it is ready to accept 
+incoming connections.
+
+Q15)Based on the previous question- 
+But why does again socketio takes httpServer as an argument. Why does it need http? Can't it function without http?
+If it can't what special extra thing is socket.io providing?
+Ans)The `socketio` function takes an HTTP server object as its argument because it needs to attach the Socket.io 
+server instance to an existing HTTP server. This allows the Socket.io server to listen for incoming WebSocket 
+connections on the same port as the HTTP server, and to share the same underlying network connection.
+
+While it is possible to create a standalone Socket.io server that listens for incoming connections on its own port, 
+attaching the Socket.io server to an existing HTTP server has several benefits. For example, it allows clients to 
+connect to the Socket.io server using the same hostname and port as the HTTP server, which can simplify the process 
+of setting up and configuring the client-side code. It also allows the Socket.io server to reuse the existing 
+network connection and infrastructure of the HTTP server, which can improve performance and reduce resource usage.
+
+In summary, the `socketio` function takes an HTTP server object as its argument so that it can attach the Socket.io 
+server instance to an existing HTTP server, allowing it to listen for incoming WebSocket connections on the same 
+port as the HTTP server and share its underlying network connection.
+
+Q16)new instance of the Socket.io `Server` class - Which one is this in the example?
+Ans)In the example code I provided earlier, the new instance of the Socket.io `Server` class is created by calling
+the `socketio` function with the `httpServer` object as its argument:
+const io = socketio(httpServer);
+In this line of code, the `socketio` function is called with the `httpServer` object as its argument, which creates 
+a new instance of the Socket.io `Server` class and attaches it to the HTTP server. The new Socket.io server 
+instance is then stored in the `io` variable.
+Once the Socket.io server instance has been created, you can use its methods and properties to listen for incoming 
+connections from clients, register event listeners, and send and receive messages in real-time.
+
+Q17)In this code which is the server object ?
+Ans)In the code you provided, there are two server objects: `httpServer` and `io`.
+
+`httpServer` is an instance of the `http.Server` class, which represents an HTTP server object. It is created using 
+the `http.createServer` method, which returns a new instance of the `http.Server` class.
+
+`io` is an instance of the Socket.io `Server` class, which represents a Socket.io server object. It is created by 
+calling the `socketio` function with the `httpServer` object as its argument. The `socketio` function returns a new
+instance of the Socket.io `Server` class, which is attached to the HTTP server represented by the `httpServer` 
+object.
+
+The `.on` method is not a server object, but rather a method of both the `http.Server` and Socket.io `Server` 
+classes. This method is used to register event listeners on server objects. In the code you provided, the 
+`io.on('connection', ...)` line registers an event listener for the `connection` event on the Socket.io server 
+instance represented by the `io` variable.
+
+Q18)Is socket.io a module like the https module or socket.io is a package or a library ?
+Ans)socket.io is a package and a library. It is a package that can be installed using npm, the package manager for
+Node.js. Once installed, it can be imported into a Node.js application using the require function, just like any 
+other Node.js module.
+
+socket.io is also a library that provides an API for real-time communication between clients and servers using 
+WebSockets and other transport mechanisms. It consists of both server-side and client-side components, which can 
+be used together to enable real-time communication in web applications.
+
+In contrast, the http module is a built-in module in Node.js that provides low-level APIs for working with HTTP 
+and HTTPS protocols. It is not a package or a library, but rather a core part of the Node.js runtime environment.
+-----------------------------------------------------------------------------------------------------------------
+
+Read about Websocket here - https://en.wikipedia.org/wiki/WebSocket
+Read about HTML here - https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview
+
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+
+Q)Explain me 
+socket.on("UPDATE_DA_LOCATION", async (data) => {
+            const { email, location } = data
+            await location.findOneAndUpdate({ email }, { $set: { currentLocation: location } })
+        })
+Ans)This part of the code is listening for an event called "UPDATE_DA_LOCATION" on the socket object, which 
+represents a connected client. When the client emits this event, the callback function is executed with the data 
+sent by the client passed as an argument to the callback function.
+
+The callback function is an async function, meaning it can use await to pause its execution until a promise is 
+resolved. The first line of the callback function uses destructuring assignment to extract the email and location 
+properties from the data object.
+
+The next line uses the await keyword to pause the execution of the function until the findOneAndUpdate method of 
+the location object is resolved. This method appears to be updating a document in a database with a matching email 
+property, setting its currentLocation property to the value of location.
+------------------------------------------------------------------------------------------------------------------
+Q)fullDocument: 'updateLookup'. What does the above line do ?
+Ans)The fullDocument: 'updateLookup' option tells the change stream to look up the most current majority-committed 
+version of the updated document and return it in the fullDocument field of the change event document.
+
+By default, a change stream returns the delta of those fields modified by an update operation, instead of the 
+entire updated document. Setting the fullDocument option to 'updateLookup' changes this behavior and causes the 
+change stream to return the entire updated document in addition to the update description delta.
+
+Q)Meaning of delta of those fields?
+Ans)In the context of a change stream, the delta of the fields modified by an update operation refers to the 
+changes that were made to the document as a result of the update operation. The delta includes information about 
+which fields were added, removed, or modified, as well as the new values of any modified fields.
+
+For example, if an update operation changes the value of a field x from 1 to 2 and adds a new field y with a value 
+of 3, the delta would include information about the change to field x and the addition of field y.

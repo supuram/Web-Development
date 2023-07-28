@@ -1,0 +1,81 @@
+Q)WebSocket
+Ans)A WebSocket API is an advanced technology that makes it possible to open a two-way interactive communication 
+session between the user’s browser and a server. With this API, you can send messages to a server and receive \
+event-driven responses without having to poll the server for a reply.
+
+Q)What is the meaning of without having to poll the sevrer for a reply ?
+Ans)Polling is a technique where the client repeatedly requests data from the server at regular intervals to check 
+for any updates. With a WebSocket API, the server can send data to the client as soon as it becomes available, 
+without the client having to repeatedly ask for it. This eliminates the need for polling and can result in more 
+efficient communication between the client and server.
+
+Q)What is the difference between WebSocket and REST API?
+Ans)WebSocket and REST API serve different purposes and are used in different contexts. REST API is used for 
+stateless, request/response communication over HTTP, while WebSocket API is used for persistent, bi-directional 
+communication over the WebSocket protocol.
+
+REST APIs follow the request-response communication model, where the client sends a request to the server and 
+waits for a response. On the other hand, WebSocket APIs allow bi-directional, full-duplex communication between 
+clients and servers. Once the connection is set up, messages can be sent and received continuously without any 
+interruption.
+
+This means that WebSocket APIs are more efficient than REST APIs for real-time applications, as they use a 
+persistent connection to enable bidirectional communication. However, WebSocket APIs can be more complex to 
+design and implement than REST APIs.
+
+Q)Read this - https://socket.io/blog/introducing-socket-io-1-0/#binary
+Ans)Socket.IO never assumes that WebSocket will just work, because in practice there's a good chance that it won't 
+due to factors such as firewalls or proxy servers blocking WebSocket connections. 
+Instead, it establishes a connection with XHR or JSONP right away, and then attempts to upgrade the connection to 
+WebSocket. By establishing a connection with XHR or JSONP first, Socket.IO ensures that communication can still 
+take place even if WebSocket is not available. It then attempts to upgrade the connection to WebSocket if possible.
+
+XHR - XHR stands for XMLHttpRequest, which is an API available in web browsers that provides the ability to send 
+HTTP requests to a server and receive responses. It is commonly used in web applications to retrieve data from a 
+server asynchronously, without interfering with the display and behavior of the existing page.
+
+In the context of Socket.IO, XHR polling is one of the fallback methods used when WebSocket is not available. It 
+involves repeatedly sending XHR requests to the server at regular intervals to check for any new data. While this 
+method is not as efficient as WebSocket, it allows for real-time communication to take place even in environments 
+where WebSocket is not supported.
+==================================================================================================================
+Q)VVI Point -
+Let me clarify the sequence of events:
+1. On the server side, `io.on('connection', ...)` is used to listen for incoming connections from clients. When a 
+new client connects, a `socket` object is created to represent the connection with that client.
+
+2. On the client side, `socket.emit` can be used to emit events to the server over the established connection.
+
+3. On the server side, `socket.on` can be used to listen for events emitted by the client over the connection 
+represented by the `socket` object.
+
+4. On the server side, `io.emit` can be used to emit an event to all connected clients, while `socket.broadcast.emit`
+can be used to emit an event to all connected clients except for the client represented by the `socket` object on 
+which the method is called.
+
+5. On the client side, socket.on is used to listen for events emitted by the server over the Socket.IO connection. 
+When an event is received, the client can execute a callback function to handle the event and perform any necessary
+actions.
+
+So, in summary: `io.on('connection', ...)` is used on the server side to listen for incoming connections and 
+create `socket` objects to represent those connections. `socket.emit` is used on the client side to emit events to 
+the server, while `socket.on` is used on both the client and server sides to listen for events emitted over a 
+specific connection. Finally, `io.emit` and `socket.broadcast.emit` are used on the server side to emit events to 
+multiple clients.
+
+Q)So, socket.on on the client side listens to whatever io.emit sends from the server side ?
+Ans)Yes, that’s correct! On the server side, io.emit can be used to emit an event to all connected clients. On the 
+client side, socket.on can be used to listen for events emitted by the server.
+
+For example, if the server emits an event using io.emit('some event', data), all connected clients will receive 
+the 'some event' event along with the associated data. On the client side, socket.on('some event', ...) can be 
+used to listen for this event and execute a callback function to handle the received data.
+
+It’s important to note that the event name passed to socket.on on the client side must match the event name passed 
+to io.emit on the server side in order for the client to receive the emitted event.
+
+Summary -
+socket.emit emits a event on the client side. io.on establishes the connection and socket.on on the
+server side listens to the event emitted by socket.emit. Now io.emit emits the event from server to all the 
+clients and on the client side socket.on catches this message emitted by io.emit.
+===================================================================================================================
