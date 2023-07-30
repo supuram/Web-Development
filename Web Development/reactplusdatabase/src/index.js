@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './AgainBegin2/EducationWebsite/App';
+import App from './Beginner/User_Authentication/10_Login_Register/App.js';
 import reportWebVitals from './reportWebVitals.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

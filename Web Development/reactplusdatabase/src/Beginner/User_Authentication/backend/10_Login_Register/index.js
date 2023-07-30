@@ -5,12 +5,14 @@ import uri from './first.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import session from 'express-session'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const client = new MongoClient(uri)
 const app = express()
 app.use(cors())
 app.use(express.json())
-const jwtSecret = 'your-secret-key'
+const jwtSecret = process.env.JWT_SECRET
 
 async function startServer() {
     try {
@@ -24,7 +26,7 @@ async function startServer() {
         })
         
         app.use(session({
-            secret: 'your-secret-key',
+            secret: jwtSecret,
             resave: false,
             saveUninitialized: false
         }));
@@ -51,9 +53,10 @@ async function startServer() {
             // Get JWT from Authorization header
             const authHeader = req.headers.authorization
             const token = authHeader && authHeader.split(' ')[1]
-        
+            console.log('My token = ',token)
             if (!token) {
                 // No JWT provided
+                console.log('unauthorized')
                 res.status(401).send('Unauthorized')
                 return
             }
@@ -61,11 +64,12 @@ async function startServer() {
             try {
                 // Verify JWT
                 const decoded = jwt.verify(token, jwtSecret)
-        
+                console.log('My decoded = ',decoded)
                 // Authentication successful
                 res.status(200).send('Protected data')
             } catch (error) {
                 // Invalid JWT
+                console.log('Forbidden', error.message)
                 res.status(403).send('Forbidden')
             }
         })        

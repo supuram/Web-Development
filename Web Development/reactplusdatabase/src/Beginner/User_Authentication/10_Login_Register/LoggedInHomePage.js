@@ -1,6 +1,6 @@
 import React from "react";
-import TopBar from './TopBar'
-import Logout_Button from "./Logout_Button";
+import TopBar from './TopBar.js'
+import Logout_Button from "./Logout_Button.js";
 import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
 
@@ -19,7 +19,7 @@ export default function LogInHome(){
     }
     return(
         <div>
-            <hi>This is your New Home Page, Welcome to Javascript World</hi>
+            <h1>This is your New Home Page, Welcome to Javascript World</h1>
             <TopBar />
             <Logout_Button onLogout={handleLogout} />
             <p>lorem ipsum</p>

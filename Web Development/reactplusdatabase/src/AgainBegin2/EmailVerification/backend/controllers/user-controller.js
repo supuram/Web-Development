@@ -1,8 +1,11 @@
-import { response } from 'express'
+import jwt from 'jsonwebtoken'
 import User from './../model/User.js'
 import bcrypt from 'bcrypt'
+import dotenv from 'dotenv'
+dotenv.config()
+const JWT_SECRET = process.env.JWT_SECRET
 
-export const signup = async(req, res) => {
+export const signup = async(req, res, next) => {
     let existingUser;
     try{
         existingUser = await User.findOne({email:req.body.email})
@@ -29,7 +32,7 @@ export const signup = async(req, res) => {
     return res.status(201).json({message:user})
 }
 
-export const login = async(req, res) => {
+export const login = async(req, res, next) => {
     let existingUser;
     try{
         existingUser = await User.findOne({email:req.body.email})
@@ -44,6 +47,39 @@ export const login = async(req, res) => {
     if(!isPasswordCorrect){
         return res.status(400).json({message:'Invalid email/Password'})
     }
+    const token = jwt.sign({id:existingUser._id}, JWT_SECRET, {expiresIn:'1day'})
+    return res.status(200).json({message:'Successful Login', user:existingUser, token})
+}
+
+export const verifyToken = (req, res, next) => {
+    const headers = req.headers['authorization']
+    const token = headers.split(' ')[1]
+    if(!token){
+        res.status(404).json({message:'No token found'})
+    }
+    jwt.verify(String(token), JWT_SECRET, (err, user) => {
+        if(err){
+            return res.status(400).json({message:'Invalid token'})
+        }
+        console.log(user)
+        req._id = user._id
+    })
+    next()
+}
+
+export const getUser = async(req, res, next) => {
+    const userId = req._id
+    let user;
+    try{
+        user = await User.findById(userId, '-password')
+    }
+    catch(err){
+        return new Error(err)
+    }
+    if(!user){
+        return res.status(404).json({message:'User not found'})
+    }
+    return res.status(200).json({user})
 }
 
 /**

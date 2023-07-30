@@ -26,15 +26,14 @@ redirected */
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userToken', response.data.token);
                 navigate('/LoggedInHomePage')
+                Axios.get('/protected-route', {
+                    headers: {
+                        Authorization: `Bearer ${getCookie('authToken')}`
+                    }
+                })
             }
         })
         .catch(err => console.log(err))
-
-        Axios.get('/protected-route', {
-            headers: {
-                Authorization: `Bearer ${getCookie('authToken')}`
-            }
-        })
    }
 
     return(

@@ -1,6 +1,6 @@
 import React from "react";
-import TopBar from './TopBar'
-import Logout_Button from "./Logout_Button";
+import TopBar from './TopBar.js'
+import Logout_Button from "./Logout_Button.js";
 import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
 
