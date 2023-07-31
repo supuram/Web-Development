@@ -1,24 +1,38 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const VerifyEmailPage = () => {
-  const { token } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const token = searchParams.get('token');
   console.log(token)
   useEffect(() => {
-    async function verifyEmail(token) {
-      try {
-        console.log('i am in')
-        const response = await axios.get(`/verify/${token}`);
-        // Process the response if needed
-        console.log('I am out')
-        console.log(response.data);
-      } catch (error) {
-        // Handle errors
-        console.error(error);
+    // let isMounted = true;
+    if(token){
+      async function verifyEmail(token) {
+        try {
+          console.log('i am in')
+          const response = await axios.get(`/verify?token=${token}`);
+          // Process the response if needed
+          console.log('I am out')
+          console.log(response.data.message);
+        } 
+        catch (error) {
+          console.log('This is an error = ', error.message)
+          console.error(error);
+        }
       }
+      verifyEmail(token);
     }
-    verifyEmail(token);
+
+    // if (token && isMounted) {
+    //   isMounted = false; // Set the flag to false to prevent further calls
+    // }
+  
+    // return () => {
+    //   isMounted = false; // Set the flag to false on unmount to prevent any pending calls
+    // };
   }, [token]);
 
   return (

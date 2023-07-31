@@ -84,15 +84,17 @@ async function startServer() {
         })        
 
         // Verify email route
-        app.get('/verify/:token', async (req, res) => {
-            const verificationToken = req.params.token
-    
+        app.get('/verify', async (req, res) => {
+            const verificationToken = req.query.token
+            console.log('verificationToken = ',verificationToken)
             try {
                 // Find the user in the database based on the verification token
                 const user = await collection.findOne({ verificationToken })
+                console.log('user = ', user)
         
             if (!user) {
                 // User not found or already verified
+                console.log('Invalid verification token')
                 res.status(404).send('Invalid verification token')
                 return
             }
@@ -100,39 +102,45 @@ async function startServer() {
             // Update the user's status to "verified" in the database
             await collection.updateOne(
                 { _id: user._id },
-                { $set: { verified: true, verificationToken: null } }
+                { $set: { verified: true }, $unset:{ verificationToken: 1 } }
             )
             console.log('exit update email token to true')
+            res.status(200).json({ message: 'Email verified successfully' });
             // Redirect the user to a success page or display a success message
-            res.redirect('/LoginPage')
+            // res.redirect('/LoginPage')
             } 
             catch (error) {
-                console.log(error)
+                console.log(error.message)
                 res.status(500).send('Error verifying email')
             }
         })  
 
-        app.get('/verify-forgot-password-email/:token', async (req, res) => {
-            const verificationToken = req.params.token;
+        app.get('/verify-forgot-password-email', async (req, res) => {
+            const verificationToken = req.query.token;
           
             try {
               // Find the user in the database based on the verification token
               const user = await collection.findOne({ verificationToken: verificationToken });
           
-              if (!user) {
+            if (!user) {
+                console.log('Invalid verification token from forgot password')
                 // User not found or already verified
                 return res.status(404).send('Invalid verification token');
-              }
+            }
           
-              // Update the user's status to "verified" in the database
-              await collection.updateOne(
+            console.log('entered verify token email for forgot password')
+            // Update the user's status to "verified" in the database
+            await collection.updateOne(
                 { _id: user._id },
                 { $set: { verified: true, resetToken: null, resetTokenExpiresAt: null } }
-              );
+            );
+            console.log('exit update email token to true for forgot password')
+            res.status(200).json({ message: 'Email verified successfully for forgot password' });
           
-              // Redirect the user to a success page or display a success message
-              res.redirect('/LoginPage');
-            } catch (error) {
+            // Redirect the user to a success page or display a success message
+            res.redirect('/LoginPage');
+            } 
+            catch (error) {
               console.log(error);
               res.status(500).send('Error verifying email');
             }
@@ -193,6 +201,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                         verificationToken: verificationToken
                     };
                     await collection.insertOne(user)
+                    console.log('User in database')
                     res.status(200).send({ message : 'User registered successfully. Please Login'})
                     sendVerificationEmail(email, verificationToken);
                 }
@@ -214,7 +223,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                 subject: 'Account Verification',
                 html: `<p>Hello,</p>
                         <p>Enter the new Password by clicking the following link:</p>
-                        <a href="http://localhost:3000/PasswordResetPage?token=${resetToken}">Verify Email</a>`,
+                        <a href="http://localhost:3000/verify-forgot-password-email?token=${resetToken}">Verify Email</a>`,
                 };
             
             transporter.sendMail(mailOptions, (error, info) => {
@@ -234,11 +243,12 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
             try{
                 let userExist = await collection.findOne({email})
                 if (!userExist) {
+                    console.log('Email not found in Forgot-Password snippet')
                     // User with the provided email doesn't exist
                     return res.status(404).send('User not found');
                 }
                 const resetToken = generateVerificationToken()
-                
+                console.log('Reset Token in Forgot-Password snippet = ', resetToken)
                 // Save the reset token and its expiration in the user document in your database
                 await collection.updateOne(
                     { _id: userExist._id },
@@ -251,6 +261,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                       }
                     }
                 );
+                console.log('In Forgot-Password successfully updated in Database')
                 forgotPasswordToken(email, resetToken)
                 res.status(200).send({ email });
             }
@@ -305,25 +316,28 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                 let userExist = await collection.findOne({email}) // returns the entire document and so userExist contains both email and password
                 if(userExist){
                     const isPasswordMatch = await bcrypt.compare(password, userExist.password);
+                    console.log(password)
                     if(isPasswordMatch){
                         if(userExist.verified){
                             const token = jwt.sign({email}, jwtSecret, {expiresIn: '10h'})
+                            console.log(token)
                             res.status(200).send({token})
                             return
                         }
-                        // else{
-                        //     console.log('Please verify your email before logging in')
-                        //     res.status(401).send({ message: 'Please verify your email before logging in' });
-                        //     return;
-                        // }
+                        else{
+                             console.log('Please verify your email before logging in')
+                             res.status(401).send({ message: 'Please verify your email before logging in' });
+                             return;
+                        }
                     }
-                    // else{
-                    //     console.log('Invalid email or password')
-                    //     res.status(401).send({ message: 'Invalid email or password' });
-                    //     return
-                    // }
+                    else{
+                         console.log('Invalid email or password')
+                         res.status(401).send({ message: 'Invalid email or password' });
+                         return
+                    }
                 }
                 else{
+                    console.log('Hmmmm')
                     res.redirect('/')
                     return
                 }

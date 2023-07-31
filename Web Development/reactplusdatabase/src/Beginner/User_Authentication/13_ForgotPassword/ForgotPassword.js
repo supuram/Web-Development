@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react";
 import Axios from 'axios'
-import EmailContext from './EmailContext';
+import EmailContext from './EmailContext.js';
 
 export default function ForgotPassword(){
     const [email, setEmail] = useState("");

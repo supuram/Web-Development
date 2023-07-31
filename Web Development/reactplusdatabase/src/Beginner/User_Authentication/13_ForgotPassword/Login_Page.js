@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
-import Register_Button from "./Register_Button";
-import ForgotPasswordButton from './ForgotPasswordButton'
+import Register_Button from "./Register_Button.js";
+import ForgotPasswordButton from './ForgotPasswordButton.js'
 
 export default function Login_Page(){
     function getCookie(name) {
@@ -26,6 +26,7 @@ redirected */
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userToken', response.data.token);
                 navigate('/LoggedInHomePage')
+                console.log(getCookie('authToken'))
                 Axios.get('/protected-route', {
                     headers: {
                         Authorization: `Bearer ${getCookie('authToken')}`

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Axios from 'axios';
-import EmailContext from './EmailContext';
+import EmailContext from './EmailContext.js';
 
 export default function PasswordResetPage() {
     function getCookie(name) {
@@ -23,15 +23,14 @@ export default function PasswordResetPage() {
             if(response.data.token){
                 document.cookie = `authToken = ${response.data.token}; path=/`
                 navigate('/LoginPage');
+                Axios.get('/protected-route', {
+                  headers: {
+                      Authorization: `Bearer ${getCookie('authToken')}`
+                  }
+              })
             }
         })
         .catch(err => console.log(err))
-
-        Axios.get('/protected-route', {
-            headers: {
-                Authorization: `Bearer ${getCookie('authToken')}`
-            }
-        })
     }
 
   return (

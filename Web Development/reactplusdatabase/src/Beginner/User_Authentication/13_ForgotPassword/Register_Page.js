@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios'
-import Login_Button from "./Login_Button";
+import Login_Button from "./Login_Button.js";
 
 export default function Register_Page(){
     const [text, setText] = useState('')
