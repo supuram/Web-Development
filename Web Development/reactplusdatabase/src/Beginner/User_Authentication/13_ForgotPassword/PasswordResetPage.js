@@ -18,9 +18,9 @@ export default function PasswordResetPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await Axios.post('/Forgot-Password-Form', { resetToken, newPassword: password, email })
+        await Axios.post('/Forgot-Password-Form', { resetToken, password: password, email })
         .then(response => {
-            if(response.data.token){
+            if(response.status === 200){
                 document.cookie = `authToken = ${response.data.token}; path=/`
                 navigate('/LoginPage');
                 Axios.get('/protected-route', {

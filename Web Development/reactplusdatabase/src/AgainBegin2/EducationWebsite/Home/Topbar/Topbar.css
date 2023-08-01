@@ -1,0 +1,26 @@
+.divTopbar{
+    display: flex;
+    gap:8.125rem;
+    background-color:  rgb(9, 5, 49);
+}
+
+.iconTopbar{
+    width: 4.4rem;
+    height: 5rem;
+    padding: 1.2rem;
+    margin-left: 0.8rem;
+}
+
+.ulTopbar{
+    list-style-type: none;
+    display: flex;
+    gap:12.5rem;
+    font-size: 2rem;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    padding: 2rem;
+}
+
+.ulTopbar li .navLink{
+    text-decoration: none;
+}

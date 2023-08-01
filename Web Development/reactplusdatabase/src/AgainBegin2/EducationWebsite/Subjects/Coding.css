@@ -1,0 +1,13 @@
+.divContainerCoding{
+    display: flex;
+    gap:1rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.div3ContainerCoding{
+    width:18rem;
+    height: 25rem;
+    background-color: rgb(43, 37, 103);
+}

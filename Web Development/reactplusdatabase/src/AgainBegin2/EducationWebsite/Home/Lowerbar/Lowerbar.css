@@ -1,0 +1,26 @@
+.divmainLowerbar h1{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.divLowerbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+}
+
+.buttonLowerbar{
+    width:13rem;
+    height:5rem;
+    margin-left:1.5rem;
+    background-color: rgb(151, 151, 255);
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1%;
+    line-height: 2rem;
+}
+
+.navButtonLowerbar{
+    text-decoration: none;
+}

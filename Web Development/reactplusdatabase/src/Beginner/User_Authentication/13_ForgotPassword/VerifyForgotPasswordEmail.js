@@ -5,27 +5,28 @@ import axios from 'axios';
 const VerifyForgotPasswordEmail = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const token = searchParams.get('token');
-  console.log(token)
+  const resetToken = searchParams.get('resetToken');
+  console.log(resetToken)
   const navigate = useNavigate();
   useEffect(() => {
-    async function verifyEmail(token) {
+    async function verifyEmail(resetToken) {
       try {
         console.log('i am inside VerifyForgotPasswordEmail')
-        const response = await axios.get(`/verify-forgot-password-email?token=${token}`);
+        const response = await axios.get(`/verify-forgot-password-email?resetToken=${resetToken}`);
         // Process the response if needed
         console.log('I am out of VerifyForgotPasswordEmail')
         console.log('VerifyForgotPasswordEmail = ', response.data.message);
         // Redirect the user to the PasswordResetPage with the resetToken as a query parameter
-        navigate(`/PasswordResetPage?resetToken=${token}`);
+        navigate(`/PasswordResetPage?resetToken=${resetToken}`);
       } 
       catch (error) {
         // Handle errors
+        console.log('An error has occured in VerifyForgotPasswordEmail')
         console.error(error.response.data);
       }
     }
-    verifyEmail(token);
-  }, [token]);
+    verifyEmail(resetToken);
+  }, [resetToken]);
 
   return (
     <div>

@@ -116,36 +116,31 @@ async function startServer() {
         })  
 
         app.get('/verify-forgot-password-email', async (req, res) => {
-            const verificationToken = req.query.token;
-          
+            const verificationToken = req.query.resetToken;
             try {
-              // Find the user in the database based on the verification token
-              const user = await collection.findOne({ verificationToken: verificationToken });
-          
-            if (!user) {
-                console.log('Invalid verification token from forgot password')
-                // User not found or already verified
-                return res.status(404).send('Invalid verification token');
-            }
-          
-            console.log('entered verify token email for forgot password')
-            // Update the user's status to "verified" in the database
-            await collection.updateOne(
-                { _id: user._id },
-                { $set: { verified: true, resetToken: null, resetTokenExpiresAt: null } }
-            );
-            console.log('exit update email token to true for forgot password')
-            res.status(200).json({ message: 'Email verified successfully for forgot password' });
-          
-            // Redirect the user to a success page or display a success message
-            res.redirect('/LoginPage');
+                // Find the user in the database based on the verification token
+                const user = await collection.findOne({ verificationToken: verificationToken });
+
+                if (!user) {
+                    console.log('Invalid verification token from forgot password')
+                    // User not found or already verified
+                    return res.status(404).send('Invalid verification token');
+                }
+            
+                console.log('entered verify token email for forgot password')
+                // Update the user's status to "verified" in the database
+                await collection.updateOne(
+                    { _id: user._id },
+                    { $set: { verified: true, resetToken: null, resetTokenExpiresAt: null } }
+                );
+                console.log('exit update email token to true for forgot password')
+                res.status(200).json({ message: 'Email verified successfully for forgot password' });
             } 
             catch (error) {
               console.log(error);
               res.status(500).send('Error verifying email');
             }
         });
-          
 
         // For the form inside About.js on the client side
         app.post('/submit-form', async (req, res) => {
@@ -223,7 +218,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                 subject: 'Account Verification',
                 html: `<p>Hello,</p>
                         <p>Enter the new Password by clicking the following link:</p>
-                        <a href="http://localhost:3000/verify-forgot-password-email?token=${resetToken}">Verify Email</a>`,
+                        <a href="http://localhost:3000/verify-forgot-password-email?resetToken=${resetToken}">Verify Email</a>`,
                 };
             
             transporter.sendMail(mailOptions, (error, info) => {
@@ -272,13 +267,13 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
         })
 
         app.post('/Forgot-Password-Form', async(req, res) => {
-            const { resetToken, newPassword, email } = req.body;
+            const { resetToken, password, email } = req.body;
             try{
-                const user = await collection.findOne({ email });
+                const user = await collection.findOne({ verificationToken: resetToken });
                 console.log('Hi i am Forgot-Password-Form')
                 if (!user) {
                     // User not found or the reset token is invalid
-                    console.log('Invalid reset token')
+                    console.log('User with the email not found in Forgot-Password-Form')
                     return res.status(404).send('Invalid reset token');
                 }
 
@@ -288,7 +283,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                     console.log('Reset token has expired')
                     return res.status(400).send('Reset token has expired');
                 }
-                newPassword = await bcrypt.hash(password, 10); 
+                const newPassword = await bcrypt.hash(password, 10); 
                 await collection.updateOne(
                     { _id: user._id },
                     {
@@ -299,7 +294,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                       }
                     }
                 );
-                    console.log('Password reset successfully')
+                console.log('Password reset successfully')
                 // Redirect the user to the login page or send a success response
                 res.sendStatus(200);
             }

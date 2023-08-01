@@ -1,0 +1,22 @@
+body{
+    background-color:  rgb(9, 5, 49);
+}
+
+.imgEnglish{
+    width: 15.7rem;
+    height: 15.7rem;
+    margin-left: 2rem;
+    margin-top: 2rem;
+}
+
+.divchildEnglish{
+    display: flex;
+    gap:2.5rem;
+}
+
+.divchildEnglish p{
+    margin: 0.7rem;
+    padding: 3rem;
+    font-size: 1.8rem;
+    line-height: 1.6;
+}
