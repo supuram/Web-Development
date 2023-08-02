@@ -5,22 +5,8 @@
 }
 
 .iconTopbar{
-    width: 4.4rem;
-    height: 5rem;
+    width: 2.4rem;
+    height: 2rem;
     padding: 1.2rem;
     margin-left: 0.8rem;
-}
-
-.ulTopbar{
-    list-style-type: none;
-    display: flex;
-    gap:12.5rem;
-    font-size: 2rem;
-    font-family: 'Ubuntu', sans-serif;
-    font-weight: bold;
-    padding: 2rem;
-}
-
-.ulTopbar li .navLink{
-    text-decoration: none;
 }

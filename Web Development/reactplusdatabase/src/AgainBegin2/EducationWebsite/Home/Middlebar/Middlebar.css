@@ -1,47 +1,99 @@
-.imgMiddlebar{
-    width:16.25rem;
-    height: 16.25rem;
-    padding: 1.25rem;
-    margin-left: 0.8rem;
+body{
+    overflow-x: hidden;
 }
 
-.divMiddlebar{
-    background: linear-gradient(to right, rgb(176, 134, 244, 0.5), rgb(204, 255, 121, 0.8));
-    height: 31.25rem;
+.divFather1Middlebar{
+    margin-top: 2rem;
 }
 
-.childdivMiddlebar{
-    display: flex;
+.div1Middlebar{
+    background-image: url('./../../images/student.png');
+    width: 100vw;
+    height:100vh;
+    z-index: 1;
+    opacity: 0.2;
+    background-size: cover;
+}
+.h1div2Middlebar{
+    position: relative;
+    top:-25rem;
+    left:15rem;
+}
+.pdiv2Middlebar{
+    position: relative;
+    top:-20rem;
+    left:20rem;
+    color:yellow;
+}
+/* ---------------------------------------------------------------------------------------------------- */
+.divFather2Middlebar{
+    margin-top: -3.4rem;
 }
 
-.childdivchilddivMiddlebar{
-    display: flex;
-    flex-direction: column;
-    margin-left: 2.5rem;
+.div3Middlebar{
+    background-image: url('./../../images/student1.png');
+    width: 100vw;
+    height:100vh;
+    z-index: 1;
+    opacity: 0.2;
+    background-size: cover;
+}
+.h1div4Middlebar{
+    position: relative;
+    top: -25rem;
+    left:15rem;
+}
+.pdiv4Middlebar{
+    position: relative;
+    top: -20rem;
+    left:20rem;
+    color:yellow;
+}
+/* ---------------------------------------------------------------------------------------------------- */
+.divFather3Middlebar{
+    margin-top: -3.4rem;
 }
 
-.childdivchilddivMiddlebar h2{
-    font-size: 3.5rem;
-    padding-bottom: 2rem;
+.div5Middlebar{
+    background-image: url('./../../images/student2.png');
+    width: 100vw;
+    height:100vh;
+    z-index: 1;
+    opacity: 0.2;
+    background-size: cover;
+}
+.h1div6Middlebar{
+    position: relative;
+    top: -25rem;
+    left:15rem;
+}
+.pdiv6Middlebar{
+    position: relative;
+    top: -20rem;
+    left:20rem;
+    color:yellow;
+}
+/* ---------------------------------------------------------------------------------------------------- */
+.divFather4Middlebar{
+    margin-top: -3.4rem;
 }
 
-.childdivchilddivMiddlebar p{
-    font-size: 2rem;
-    margin-right: 3.1rem;
-    font-family: 'Ubuntu', sans-serif;
+.div7Middlebar{
+    background-image: url('./../../images/student3.png');
+    width: 100vw;
+    height:100vh;
+    z-index: 1;
+    opacity: 0.2;
+    background-size: cover;
 }
-
-.buttonMiddlebar1{
-    width:24rem;
-    height:9rem;
-    border-radius: 1.2rem;
-    margin-left:29rem;
-    background-color: rgb(151, 151, 255);
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-top: 1rem;
+.h1div8Middlebar{
+    position: relative;
+    top: -25rem;
+    left:15rem;
 }
-
-.buttonMiddlebar1 .navButton{
-    text-decoration: none;
+.pdiv8Middlebar{
+    position: relative;
+    top: -20rem;
+    left:20rem;
+    color:yellow;
 }
