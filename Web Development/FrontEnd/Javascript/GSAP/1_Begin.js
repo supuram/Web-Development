@@ -1,0 +1,1 @@
+gsap.to('.firsth1', {duration: 2, x: 300, backgroundColor: 'red', borderRadius: '20%', border: '1px solid white'})  // .firsth1 will move 300px to the right for 2s
