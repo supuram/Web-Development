@@ -7,8 +7,8 @@ const VerifyEmailPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get('token');
   console.log(token)
+
   useEffect(() => {
-    // let isMounted = true;
     if(token){
       async function verifyEmail(token) {
         try {
@@ -25,14 +25,6 @@ const VerifyEmailPage = () => {
       }
       verifyEmail(token);
     }
-
-    // if (token && isMounted) {
-    //   isMounted = false; // Set the flag to false to prevent further calls
-    // }
-  
-    // return () => {
-    //   isMounted = false; // Set the flag to false on unmount to prevent any pending calls
-    // };
   }, [token]);
 
   return (

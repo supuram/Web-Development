@@ -39,7 +39,8 @@ const Home = () => {
           .catch((error) => {
             console.error("Error getting current user's username: ", error);
           });
-      } else {
+      } 
+      else {
         // User is signed out
         setCurrentUsername("");
       }

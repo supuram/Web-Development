@@ -46,11 +46,12 @@ export default function LeaveApplication({onFormSubmit}){
         <div>
             <form onSubmit={handleSubmit} style={{display:'flex', flexDirection:'column'}}>
                 <label>Addressed To</label>
+    // When the user selects one employeeName from the option, the value of the selected option element is passed to the setEmployeeName function as an argument
                 <select id="employeeName" onChange={e => setEmployeeName(e.target.value)}>
                     <option value="">Select an employee</option>
                     {usernames.map((username1) => (
                         <option key={username1} value={username1}>
-                        {username1}
+                            {username1}
                         </option>
                     ))}
                 </select>
@@ -147,7 +148,6 @@ processing, such as saving the data to the Firestore database.
 Here's how the callback prop is used in the code:
 
 In the `App` component:
-```jsx
 // ...
 const handleFormSubmit = (data) => {
   db.collection("leaveRequests").add(data);
@@ -160,7 +160,6 @@ return (
 );
 
 In the `LeaveApplication` component:
-```jsx
 // ...
 const LeaveApplication = ({ onFormSubmit }) => {
   // ...
@@ -186,4 +185,13 @@ pass the form data (`formData`) back to the `App` component.
 The use of callback props allows for flexible communication between components in React, enabling parent 
 components to respond to events or data changes triggered by their child components. This pattern is commonly 
 used to manage state and data flow in React applications.
+
+*! Q)So when the user selects one employeeName from the option, is it stored in setEmployeeName ?
+*? Ans)Yes, when the user selects an employee name from the drop-down list, the value of the selected `option` element is passed to the `setEmployeeName` function as an argument. This function is called a "state updater" function, and it is used to update the value of the `employeeName` state variable. The new value of the `employeeName` state variable will be the value of the selected `option` element, which is the username of the selected employee.
+
+*! Q)But how does the code understands that it has to pass the value of the selected option elements to the setEmployeeName ?
+*? Ans)The code understands that it has to pass the value of the selected `option` element to the `setEmployeeName` function because of the `onChange` attribute on the `select` element. The `onChange` attribute specifies a function to be called when the value of the `select` element changes. In this case, the function is defined as an arrow function that takes an event object as an argument and calls the `setEmployeeName` function, passing in the value of the event's target (which is the `select` element) as an argument.
+
+*? When the user selects an employee name from the drop-down list, it triggers a change event on the `select` element. This causes the function specified in the `onChange` attribute to be called, with the event object passed as an argument. The function then accesses the value of the event's target (which is the `select` element) using `e.target.value`, and passes this value to the `setEmployeeName` function as an argument. This updates the value of the `employeeName` state variable to be equal to the value of the selected `option` element. 
+
 */

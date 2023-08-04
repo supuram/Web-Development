@@ -11,6 +11,7 @@ export default function Home(){
             <Topbar />
             <Navbar />
             <Middlebar />
+            <Lowerbar />
         </div>
     )
 }

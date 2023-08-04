@@ -131,7 +131,7 @@ async function startServer() {
                 // Update the user's status to "verified" in the database
                 await collection.updateOne(
                     { _id: user._id },
-                    { $set: { verified: true, resetToken: null, resetTokenExpiresAt: null } }
+                    { $set: { verified: true } }//resetToken: null, resetTokenExpiresAt: null
                 );
                 console.log('exit update email token to true for forgot password')
                 res.status(200).json({ message: 'Email verified successfully for forgot password' });
@@ -257,6 +257,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                     }
                 );
                 console.log('In Forgot-Password successfully updated in Database')
+                //console.log('resetTokenExpiresAt = ', resetTokenExpiresAt, 'Current Date = ', Date.now())
                 forgotPasswordToken(email, resetToken)
                 res.status(200).send({ email });
             }
@@ -276,19 +277,22 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                     console.log('User with the email not found in Forgot-Password-Form')
                     return res.status(404).send('Invalid reset token');
                 }
-
+                console.log('User exists and Current Date = ', Date.now())
                 // Check if the reset token has expired
                 if (user.resetTokenExpiresAt < Date.now()) {
                     // Reset token has expired
                     console.log('Reset token has expired')
                     return res.status(400).send('Reset token has expired');
                 }
+                console.log('Reset Token has not expired, Hurray !!!!!')
                 const newPassword = await bcrypt.hash(password, 10); 
+                console.log('Hashed Password done')
                 await collection.updateOne(
                     { _id: user._id },
                     {
                       $set: {
                         password: newPassword,
+                        resetToken: null,
                         verificationToken: null,
                         resetTokenExpiresAt: null
                       }

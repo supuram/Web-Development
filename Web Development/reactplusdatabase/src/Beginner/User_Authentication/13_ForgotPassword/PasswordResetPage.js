@@ -4,11 +4,6 @@ import Axios from 'axios';
 import EmailContext from './EmailContext.js';
 
 export default function PasswordResetPage() {
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,16 +13,11 @@ export default function PasswordResetPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log('Entered the PasswordResetPage')
         await Axios.post('/Forgot-Password-Form', { resetToken, password: password, email })
         .then(response => {
             if(response.status === 200){
-                document.cookie = `authToken = ${response.data.token}; path=/`
-                navigate('/LoginPage');
-                Axios.get('/protected-route', {
-                  headers: {
-                      Authorization: `Bearer ${getCookie('authToken')}`
-                  }
-              })
+              navigate('/LoginPage');
             }
         })
         .catch(err => console.log(err))

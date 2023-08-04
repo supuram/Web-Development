@@ -5,16 +5,16 @@
 
 .divLowerbar{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     gap: 1rem;
 }
 
 .buttonLowerbar{
-    width:13rem;
-    height:5rem;
     margin-left:1.5rem;
     background-color: rgb(151, 151, 255);
+    border:1px solid rgb(151, 151, 255);
+    border-radius: 12px;
     font-size: 2rem;
     font-weight: bold;
     margin-top: 1%;
@@ -23,4 +23,15 @@
 
 .navButtonLowerbar{
     text-decoration: none;
+}
+
+.divLowerbarHead{
+    font-size: 3rem;
+    margin:2rem;
+    color: rgb(242, 255, 0);
+}
+
+.divLowerbarul{
+    color:rgb(255, 170, 52);
+    font-size: 1.5rem;
 }
