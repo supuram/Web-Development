@@ -35,3 +35,9 @@
     color:rgb(255, 170, 52);
     font-size: 1.5rem;
 }
+
+.imgLowerbar{
+    margin-left: 1.45rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
