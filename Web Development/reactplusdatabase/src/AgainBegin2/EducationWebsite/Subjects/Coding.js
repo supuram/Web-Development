@@ -3,6 +3,14 @@ import Navbar from "../Home/Button/Navbar.js";
 import './Coding.css'
 import Topbar from "../Home/Topbar/Topbar.js"
 import { useNavigate } from 'react-router-dom';
+import code1 from './../images/4.svg'
+import code2 from './../images/Coding/2.svg'
+import code3 from './../images/Coding/3.svg'
+import code4 from './../images/Coding/4.svg'
+import code5 from './../images/Coding/5.svg'
+import code6 from './../images/Coding/6.svg'
+import code7 from './../images/Coding/7.svg'
+import code8 from './../images/Coding/8.svg'
 
 export default function Coding(){
     const navigate = useNavigate();
@@ -18,7 +26,7 @@ export default function Coding(){
 
 
 
-
+{/*
             <div className="divContainerCoding">
                 <div className="divContainerCodingagain" onClick={() => handleButtonClick('/coding/webdev')}>
                     <div className="childdivContainerCoding1">
@@ -60,6 +68,15 @@ export default function Coding(){
                     </div>
                 </div>
             </div>
+            */}
+            <img src={code1} alt='' className="imgCoding"></img>
+            <img src={code2} alt='' className="imgCoding"></img>
+            <img src={code3} alt='' className="imgCoding"></img>
+            <img src={code4} alt='' className="imgCoding"></img>
+            <img src={code5} alt='' className="imgCoding"></img>
+            <img src={code6} alt='' className="imgCoding"></img>
+            <img src={code7} alt='' className="imgCoding"></img>
+            <img src={code8} alt='' className="imgCoding"></img>
         </div>
     )
 }

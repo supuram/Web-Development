@@ -1,0 +1,19 @@
+.nav-link {
+    text-decoration: none;
+    color: rgb(255, 255, 255); 
+    font-size: 2.5rem;
+    padding: 1.2rem;
+    font-weight: bold; 
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+  
+.nav-link:hover {
+    color: rgb(72, 255, 0); 
+    background-color: rgb(147, 107, 241);
+}
+.active {
+    color: red;
+    background-color: greenyellow;
+    font-weight: bold; 
+}
+  

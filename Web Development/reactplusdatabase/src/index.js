@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 //import App from './Beginner/User_Authentication/13_ForgotPassword/App.js';
-import App from './AgainBegin2/EducationWebsite/App.js'
+import App from './AgainBegin2/Education_New/App.js'
 import reportWebVitals from './reportWebVitals.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

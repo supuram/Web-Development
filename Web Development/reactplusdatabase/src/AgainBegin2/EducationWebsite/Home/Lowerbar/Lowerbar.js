@@ -9,7 +9,6 @@ import st5 from './../../images/Lowerbar/5.svg'
 import st6 from './../../images/Lowerbar/6.svg'
 import st7 from './../../images/Lowerbar/7.svg'
 import st8 from './../../images/Lowerbar/8.svg'
-import st9 from './../../images/1.svg'
 
 export default function Lowerbar(){
     const navigate = useNavigate();
@@ -31,7 +30,7 @@ export default function Lowerbar(){
                 <img src={st7} alt='' onClick={() => handleButtonClick('/gre')}  className='imgLowerbar'></img>
                 <img src={st8} alt='' onClick={() => handleButtonClick('/foundation')} className='imgLowerbar'></img>
 
-                <img src={st9} alt='' style={{marginLeft:'1rem', }}></img>
+                
         </div>
     )
 }

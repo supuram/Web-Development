@@ -223,7 +223,7 @@ whether the user clicks outside the `UserProfileDashBoard` component. If the con
 should be hidden (`isVisible` state set to `false`). If the condition evaluates to `false`, it means the 
 click occurred inside the component, and no action is taken as the dashboard is already visible.
 
-*! Q)What is DOM vs DOM node ? ANd what is difference between reference to a react component vs reference 
+*! Q)What is DOM vs DOM node ? And what is difference between reference to a react component vs reference 
 *! to the DOM node of the react component.
 Ans)In the context of web development, the DOM (Document Object Model) and DOM nodes are related concepts:
 

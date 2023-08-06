@@ -66,3 +66,12 @@
     font-size: 1.4rem;
     color: rgb(255, 70, 240);
 }
+
+
+.imgCoding{
+    margin-left: 1.45rem;
+    margin-top: 2rem;
+    height:400px;
+    overflow: hidden;
+    
+}
