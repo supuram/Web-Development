@@ -1,0 +1,11 @@
+.divUserProfileDashBoard{
+    background-color: rgb(155, 155, 250);
+    width: 300px;
+    height: 600px;
+    position: absolute;
+    top:0px;
+    right:0px;
+    z-index: 1;
+    display: block;
+    transition: right 2s ease; 
+}
