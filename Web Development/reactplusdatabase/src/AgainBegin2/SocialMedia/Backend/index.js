@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 import session from 'express-session'
 import crypto from 'crypto'
 import nodemailer from 'nodemailer'
+import multer from 'multer'
 import a from './env.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -41,6 +42,26 @@ async function startServer() {
             resave: false,
             saveUninitialized: false
         }));
+
+        const storage = multer.diskStorage({
+            destination: (req, file, cb) => {
+                cb(null, './../uploads');
+            },
+            filename: (req, file, cb) => {
+                cb(null, file.originalname);
+            }
+        });
+        const upload = multer({ storage: storage });
+        // Handle image upload
+        app.post('/upload', upload.single('image'), (req, res) => {
+            console.log('Post upload entry')
+            if (!req.file) {
+                return res.status(400).send('No image uploaded.');
+            }
+            console.log('Image uploaded = ', req.file.filename);
+            res.send('Image uploaded successfully!');
+        });
+        app.use(express.static('public'));
 
         app.get('/logout', (req, res) => {
             req.session.destroy((err) => {

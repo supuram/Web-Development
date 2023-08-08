@@ -4,3 +4,11 @@
 body{
     background-color: black;
 }
+
+.fixeddivHome{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgb(0, 0, 0);
+    height:9rem;
+}

@@ -1,3 +1,36 @@
 body{
     overflow-x: hidden;
 }
+/*  
+.divMiddlebar{
+    background-image: url('./../../images/1.svg');
+}  */
+
+.divMiddlebar{
+    position: relative;
+    display: inline-block;
+}
+.textOverlaydivMiddlebar{
+    position: absolute;
+    top: 8%; /* Adjust as needed */
+    left: 37%; /* Adjust as needed */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.textOverlaydivMiddlebar h1{
+    font-size: 6rem;
+    font-family: monospace;
+}
+
+.animatedHeadingMiddlebar{
+    opacity: 0; 
+    transition: opacity 2s ease-in-out;
+}
+
+.animatedHeadingMiddlebar.active1 {
+    opacity: 1; 
+    transition: opacity 2s ease-in-out;
+}

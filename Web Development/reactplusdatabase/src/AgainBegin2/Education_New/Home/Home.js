@@ -8,10 +8,15 @@ import Navbar from './Button/Navbar.js'
 export default function Home(){
     return(
         <div>
-            <Topbar />
-            <Navbar />
-            <Middlebar />
-            <Lowerbar />
+            <div className="fixeddivHome">
+                <Topbar />
+                <Navbar />
+            </div>
+            <div className="divHome"> 
+                <Middlebar />
+                <Lowerbar />
+            </div>
+
         </div>
     )
 }

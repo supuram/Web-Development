@@ -18,14 +18,22 @@
     background-color: rgb(22, 0, 61);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+
+.divchildLowerbar:hover{
+    cursor: pointer;
+}
 /* ----------------------------------------------------------------------------------------------------- */
 .divchildLowerbarh1{
-    color: rgb(255, 255, 255);
+    color: rgb(255, 167, 167);
     font-size: 3rem;
     margin-left: 1.7rem;
 }
 
 .divchildLowerbarul{
-    color: rgb(249, 238, 123);
+    color: rgb(243, 155, 255);
     font-size: 1.5rem;
+}
+
+.lidivchildLowerbarul{
+    margin-bottom: 1rem;
 }
