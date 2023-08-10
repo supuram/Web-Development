@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { MongoClient } from 'mongodb'
+import { MongoClient, Binary } from 'mongodb'
 import uri from './first.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -31,6 +31,18 @@ async function startServer() {
         await client.connect()
         const db = client.db('store')
         const collection = db.collection('user_registration_information')
+        /*const upload = multer({
+            storage: multer.memoryStorage(),
+            fileFilter: (req, file, cb) => {
+                if (file.mimetype === 'image/png') {
+                    // Accept .png images
+                    cb(null, true);
+                } else {
+                    // Reject all other file types
+                    cb(null, false);
+                }
+            },
+        }); */
 
         app.get('/', (req, res) => {
             const data = { showHome: true }
@@ -42,22 +54,45 @@ async function startServer() {
             resave: false,
             saveUninitialized: false
         }));
-
-        const storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                cb(null, './../uploads');
-            },
-            filename: (req, file, cb) => {
-                cb(null, file.originalname);
-            }
-        });
-        const upload = multer({ storage: storage });
+        
+        const upload = multer({ storage: multer.memoryStorage() });
         // Handle image upload
-        app.post('/upload', upload.single('image'), (req, res) => {
+        app.post('/upload', upload.single('image'), async(req, res) => {
             console.log('Post upload entry')
             if (!req.file) {
-                return res.status(400).send('No image uploaded.');
+                console.log('No image uploaded')
+                return res.status(400).send('No image uploaded');
             }
+            console.log('Image file is found')
+            const authHeader = req.headers.authorization
+            const token = authHeader && authHeader.split(' ')[1]
+            console.log('Entering check token')
+            if (!token) {
+                // No JWT provided
+                console.log('Unauthorized')
+                res.status(401).send('Unauthorized')
+                return
+            }
+            let userEmail;
+            console.log('After userEmail')
+            try {
+                // Verify JWT
+                const decoded = jwt.verify(token, jwtSecret)
+                userEmail = decoded.email
+                console.log('Token verified')
+            } 
+            catch (error) {
+                // Invalid JWT
+                console.log('Forbidden')
+                res.status(403).send('Forbidden')
+            }
+            const imageBuffer = Buffer.from(req.file.buffer);
+            const imageBinary = new Binary(imageBuffer);
+            await collection.updateOne(
+                { email: userEmail },
+                { $set: { filename: req.file.originalname, image: imageBinary } }
+            );
+            
             console.log('Image uploaded = ', req.file.filename);
             res.send('Image uploaded successfully!');
         });

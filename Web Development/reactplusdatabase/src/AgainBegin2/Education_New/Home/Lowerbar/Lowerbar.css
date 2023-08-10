@@ -37,3 +37,15 @@
 .lidivchildLowerbarul{
     margin-bottom: 1rem;
 }
+
+@media (max-width:768px){
+    .divLowerbar{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .divchildLowerbar{
+        width:90%;
+        margin-bottom: 1rem;
+    }
+}

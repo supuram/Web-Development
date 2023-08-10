@@ -12,3 +12,19 @@
 body{
     background-color: black;
 }
+.divchildTopbar{
+    width:5rem;
+    height:3rem;
+    background-color: red;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    border-radius: 10px;
+    position: absolute;
+    left:90%;
+    top:10%;
+    cursor: pointer;
+}
+.spandivchildTopbar{
+    position: relative;
+    top:13px;
+    left:10px;
+}

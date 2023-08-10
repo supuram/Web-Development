@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
 import Register_Button from "./Register_Button.js";
 import ForgotPasswordButton from './ForgotPasswordButton.js'
+import { setAuthToken } from "./AuthTokenExport.js";
 
 export default function Login_Page(){
     function getCookie(name) {
@@ -19,6 +20,7 @@ export default function Login_Page(){
         Axios.post('/Login-Page-Form', {email, password})
         .then(response => {
             if(response.data.token){
+                setAuthToken(response.data.token)
                 document.cookie = `authToken = ${response.data.token}; path=/` /* The path attribute 
 specifies the URL path for which the cookie should be sent, not the URL to which the user should be 
 redirected */

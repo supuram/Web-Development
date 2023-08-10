@@ -1,20 +1,56 @@
 import React from "react";
-import scientist1 from './../images/scientist1.png'
 import './Science.css'
-import Button from './../Home/Button.js'
 import Navbar from "../Home/Button/Navbar.js";
 import Topbar from "../Home/Topbar/Topbar.js";
+import './../Home/Home.css'
+import { useNavigate } from 'react-router-dom';
 
 export default function Science(){
+    const navigate = useNavigate();
+    const handleButtonClick = (path) => {
+        navigate(path)
+    };
     return(
         <div className="divScience">
-            <Topbar />
-            <Navbar />
-            <div className="divchildScience">
-                <img src={scientist1} alt='' className="imgScience"></img>   
-                <p>In today's world, the significance of learning science online cannot be overstated. Online education offers unparalleled accessibility, enabling learners to explore diverse scientific disciplines conveniently. It fosters curiosity, critical thinking, and problem-solving skills, nurturing the next generation of scientists. With vast resources and interactive tools, online science education empowers individuals to contribute meaningfully to scientific advancements and address global challenges.</p>     
+            <div className="fixeddivHome">
+                <Topbar />
+                <Navbar />
             </div>
-            <Button />
+            <div className="divContainerScience">
+                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')}>
+                    <div className="childdivContainerScience">
+                        <h2 className="h2childdivContainerScience">
+                            <span className="span1childdivContainerScience">PHYSICS</span>
+                        </h2>
+                        <p className="p1childdivContainerScience">Ace your school exams with our experienced tutors and carefully curated syllabus</p>
+                        <p className="p2childdivContainerScience">Learn Physics with endless joy and a unique teaching method</p>
+                    </div>
+                </div>
+
+
+
+                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')}>
+                    <div className="childdivContainerScience">
+                        <h2 className="h2childdivContainerScience">
+                            <span className="span1childdivContainerScience">CHEMISTRY</span>
+                        </h2>
+                        <p className="p1childdivContainerScience">Ace your school exams with our experienced tutors and carefully curated syllabus</p>
+                        <p className="p2childdivContainerScience">Learn Chemistry with endless joy and a unique teaching method</p>
+                    </div>
+                </div>
+
+
+
+                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')}>
+                    <div className="childdivContainerScience">
+                        <h2 className="h2childdivContainerScience">
+                            <span className="span1childdivContainerScience">BIOLOGY</span>
+                        </h2>
+                        <p className="p1childdivContainerScience">Ace your school exams with our experienced tutors and carefully curated syllabus</p>
+                        <p className="p2childdivContainerScience">Learn Biology with endless joy and a unique teaching method</p>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

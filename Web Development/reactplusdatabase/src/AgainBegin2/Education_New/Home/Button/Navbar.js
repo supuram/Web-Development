@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from './Button.js';
 import { useLocation } from 'react-router-dom';
 import './Navbar.css'
 
 function Navbar() {
     const location = useLocation();
-    const [activeButton, setActiveButton] = useState(location.pathname);
 
     return (
         <div className='divNavbar'>

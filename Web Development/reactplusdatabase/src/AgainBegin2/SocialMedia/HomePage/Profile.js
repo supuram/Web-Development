@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { getAuthToken } from "../Frontend/AuthTokenExport.js";
+import Axios from 'axios'
 
 export default function Profile() {
     const [uploadedImage, setUploadedImage] = useState(null);
@@ -8,18 +10,20 @@ export default function Profile() {
         console.log('Profile entry in FormData()')
         const formData = new FormData();
         formData.append("image", event.target.files[0]);
+        const authToken = getAuthToken()
         console.log('Profile exit in FormData()')
-        const response = await fetch("/upload", {
-            method: "POST",
-            body: formData,
-        });
-        console.log('Profile exit in response fetch')
-        if (response.ok) {
+        await Axios.post('/upload', formData, {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+            },
+        })
+        .then(response => {
             console.log('Inside is response is ok')
-            const imageUrl = await response.text();
+            const imageUrl = response.data;
             setUploadedImage(imageUrl);
-        }
-        console.log('Response is OK')
+        })
+        .catch(err => console.log(err))
+        console.log('Profile exit in response Axios')        
     };
 
     return (

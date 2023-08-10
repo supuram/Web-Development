@@ -1,23 +1,24 @@
 import React from "react";
 import './Contact.css'
-import smartphone from './../images/smartphone.png'
+import './../Home/Home.css'
+import Topbar from './../Home/Topbar/Topbar.js'
+import Navbar from './../Home/Button/Navbar.js'
 
 export default function Contact(){
     return(
-        <div className="divContactus">
-            <h1 className="h1divContactus">Contact Us to BOOK TRIAL</h1>
-            <div className="divchildContactus">
-                <div className="imgandpindivContactus">
-                    <img src={smartphone} alt='' className="imgContactus"></img>
-                    <p>7002561074</p>
+        <div>
+            <div className="fixeddivHome">
+                <Topbar />
+                <Navbar />
+            </div>
+            <div className="divContactus">
+                <h3 className="h3divContactus">Call Us - 7002561074 , 8250192710 , 9101043181</h3>
+                <div className="divchildContactus">
+                    <h2>Teachers available all the time</h2>
+                    <h2>Dedicated teachers with carefully curated curriculum</h2>
+                    <h2>Awesone Teacher-Student relation</h2>
+                    <h2>Great understanding of even difficult concept</h2>
                 </div>
-                <div className="imgandpindivContactus">
-                    <img src={smartphone} alt='' className="imgContactus"></img>
-                    <p>8250192710</p>
-                </div>
-                <h1 className="h1Contactus">Open 24 X 7</h1>
-                <h1 className="h1Contactus">Best Service among all Online Platforms</h1>
-                <h1 className="h1Contactus">Student Centric Approach With Modern Pedagogical Methodology</h1>
             </div>
         </div>
     )

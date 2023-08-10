@@ -1,13 +1,15 @@
 import React from "react";
 import Navbar from "../Home/Button/Navbar.js";
 import Topbar from "../Home/Topbar/Topbar.js";
+import './../Home/Home.css'
 
 export default function Foundation(){
     return(
         <div>
-            <Topbar />
-            <Navbar />
-            <h1>hi</h1>
+            <div className="fixeddivHome">
+                <Topbar />
+                <Navbar />
+            </div>
         </div>
     )
 }
