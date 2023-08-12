@@ -8,6 +8,8 @@ import session from 'express-session'
 import crypto from 'crypto'
 import nodemailer from 'nodemailer'
 import multer from 'multer'
+import NodeCache from 'node-cache'
+import imageType from 'image-type'
 import a from './env.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -25,6 +27,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 const jwtSecret = process.env.JWT_SECRET
+const imageCache = new NodeCache();
 
 async function startServer() {
     try {
@@ -54,7 +57,19 @@ async function startServer() {
             resave: false,
             saveUninitialized: false
         }));
-        
+/* ------------------------------------------------------------------------------------------------------------ */
+// *! Handles the upload of profile pictures. See Profile.js
+
+        // Function to determine the content type of the image
+        function getImageContentType(imageData) {
+            const type = imageType(imageData);
+            if (type) {
+                return `image/${type.ext}`;
+            }
+            // Default to PNG content type if not recognized
+            return 'image/png';
+        }
+
         const upload = multer({ storage: multer.memoryStorage() });
         // Handle image upload
         app.post('/upload', upload.single('image'), async(req, res) => {
@@ -86,17 +101,63 @@ async function startServer() {
                 console.log('Forbidden')
                 res.status(403).send('Forbidden')
             }
+// Buffer.from is a method provided by Node.js's built-in Buffer module. It is used to create a new Buffer object from various sources, including binary data. 
+// req.file.buffer: The buffer property of the req.file object contains the binary data of the uploaded file. The Binary class is a part of the MongoDB Node.js driver. It is used to represent binary data, such as images, in a format that MongoDB can handle.
             const imageBuffer = Buffer.from(req.file.buffer);
             const imageBinary = new Binary(imageBuffer);
             await collection.updateOne(
                 { email: userEmail },
                 { $set: { filename: req.file.originalname, image: imageBinary } }
             );
-            
-            console.log('Image uploaded = ', req.file.filename);
-            res.send('Image uploaded successfully!');
+            imageCache.set(userEmail, imageBinary);
+
+            console.log('Image uploaded');
         });
-        app.use(express.static('public'));
+        app.use(express.static('public'));   
+        
+        app.get('/user/image', async (req, res) => {
+            // Verify the user's token and extract their email
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized');
+            }
+        
+            let userEmail;
+            try {
+                const decoded = jwt.verify(token, jwtSecret);
+                userEmail = decoded.email;
+            } catch (error) {
+                return res.status(403).send('Forbidden');
+            }
+        
+            // Check if the image is available in the cache
+            const cachedImage = imageCache.get(userEmail);
+        
+            if (cachedImage) {
+                // Serve the cached image
+                const imageContentType = getImageContentType(cachedImage);
+                res.setHeader('Content-Type', imageContentType);
+                res.send(cachedImage);
+            } 
+            else {
+                // Retrieve user's image data from the database
+                const user = await collection.findOne({ email: userEmail });
+        
+                if (!user || !user.image) {
+                    return res.status(404).send('User or image data not found.');
+                }
+        
+                // Store the image in the cache
+                imageCache.set(userEmail, user.image);
+        
+                // Serve the image
+                const imageContentType = getImageContentType(user.image); // Implement this function to determine the content type
+                res.setHeader('Content-Type', imageContentType);
+                res.send(user.image);
+            }
+        });        
+/* ------------------------------------------------------------------------------------------------------------- */
 
         app.get('/logout', (req, res) => {
             req.session.destroy((err) => {
@@ -416,3 +477,55 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
     }
 }
 startServer()
+
+/**
+*! Q)Why do we need to convert req.file.buffer to a buffer object using Buffer.from ?
+*? Ans)In Node.js, the `Buffer` class is a built-in module that provides a way to work with binary data, such as images, audio files, and other raw binary formats. The `Buffer` class allows you to manipulate and interact with binary data directly. It's commonly used for tasks like reading and writing files, working with network protocols, and interacting with databases.                                                                                 When you upload a file in a Node.js application, the data representing that file is typically sent as binary data. This binary data is received and processed by your server. However, the binary data is often represented in a specific format or structure that is not directly compatible with the operations you might want to perform. This is where the `Buffer` class comes into play.                                                                         By converting the binary data received from the uploaded file (`req.file.buffer`) into a `Buffer` object using `Buffer.from()`, you're transforming the raw binary data into a format that you can easily work with in your code. The `Buffer` class provides various methods and utilities for tasks like slicing, copying, encoding, decoding, and more.
+
+For example, by converting the binary data to a `Buffer` object, you can:
+
+1. Easily manipulate the data, such as extracting a portion of the binary stream.
+2. Encode the binary data into various formats (e.g., Base64) if needed.
+3. Store the binary data efficiently in databases, such as MongoDB's `Binary` data type.
+
+*? In the context of your code, you're converting `req.file.buffer` to a `Buffer` object so that you can work with the image data and store it in your MongoDB collection. This conversion allows you to manage the binary data more effectively and utilize the capabilities provided by the `Buffer` class.
+
+*! Q)What is the meaning of res.setHeader('Content-Type', req.file.mimetype);
+*? Ans)The line `res.setHeader('Content-Type', req.file.mimetype);` in your backend code is setting the `Content-Type` header of the HTTP response. This header informs the client (usually a web browser or another HTTP client) about the type of content that is being sent in the response body.
+
+Let's break down the components:
+
+1. `res`: This refers to the response object that you use to send back data to the client.
+
+2. `setHeader()`: This is a method of the response object that allows you to set a custom HTTP header for the response.
+
+3. `'Content-Type'`: This is the name of the HTTP header. It specifies the type of data contained in the response body.
+
+4. `req.file.mimetype`: This is the MIME type of the uploaded file. MIME types are standardized labels used to identify the type of content being transferred, such as text, images, audio, video, etc. The `req.file.mimetype` property holds the MIME type of the uploaded file, as determined by the multer middleware.
+
+In the context of your code, the line `res.setHeader('Content-Type', req.file.mimetype);` is setting the `Content-Type` header of the response to match the MIME type of the uploaded file. This header tells the client how to interpret the response body.
+
+*? For example, if the uploaded file is an image in JPEG format, the `Content-Type` header would be set to `'image/jpeg'`. This helps the client's browser correctly display or handle the received data. It's important for the client to know the correct content type, as it determines how the data is processed or displayed.
+
+*! Q)What is this custom HTTP Header ? What are other types of headers ?
+*? Ans)HTTP headers are additional pieces of information that are sent along with an HTTP request or response. They provide metadata about the request or response and help facilitate communication between the client (usually a web browser) and the server. HTTP headers are used to convey various types of information and instructions related to the request or response.
+
+HTTP headers can be categorized into different types based on their purpose and usage:
+
+1. **General Headers**: These headers apply to both request and response messages. They provide information about the communication, such as the date and connection status.
+   - Examples: `Date`, `Connection`, `Cache-Control`, `Upgrade`, `Via`
+
+2. **Request Headers**: These headers provide information about the client's request, such as the user agent, accepted content types, and more.
+   - Examples: `User-Agent`, `Accept`, `Host`, `Referer`, `Authorization`
+
+3. **Response Headers**: These headers provide information about the server's response, such as the content type, server information, and caching instructions.
+   - Examples: `Content-Type`, `Server`, `Location`, `Cache-Control`
+
+4. **Entity Headers**: These headers provide information about the data being sent in the message body. They include details about the length, type, and encoding of the data.
+   - Examples: `Content-Length`, `Content-Encoding`, `Content-Disposition`, `Content-Language`
+
+5. **Custom Headers**: These headers are defined by applications to convey application-specific information. They are not standardized by the HTTP specification and are used for specific purposes within the context of a particular application.
+   - Example: `X-Requested-With` (commonly used in AJAX requests)
+
+*? In your code, `res.setHeader('Content-Type', req.file.mimetype);` is an example of setting a custom HTTP header. You're defining a custom header named `Content-Type` and setting its value to the MIME type of the uploaded file (`req.file.mimetype`). This custom header informs the client about the type of content being sent in the response.HTTP headers play a crucial role in various aspects of web communication, including caching, security, authentication, content negotiation, and more. Different headers serve different purposes and help ensure smooth and secure interactions between clients and servers.
+ */

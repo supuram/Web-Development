@@ -1,0 +1,42 @@
+.divContainerScience{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap:1rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.divContainerScienceagain{
+    width:24.2rem;
+    height: 20rem;
+    background-color: rgb(17, 15, 43);
+    border-radius: 3%;
+    margin:0;
+    padding:0;
+    overflow: hidden;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    cursor: pointer;
+}
+
+.childdivContainerScience{
+    margin:1rem;
+    color:white;
+}
+.p1childdivContainerScience{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width:768px){
+    .divContainerScience{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .divContainerScienceagain{
+        width:70%;
+        margin-bottom: 1rem;
+    }
+}

@@ -4,10 +4,11 @@
 }
 
 .iconTopbar{
-    width: 2.4rem;
-    height: 2rem;
+    width: 4rem;
+    height: 3.5rem;
     padding: 1.2rem;
     margin-left: 0.8rem;
+    margin-top: -0.7rem;
 }
 body{
     background-color: black;

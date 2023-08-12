@@ -34,3 +34,15 @@ body{
     opacity: 1; 
     transition: opacity 2s ease-in-out;
 }
+
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .divMiddlebar {
+        flex-direction: column; /* Stack items vertically on small screens */
+    }
+    
+    .animatedHeadingMiddlebar {
+        font-size: 1.5rem; /* Adjust font size for smaller screens */
+    }
+}
