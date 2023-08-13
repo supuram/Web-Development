@@ -5,9 +5,31 @@ import Axios from 'axios'
 export default function Profile() {
     const [uploadedImage, setUploadedImage] = useState(null);
 
-    const fetchUserImage = async () => {
+    const handleImageUpload = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append("image", event.target.files[0]);
+        console.log('appended formData')
         const authToken = getAuthToken();
 
+        try {
+            const response = await Axios.post('/upload', formData, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+            console.log('Response received by the frontend from the backend = ', response.data)
+            // Fetch and update the user's image
+            await fetchUserImage();
+        } 
+        catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchUserImage = async () => {
+        const authToken = getAuthToken();
+        console.log('enter fetchUserImage')
         try {
             const response = await Axios.get('/user/image', {
                 headers: {
@@ -15,11 +37,12 @@ export default function Profile() {
                 },
                 responseType: 'arraybuffer', // Important: Ensure binary response
             });
-
+            console.log('came back from server /user/image')
             const imageBase64 = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
             const imageContentType = response.headers['content-type'];
             setUploadedImage(`data:${imageContentType};base64,${imageBase64}`);
-        } catch (error) {
+        } 
+        catch (error) {
             console.log(error);
         }
     };
@@ -27,27 +50,6 @@ export default function Profile() {
     useEffect(() => {
         fetchUserImage();
     }, []);
-
-    const handleImageUpload = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append("image", event.target.files[0]);
-
-        const authToken = getAuthToken();
-
-        try {
-            await Axios.post('/upload', formData, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            });
-
-            // Fetch and update the user's image
-            await fetchUserImage();
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     return (
         <div>
@@ -58,6 +60,34 @@ export default function Profile() {
         </div>
     );
 }
+
+/*import React, { useState, useEffect } from "react";
+import { getAuthToken } from "../Frontend/AuthTokenExport.js";
+import Axios from 'axios'
+
+export default function Profile(){
+    const [image, setImage] = useState('')
+    function convertToBase64(e){
+        console.log(e)
+        var reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0])
+        reader.onload = () => {
+            console.log(reader.result)
+            setImage(reader.result)
+        }
+        reader.onerror = error => {
+            console.log('Error = ', error)
+        }
+    }
+    return(
+        <div className="auth-wrapper">
+            <div className="auth-inner" style={{width:'auto'}}>Lets Upload
+                <input accept="image/*" type="file" onChange={convertToBase64}></input>
+                {image == '' || image == null ? '' : <img width={100} height={100} src={image}></img>}
+            </div>
+        </div>
+    )
+}*/
 
 /**
 *! Q)const imageBlob = new Blob([response.data], { type: response.headers['content-type'] }); What is the meaning of this ?

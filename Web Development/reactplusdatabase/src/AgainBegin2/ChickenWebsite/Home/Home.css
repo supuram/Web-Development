@@ -1,13 +1,4 @@
 *{
     margin:0;
-}
-
-.chicken1{
-    width:700px;
-    height:500px;
-}
-
-.chickenVideo{
-    width:600px;
-    height:400px;
+    overflow-x: hidden;
 }

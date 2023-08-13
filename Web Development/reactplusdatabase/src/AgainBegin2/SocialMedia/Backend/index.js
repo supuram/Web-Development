@@ -62,7 +62,7 @@ async function startServer() {
 
         // Function to determine the content type of the image
         function getImageContentType(imageData) {
-            const type = imageType(imageData);
+            const type = imageType(Buffer.from(imageData));
             if (type) {
                 return `image/${type.ext}`;
             }
@@ -109,14 +109,15 @@ async function startServer() {
                 { email: userEmail },
                 { $set: { filename: req.file.originalname, image: imageBinary } }
             );
-            imageCache.set(userEmail, imageBinary);
-
+            imageCache.set(userEmail, imageBinary); // responsible for storing the image data in an image cache, associating it with the user's email address
             console.log('Image uploaded');
+            return res.status(200).send('Image upload successful');
         });
         app.use(express.static('public'));   
         
         app.get('/user/image', async (req, res) => {
             // Verify the user's token and extract their email
+            console.log('Entered server side /user/image')
             const authHeader = req.headers.authorization;
             const token = authHeader && authHeader.split(' ')[1];
             if (!token) {
@@ -127,7 +128,9 @@ async function startServer() {
             try {
                 const decoded = jwt.verify(token, jwtSecret);
                 userEmail = decoded.email;
-            } catch (error) {
+                console.log('Token Verified')
+            } 
+            catch (error) {
                 return res.status(403).send('Forbidden');
             }
         
@@ -135,28 +138,48 @@ async function startServer() {
             const cachedImage = imageCache.get(userEmail);
         
             if (cachedImage) {
-                // Serve the cached image
-                const imageContentType = getImageContentType(cachedImage);
-                res.setHeader('Content-Type', imageContentType);
-                res.send(cachedImage);
+                try {
+                    console.log('Enter if cachedImage')
+                    const imageContentType = getImageContentType(cachedImage);
+                    res.setHeader('Content-Type', imageContentType);
+                    res.send(cachedImage);
+                } 
+                catch (error) {
+                    console.error('Error serving cached image:', error);
+                    res.status(500).send('Internal Server Error');
+                }
             } 
             else {
-                // Retrieve user's image data from the database
-                const user = await collection.findOne({ email: userEmail });
+                try {
+                    // Retrieve user's image data from the database
+                    const user = await collection.findOne({ email: userEmail });
+                    console.log('Retrieve user image data from the database')
+                    if (!user || !user.image) {
+                        console.log('User or image data not found')
+                        return res.status(404).send('User or image data not found');
+                    }
         
-                if (!user || !user.image) {
-                    return res.status(404).send('User or image data not found.');
+                    // Store the image in the cache
+                    imageCache.set(userEmail, user.image);
+        
+                    // Serve the image
+                    try {
+                        console.log('Serve the image')
+                        const imageContentType = getImageContentType(user.image);
+                        res.setHeader('Content-Type', imageContentType);
+                        res.send(user.image);
+                    } 
+                    catch (error) {
+                        console.error('Error serving retrieved image:', error);
+                        res.status(500).send('Internal Server Error');
+                    }
+                } 
+                catch (error) {
+                    console.error('Error retrieving image from database:', error);
+                    res.status(500).send('Internal Server Error');
                 }
-        
-                // Store the image in the cache
-                imageCache.set(userEmail, user.image);
-        
-                // Serve the image
-                const imageContentType = getImageContentType(user.image); // Implement this function to determine the content type
-                res.setHeader('Content-Type', imageContentType);
-                res.send(user.image);
             }
-        });        
+        });     
 /* ------------------------------------------------------------------------------------------------------------- */
 
         app.get('/logout', (req, res) => {
