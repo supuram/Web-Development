@@ -62,7 +62,7 @@ async function startServer() {
 
         // Function to determine the content type of the image
         function getImageContentType(imageData) {
-            const type = imageType(Buffer.from(imageData));
+            const type = imageType(Buffer.from(imageData));   // imageType library expects a buffer as its argument so imageData is converted to buffer before passing it to imageType
             if (type) {
                 return `image/${type.ext}`;
             }
@@ -109,7 +109,10 @@ async function startServer() {
                 { email: userEmail },
                 { $set: { filename: req.file.originalname, image: imageBinary } }
             );
-            imageCache.set(userEmail, imageBinary); // responsible for storing the image data in an image cache, associating it with the user's email address
+            
+            // Serialize the imageBinary before storing it in the cache
+            const imageBinarySerialized = imageBinary.buffer.toString('base64');
+            imageCache.set(userEmail, imageBinarySerialized);  // responsible for storing the image data in an image cache, associating it with the user's email address
             console.log('Image uploaded');
             return res.status(200).send('Image upload successful');
         });
@@ -134,15 +137,15 @@ async function startServer() {
                 return res.status(403).send('Forbidden');
             }
         
-            // Check if the image is available in the cache
-            const cachedImage = imageCache.get(userEmail);
-        
-            if (cachedImage) {
+            // When retrieving from the cache, deserialize the data
+            const cachedImageSerialized = imageCache.get(userEmail);
+            if (cachedImageSerialized) {
                 try {
                     console.log('Enter if cachedImage')
-                    const imageContentType = getImageContentType(cachedImage);
+                    const cachedImageBinary = new Binary(Buffer.from(cachedImageSerialized, 'base64'));
+                    const imageContentType = getImageContentType(cachedImageBinary);  
                     res.setHeader('Content-Type', imageContentType);
-                    res.send(cachedImage);
+                    res.send(cachedImageBinary.buffer);
                 } 
                 catch (error) {
                     console.error('Error serving cached image:', error);
@@ -158,16 +161,25 @@ async function startServer() {
                         console.log('User or image data not found')
                         return res.status(404).send('User or image data not found');
                     }
-        
-                    // Store the image in the cache
-                    imageCache.set(userEmail, user.image);
+                    const imageBinary = user.image
+                    // Serialize the imageBinary before storing it in the cache
+                    const imageBinarySerialized = imageBinary.buffer.toString('base64');
+                    imageCache.set(userEmail, imageBinarySerialized);
         
                     // Serve the image
                     try {
-                        console.log('Serve the image')
-                        const imageContentType = getImageContentType(user.image);
-                        res.setHeader('Content-Type', imageContentType);
-                        res.send(user.image);
+                        console.log('Serve the image');
+                        const imageSerialized = imageCache.get(userEmail);  // if there is image in the cache it returns true
+                        if (imageSerialized) {
+                            const imageBinary = new Binary(Buffer.from(imageSerialized, 'base64'));
+                            const imageContentType = getImageContentType(imageBinary);
+                            res.setHeader('Content-Type', imageContentType);
+                            res.send(imageBinary.buffer);
+                        } 
+                        else {
+                            // This could happen if there was an issue with caching the image data
+                            res.status(404).send('Image not found in cache');
+                        }
                     } 
                     catch (error) {
                         console.error('Error serving retrieved image:', error);
