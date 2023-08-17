@@ -21,7 +21,7 @@ const UserProfileDashBoard = forwardRef((props, ref) => {
     return (
         <div className="divUserProfileDashBoard" ref={ref} >
             <Link 
-                to="/home/profile"
+                to="/fullprofile"
                 style={{
                     textDecoration:'none',
                     display:'block'

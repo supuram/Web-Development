@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
 import Axios from 'axios'
 
-export default function Profile() {
+export default function ProfileImage() {
     const [uploadedImage, setUploadedImage] = useState(null);
 
     const handleImageUpload = async (event) => {

@@ -11,7 +11,7 @@ import ForgotPassword from './ForgotPassword.js'
 import PasswordResetPage from './PasswordResetPage.js'
 import VerifyForgotPasswordEmail from './VerifyForgotPasswordEmail.js'
 import EmailContext from './EmailContext.js';
-import Profile from "../HomePage/Profile.js";
+import FullProfile from "../HomePage/FullProfile.js";
 
 Axios.defaults.baseURL='http://localhost:5000'
 
@@ -30,7 +30,7 @@ export default function App() {
         <Route path='/ForgotPassword' element={<ForgotPassword/>} />
         <Route path='/PasswordResetPage' element={<PasswordResetPage />} />
         <Route path="/verify-forgot-password-email" element={<VerifyForgotPasswordEmail />} />
-        <Route path='/home/profile' element={<Profile />} />
+        <Route path='/fullprofile' element={<FullProfile />} />
       </Routes>
       </EmailContext.Provider>
     </Router>

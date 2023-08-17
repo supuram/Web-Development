@@ -58,7 +58,7 @@ async function startServer() {
             saveUninitialized: false
         }));
 /* ------------------------------------------------------------------------------------------------------------ */
-// *! Handles the upload of profile pictures. See Profile.js
+// *! Handles the upload of profile pictures. See ProfileImage.js
 
         // Function to determine the content type of the image
         function getImageContentType(imageData) {
