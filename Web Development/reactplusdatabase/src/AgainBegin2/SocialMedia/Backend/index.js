@@ -193,7 +193,84 @@ async function startServer() {
             }
         });     
 /* ------------------------------------------------------------------------------------------------------------- */
+// *! See ProfileForm.js , Here the user inputs his personal information
 
+        app.put('/updateProfile', async(req, res) => {
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized');
+            }
+        
+            let email;
+            try {
+                const decoded = jwt.verify(token, jwtSecret);
+                email = decoded.email;
+                console.log('Token Verified for updateProfile')
+            } 
+            catch (error) {
+                return res.status(403).send('Forbidden');
+            }
+
+            const response = await collection.updateOne(
+                { email: email },
+                { $set: { fullname: req.body.name, dob: req.body.dob, school: req.body.school, college: req.body.college, university: req.body.uni, workplace: req.body.workplace } }
+            );
+            if (response.modifiedCount === 1) {
+                console.log('Profile updated successfully');
+                res.sendStatus(200);
+            } else {
+                console.log('Profile update failed');
+                res.sendStatus(500); // Internal Server Error
+            }
+        })
+
+        app.get('/userProfileData', async(req, res) => {
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized');
+            }
+        
+            let email;
+            try {
+                const decoded = jwt.verify(token, jwtSecret);
+                email = decoded.email;
+                console.log('Token Verified for updateProfile')
+                const user = await collection.findOne({ email: email });
+                if (!user) {
+                    return res.status(404).send('User profile not found');
+                }
+                res.send(user)
+            } 
+            catch (error) {
+                return res.status(403).send('Forbidden');
+            }
+        })
+/* -------------------------------------------------------------------------------------------------------------- */
+// *! See SearchTab.js
+        app.get('/searchprofiles', async(req, res) => {
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized');
+            }
+            const {searchQuery, selectedOption} = req.query
+            try {
+                jwt.verify(token, jwtSecret);
+                console.log('Token Verified for searchprofiles')
+                const users = collection.find({ [selectedOption]: searchQuery });
+                if (!users || users.length === 0) {
+                    return res.status(404).send('User profile not found');
+                }
+                res.send(users)
+            } 
+            catch (error) {
+                return res.status(403).send('Forbidden');
+            }
+        })
+/* -------------------------------------------------------------------------------------------------------------- */
+      
         app.get('/logout', (req, res) => {
             req.session.destroy((err) => {
                 if (err) {

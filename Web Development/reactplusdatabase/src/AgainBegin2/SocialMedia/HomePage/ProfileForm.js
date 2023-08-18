@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAuthToken } from "../Frontend/AuthTokenExport.js";
 import Axios from 'axios';
 
 export default function ProfileForm() {
@@ -13,16 +14,22 @@ export default function ProfileForm() {
     useEffect(() => {
         // Fetch user's profile data and populate form fields
         const fetchProfileData = async () => {
+            const authToken = getAuthToken();
             try {
-                const response = await Axios.get('/userProfileData');
+                const response = await Axios.get('/userProfileData', {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                });
                 const profileData = response.data;
-                setName(profileData.name);
-                setDob(profileData.dob);
-                setSchool(profileData.school);
-                setCollege(profileData.college);
-                setUni(profileData.uni);
-                setWorkplace(profileData.workplace);
-            } catch (error) {
+                setName(profileData.fullname || '');
+                setDob(profileData.dob || '');
+                setSchool(profileData.school || '');
+                setCollege(profileData.college || '');
+                setUni(profileData.university || '');
+                setWorkplace(profileData.workplace || '');
+            } 
+            catch (error) {
                 console.log('Error fetching profile data:', error);
             }
         };
@@ -32,7 +39,7 @@ export default function ProfileForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+        const authToken = getAuthToken();
         try {
             const formData = {
                 name: name,
@@ -45,7 +52,12 @@ export default function ProfileForm() {
             
             if (isEditMode) {
                 // Update existing profile data
-                await Axios.put('/updateProfile', formData);
+                const response = await Axios.put('/updateProfile', formData, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                });
+                console.log('Response received by the frontend from the backend in updateProfile = ', response.data)
             } else {
                 // Create new profile data
                 await Axios.post('/createProfile', formData);
@@ -53,7 +65,8 @@ export default function ProfileForm() {
 
             console.log('Profile data submitted/updated successfully');
             setIsEditMode(false); // Exit edit mode
-        } catch (error) {
+        } 
+        catch (error) {
             console.log('Error submitting/updating profile data:', error);
         }
     }
