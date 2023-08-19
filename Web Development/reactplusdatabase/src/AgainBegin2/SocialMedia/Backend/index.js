@@ -259,7 +259,10 @@ async function startServer() {
             try {
                 jwt.verify(token, jwtSecret);
                 console.log('Token Verified for searchprofiles')
-                const users = collection.find({ [selectedOption]: searchQuery });
+                const usersCursor = collection.find({ [selectedOption]: searchQuery });
+        
+                // Convert the cursor to an array of documents as .find() returns a cursor and not an array of documents
+                const users = await usersCursor.toArray();
                 if (!users || users.length === 0) {
                     return res.status(404).send('User profile not found');
                 }
