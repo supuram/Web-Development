@@ -27,27 +27,6 @@ const UserProfileDashBoard = forwardRef((props, ref) => {
                     display:'block'
                 }}>Profile
             </Link>
-            <Link 
-                to='/home/tabo'
-                style={{
-                    textDecoration:'none',
-                    display:'block'
-                }}>TasksAssignedByOthers
-            </Link>
-            <Link 
-                to='/home/tgto'
-                style={{
-                    textDecoration:'none',
-                    display:'block'
-                }}>TasksGivenToOthers
-            </Link>
-            <Link 
-                to='/home/lrr'
-                style={{
-                    textDecoration:'none',
-                    display:'block'
-                }}>LeaveRequestReceived
-            </Link>
             <Logout_Button onLogout={handleLogout}/>
         </div>
       

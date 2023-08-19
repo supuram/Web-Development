@@ -273,7 +273,13 @@ async function startServer() {
             }
         })
 /* -------------------------------------------------------------------------------------------------------------- */
-      
+// *! For friend request. See SearchTab.js
+        app.post('/friendrequest', async(req, res) => {
+            const profile = req.body
+            await collection.findOne({_id: profile._id})
+        })
+/* -------------------------------------------------------------------------------------------------------------- */
+
         app.get('/logout', (req, res) => {
             req.session.destroy((err) => {
                 if (err) {

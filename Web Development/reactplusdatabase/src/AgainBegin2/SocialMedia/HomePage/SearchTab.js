@@ -21,7 +21,7 @@ export default function SearchTab() {
             });
 
             const responseData = response.data;
-            const resultsContainer = document.getElementById('resultsContainer'); 
+            const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.innerHTML = '';
             responseData.forEach((profile) => {
                 const profileElement = document.createElement('div');
@@ -30,10 +30,13 @@ export default function SearchTab() {
                         <p>School: ${profile.school}</p>
                         <p>College: ${profile.college}</p>
                         <p>University: ${profile.university}</p>                        
-                    </div>`;
-    
+                    </div>
+                    <button class="editButton">Friend Request</button>`;
                 profileElement.innerHTML = htmlContent;
                 resultsContainer.appendChild(profileElement);
+
+                const button = profileElement.querySelector('.editButton');
+                button.addEventListener('click', handleFriendRequest(profile));
             });
             console.log('Came back from server side in /searchprofiles');
         } 
@@ -41,6 +44,17 @@ export default function SearchTab() {
             console.log('Error searching profiles:', error);
         }
     };
+
+    const handleFriendRequest = async(profile) => {
+        try{
+            const response = await Axios.post('/friendrequest', profile, {
+
+            })
+        }
+        catch (error) {
+            console.log('Error friend request:', error);
+        }
+    }
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value); // Update the selected option state
