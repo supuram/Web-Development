@@ -10,11 +10,12 @@ import IITJEE from "./Subjects/IITJEE.js";
 import Neet from "./Subjects/Neet.js";
 import Gre from "./Subjects/Gre.js";
 import Foundation from "./Subjects/Foundation.js";
+import Humanities from "./Subjects/Humanities.js";
+import Engineering from "./Subjects/Engineering.js";
 import WebDev from "./CodingComponents/WebDev.js";
 import ReactTeach from './CodingComponents/ReactTeach.js'
 import Python from "./CodingComponents/Python.js";
 import Javascript from "./CodingComponents/Javascript.js";
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 export default function App(){
@@ -33,6 +34,8 @@ export default function App(){
                     <Route path='/neet' element={<Neet />}></Route>
                     <Route path='/gre' element={<Gre />}></Route>
                     <Route path='/foundation' element={<Foundation />}></Route>
+                    <Route path='/humanities' element={<Humanities />}></Route>
+                    <Route path='/engineering' element={<Engineering />}></Route>
                     <Route path='/coding/webdev' element={<WebDev />}></Route>
                     <Route path='/coding/reactteach' element={<ReactTeach />}></Route>
                     <Route path='/coding/python' element={<Python />}></Route>

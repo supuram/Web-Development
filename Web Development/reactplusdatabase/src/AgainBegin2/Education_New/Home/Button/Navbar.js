@@ -48,10 +48,11 @@ function Navbar() {
                 <Button to="/science" text="Science" active={location.pathname.startsWith('/science')} />
                 <Button to='/maths' text='Maths' active={location.pathname.startsWith('/maths')} />
                 <Button to='/english' text='English' active={location.pathname.startsWith('/english')} />
-                <Button to='/iitjee' text='IIT-JEE' active={location.pathname.startsWith('/iitjee')} />
+                <Button to='/iitjee' text='IITJEE' active={location.pathname.startsWith('/iitjee')} />
                 <Button to='/neet' text='NEET' active={location.pathname.startsWith('/neet')} />
                 <Button to='/gre' text='GRE' active={location.pathname.startsWith('/gre')} />
                 <Button to='/foundation' text='Foundation' active={location.pathname.startsWith('/foundation')} />
+                <Button to='/humanities' text='Humanities' active={location.pathname.startsWith('/humanities')} />
             </div>
         </div>
     );

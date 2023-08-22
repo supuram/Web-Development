@@ -17,7 +17,7 @@ export default function Science(){
                 <Navbar />
             </div>
             <div className="divContainerScience">
-                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(174, 0, 148)'}}>
                     <div className="childdivContainerScience">
                         <h2 className="h2childdivContainerScience">
                             <span className="span1childdivContainerScience">PHYSICS</span>
@@ -29,7 +29,7 @@ export default function Science(){
 
 
 
-                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(14, 0, 148)'}}>
                     <div className="childdivContainerScience">
                         <h2 className="h2childdivContainerScience">
                             <span className="span1childdivContainerScience">CHEMISTRY</span>
@@ -41,7 +41,7 @@ export default function Science(){
 
 
 
-                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerScienceagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(174, 100, 18)'}}>
                     <div className="childdivContainerScience">
                         <h2 className="h2childdivContainerScience">
                             <span className="span1childdivContainerScience">BIOLOGY</span>

@@ -16,7 +16,7 @@
     margin:0;
     padding:0;
     overflow: hidden;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     cursor: pointer;
 }
 
@@ -40,12 +40,12 @@
 .p1childdivContainerCoding1{
     margin:1.5rem;
     font-size: 1.4rem;
-    color: rgb(160, 160, 160);
+    color: rgb(255, 255, 255);
 }
 .p2childdivContainerCoding1{
     margin: 1.5rem;
     font-size: 1.4rem;
-    color: rgb(160, 160, 160);
+    color: rgb(255, 255, 255);
 }
 /* ----------------------------------------------------------------------------------------------------- */
 @media (max-width:768px){
@@ -55,7 +55,7 @@
         align-items: center;
     }
     .divContainerCodingagain{
-        width:70%;
+        width:100%;
         margin-bottom: 1rem;
     }
 }

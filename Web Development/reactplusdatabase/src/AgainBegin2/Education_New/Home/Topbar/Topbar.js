@@ -14,7 +14,7 @@ export default function Topbar(){
             <div className="divchildTopbar" style={{left:'80%'}} onClick={() => handleClick('/')}>
                 <span className="spandivchildTopbar" style={{left:'21.5px', }}>HOME</span>
             </div>
-            <div className="divchildTopbar" onClick={() => handleClick('/contactus')}><span                 className="spandivchildTopbar">CONTACT</span>
+            <div className="divchildTopbar" onClick={() => handleClick('/contactus')}><span className="spandivchildTopbar">CONTACT</span>
             </div>
         </div>
     )

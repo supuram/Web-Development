@@ -14,11 +14,11 @@ export default function Middlebar(){
       }, []);
     return(
         <div className="divMiddlebar">
-            <img src={student1} alt='' style={{width:'79rem', marginTop:'1rem'}}></img>
+            <img src={student1} alt='' className="imgMiddlebar"></img>
             <div className="textOverlaydivMiddlebar">
-                <h1 className="animatedHeadingMiddlebar">BUILD</h1>
-                <h1 className="animatedHeadingMiddlebar">CREATE</h1>
-                <h1 className="animatedHeadingMiddlebar">THINK</h1>
+                <h4 className="animatedHeadingMiddlebar">BUILD</h4>
+                <h4 className="animatedHeadingMiddlebar">CREATE</h4>
+                <h4 className="animatedHeadingMiddlebar">THINK</h4>
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ export default function Coding(){
             </div>
 
             <div className="divContainerCoding">
-                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(78, 92, 255)'}}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
                             <span className="span1childdivContainerCoding1">FULL</span> <span>STACK</span> <span className="span2childdivContainerCoding1">DEVELOPMENT</span>
@@ -33,7 +33,7 @@ export default function Coding(){
 
 
 
-                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(13, 98, 3)'}}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
                             <span className="span1childdivContainerCoding1">REACT</span><span>FULL</span><span className="span2childdivContainerCoding1">COURSE</span>
@@ -46,7 +46,7 @@ export default function Coding(){
 
 
 
-                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(184, 64, 4)'}}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
                             <span className="span1childdivContainerCoding1">PYTHON</span><span>FULL</span><span className="span2childdivContainerCoding1">COURSE</span>
@@ -58,7 +58,7 @@ export default function Coding(){
 
 
                 
-                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(102, 5, 110)'}}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
                             <span className="span1childdivContainerCoding1">JAVASCRIPT</span><span>FULL</span><span className="span2childdivContainerCoding1">COURSE</span>
@@ -70,10 +70,10 @@ export default function Coding(){
 
 
 
-                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(228, 209, 0)'}}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
-                            <span className="span1childdivContainerCoding1">JAVA</span><span>FULL</span><span className="span2childdivContainerCoding1" style={{marginLeft:'1rem'}}>COURSE</span>
+                            <span className="span1childdivContainerCoding1">JAVA</span><span>FULL</span><span className="span2childdivContainerCoding1">COURSE</span>
                         </h2>
                         <p className="p1childdivContainerCoding1">Learn Java by building awesome projects</p>
                         <p className="p2childdivContainerCoding1">With our experienced tutors delve into the world of java and learn DSA</p>
@@ -85,7 +85,7 @@ export default function Coding(){
                 <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
-                            <span className="span1childdivContainerCoding1">C++</span><span>FULL</span><span className="span2childdivContainerCoding1" style={{marginLeft:'1rem'}}>COURSE</span>
+                            <span className="span1childdivContainerCoding1">C++</span><span>FULL</span><span className="span2childdivContainerCoding1">COURSE</span>
                         </h2>
                         <p className="p1childdivContainerCoding1">Learn DSA using C++</p>
                         <p className="p2childdivContainerCoding1">With our experienced tutors delve into the world of C++</p>
@@ -94,7 +94,7 @@ export default function Coding(){
 
 
 
-                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(0, 211, 194)'}}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
                             <span className="span1childdivContainerCoding1">REACT</span><span>FULL</span><span className="span2childdivContainerCoding1">COURSE</span>
@@ -106,10 +106,10 @@ export default function Coding(){
 
 
 
-                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')}>
+                <div className="divContainerCodingagain" onClick={() => handleButtonClick('/contactus')} style={{backgroundColor:'rgb(174, 0, 148)'}}>
                     <div className="childdivContainerCoding1">
                         <h2 className="h2childdivContainerCoding1">
-                            <span className="span1childdivContainerCoding1">MACHINE</span><span>LEARNING</span><span className="span2childdivContainerCoding1">COURSE</span>
+                            <span className="span1childdivContainerCoding1">ML</span><span className="span2childdivContainerCoding1">COURSE</span>
                         </h2>
                         <p className="p1childdivContainerCoding1">Learn ML, Tensorflow, Deep Learning and many more</p>
                         <p className="p2childdivContainerCoding1">With our experienced tutors delve into the world of Machine Learning by building projects</p>

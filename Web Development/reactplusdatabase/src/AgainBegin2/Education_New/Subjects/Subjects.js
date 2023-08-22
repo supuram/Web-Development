@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './Subjects.css'
-import squirrel from './../images/squirrel.png'
+import tutor from './../images/tutor.jpg'
 import Coding from "./Coding.js";
 import English from "./English.js";
 import Maths from "./Maths.js";
@@ -107,7 +107,7 @@ export default function Subjects(){
 
     return(
         <div className="divCoding">
-            <img src={squirrel} alt='' className="iconCoding"></img>
+            <img src={tutor} alt='' className="iconCoding"></img>
             <ul className="ulSubjects">
                 <li onClick={handleCodingClick}>Coding</li>
                 <li onClick={handleScienceClick}>Science</li>

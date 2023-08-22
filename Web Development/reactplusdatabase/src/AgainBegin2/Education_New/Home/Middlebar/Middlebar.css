@@ -1,48 +1,69 @@
 body{
     overflow-x: hidden;
 }
-/*  
-.divMiddlebar{
-    background-image: url('./../../images/1.svg');
-}  */
 
 .divMiddlebar{
     position: relative;
     display: inline-block;
 }
+
+.imgMiddlebar{
+    width:79rem; 
+    margin-top:1rem;
+}
 .textOverlaydivMiddlebar{
     position: absolute;
     top: 8%; /* Adjust as needed */
     left: 37%; /* Adjust as needed */
-    color: white;
+    color: rgb(255, 225, 0);
     padding: 10px;
     border-radius: 5px;
     text-align: center;
 }
 
-.textOverlaydivMiddlebar h1{
-    font-size: 6rem;
-    font-family: monospace;
-}
-
 .animatedHeadingMiddlebar{
     opacity: 0; 
     transition: opacity 2s ease-in-out;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 6rem;
 }
 
 .animatedHeadingMiddlebar.active1 {
     opacity: 1; 
     transition: opacity 2s ease-in-out;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 6rem;
 }
 
 
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {
     .divMiddlebar {
-        flex-direction: column; /* Stack items vertically on small screens */
+      display: flex;
+      flex-direction: column; /* Stack items vertically on small screens */
+      align-items: center; /* Center items horizontally on small screens */
     }
-    
-    .animatedHeadingMiddlebar {
-        font-size: 1.5rem; /* Adjust font size for smaller screens */
+
+    .imgMiddlebar {
+        width: 100%; /* Make the image width 100% of its container on small screens */
+        max-width: 100%; /* Ensure the image doesn't exceed its original size */
+        height: auto; /* Maintain the image's aspect ratio */
     }
-}
+
+    .textOverlaydivMiddlebar {
+      top: 50%; /* Center vertically on small screens */
+      left: 50%; /* Center horizontally on small screens */
+      transform: translate(-50%, -50%);
+    }
+  
+    .textOverlaydivMiddlebar h4, .animatedHeadingMiddlebar {
+      font-size: 2.2rem; /* Adjust font size for smaller screens */
+    }
+
+    .textOverlaydivMiddlebar h4, .animatedHeadingMiddlebar.active1 {
+        opacity: 1; 
+        transition: opacity 2s ease-in-out;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-size: 2.2rem;
+    }
+}  

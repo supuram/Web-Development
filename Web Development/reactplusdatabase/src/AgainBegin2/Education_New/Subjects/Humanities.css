@@ -1,9 +1,9 @@
 .divContainerScience{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap:1rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
     margin-left: 2rem;
     margin-right: 2rem;
 }
