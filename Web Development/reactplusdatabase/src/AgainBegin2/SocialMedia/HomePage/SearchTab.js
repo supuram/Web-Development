@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
+import { handleFriendRequest } from './NotificationDashboard.js'
 
 export default function SearchTab() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -23,7 +24,7 @@ export default function SearchTab() {
             const responseData = response.data;
             const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.innerHTML = '';
-            responseData.forEach((profile) => {
+            responseData.forEach((profile) => { // profile is a single object
                 const profileElement = document.createElement('div');
                 const htmlContent = `<div>
                         <p>Name: ${profile.fullname}</p>
@@ -36,7 +37,7 @@ export default function SearchTab() {
                 resultsContainer.appendChild(profileElement);
 
                 const button = profileElement.querySelector('.editButton');
-                button.addEventListener('click', handleFriendRequest(profile));
+                button.addEventListener('click', () => {handleFriendRequest(profile)})
             });
             console.log('Came back from server side in /searchprofiles');
         } 
@@ -44,17 +45,6 @@ export default function SearchTab() {
             console.log('Error searching profiles:', error);
         }
     };
-
-    const handleFriendRequest = async(profile) => {
-        try{
-            const response = await Axios.post('/friendrequest', profile, {
-
-            })
-        }
-        catch (error) {
-            console.log('Error friend request:', error);
-        }
-    }
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value); // Update the selected option state
@@ -77,7 +67,7 @@ export default function SearchTab() {
                 placeholder="Search..."
             />
             <button onClick={handleSearch}>Search</button>
-            <div id="resultsContainer"></div> {/* This is where the search results will be displayed */}
+            <div id="resultsContainer"></div> 
         </div>
     );
 }

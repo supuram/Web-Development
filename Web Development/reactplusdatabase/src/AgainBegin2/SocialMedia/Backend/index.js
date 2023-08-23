@@ -260,13 +260,15 @@ async function startServer() {
                 jwt.verify(token, jwtSecret);
                 console.log('Token Verified for searchprofiles')
                 const usersCursor = collection.find({ [selectedOption]: searchQuery });
-        
+                const projection = {fullname: 1, school: 1, college: 1, university: 1};
+                usersCursor.project(projection);
                 // Convert the cursor to an array of documents as .find() returns a cursor and not an array of documents
                 const users = await usersCursor.toArray();
                 if (!users || users.length === 0) {
                     return res.status(404).send('User profile not found');
                 }
-                res.send(users)
+                console.log(users)
+                res.send(users) // users is an array of objects
             } 
             catch (error) {
                 return res.status(403).send('Forbidden');
@@ -276,7 +278,30 @@ async function startServer() {
 // *! For friend request. See SearchTab.js
         app.post('/friendrequest', async(req, res) => {
             const profile = req.body
-            await collection.findOne({_id: profile._id})
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized in friendrequest');
+            }
+            try {
+                const decoded = jwt.verify(token, jwtSecret);
+                console.log('Token Verified for friendrequest', decoded)
+                await collection.findOne({_id: profile._id}) // to whom friend request is sent
+                console.log('Just Testing = ', profile._id)
+
+                const whoSendTheFriendReq = await collection.findOne({email: decoded.email})
+                if (!whoSendTheFriendReq) {
+                    console.log('User profile not found in friendrequest', decoded)
+                    return res.status(404).json({ error: 'User profile not found' });
+                }
+                res.status(200).json({
+                    receiver: profile._id,
+                    sender: decoded.email
+                });
+            } 
+            catch (error) {
+                return res.status(403).send('Forbidden');
+            }
         })
 /* -------------------------------------------------------------------------------------------------------------- */
 
