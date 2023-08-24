@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
-import { handleFriendRequest } from './NotificationDashboard.js'
 
 export default function SearchTab() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -45,6 +44,24 @@ export default function SearchTab() {
             console.log('Error searching profiles:', error);
         }
     };
+
+    const handleFriendRequest = async(profile) => {
+        const authToken = getAuthToken();
+        console.log('This is the client side of friendrequest and i am entering try catch block', profile)
+        try {
+            const response = await Axios.post('/friendrequest', profile, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+            console.log('Sending request to the server side from friendrequest is success and the response came back')
+            console.log(response.data.receiver, response.data.sender)
+        } 
+        catch (error) {
+            console.log('Error sending friend request:', error);
+        }
+    }
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value); // Update the selected option state
