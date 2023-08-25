@@ -10,6 +10,7 @@ import nodemailer from 'nodemailer'
 import multer from 'multer'
 import NodeCache from 'node-cache'
 import imageType from 'image-type'
+import { WebSocket } from 'ws'
 import a from './env.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -28,25 +29,14 @@ app.use(cors())
 app.use(express.json())
 const jwtSecret = process.env.JWT_SECRET
 const imageCache = new NodeCache();
+const wss = new WebSocket.Server({ noServer: true });
+const userSockets = {};
 
 async function startServer() {
     try {
         await client.connect()
         const db = client.db('store')
         const collection = db.collection('user_registration_information')
-        /*const upload = multer({
-            storage: multer.memoryStorage(),
-            fileFilter: (req, file, cb) => {
-                if (file.mimetype === 'image/png') {
-                    // Accept .png images
-                    cb(null, true);
-                } else {
-                    // Reject all other file types
-                    cb(null, false);
-                }
-            },
-        }); */
-
         app.get('/', (req, res) => {
             const data = { showHome: true }
             res.json(data)
@@ -57,6 +47,19 @@ async function startServer() {
             resave: false,
             saveUninitialized: false
         }));
+/* ------------------------------------------------------------------------------------------------------------ */
+        wss.on('connection', (ws, req) => {
+            const userId = req.url.split('=')[1];
+            userSockets[userId] = ws;
+        
+            ws.on('close', () => {
+                delete userSockets[userId];
+            });
+        
+            ws.on('message', (message) => {
+            // Handle messages from the client if needed
+            });
+        });
 /* ------------------------------------------------------------------------------------------------------------ */
 // *! Handles the upload of profile pictures. See ProfileImage.js
 
@@ -286,7 +289,7 @@ async function startServer() {
             try {
                 const decoded = jwt.verify(token, jwtSecret);
                 console.log('Token Verified for friendrequest', decoded)
-                await collection.findOne({_id: profile._id}) // to whom friend request is sent
+                const receiver = await collection.findOne({_id: profile._id}) // to whom friend request is sent
                 console.log('Just Testing = ', profile._id)
 
                 const whoSendTheFriendReq = await collection.findOne({email: decoded.email})
@@ -294,9 +297,15 @@ async function startServer() {
                     console.log('User profile not found in friendrequest', decoded)
                     return res.status(404).json({ error: 'User profile not found' });
                 }
+                function sendToClient(userId, data) {
+                    const ws = userSockets[userId];
+                    if (ws) {
+                      ws.send(JSON.stringify(data));
+                    }
+                }
+                sendToClient(receiver.email, { message: whoSendTheFriendReq.fullname });
                 res.status(200).json({
-                    receiver: profile._id,
-                    sender: decoded.email
+                    receiver: receiver.email,
                 });
             } 
             catch (error) {
@@ -331,13 +340,13 @@ async function startServer() {
                 res.status(401).send('Unauthorized')
                 return
             }
-        
+            
             try {
                 // Verify JWT
                 const decoded = jwt.verify(token, jwtSecret)
-        
+                let email = decoded.email
                 // Authentication successful
-                res.status(200).send('Protected data')
+                res.status(200).send(email)
             } 
             catch (error) {
                 // Invalid JWT
@@ -705,9 +714,4 @@ In summary, these lines of code are responsible for setting the appropriate cont
 --------------------------------------------------------------------------------------------------------------------
 *! imageBinary.buffer refers to the binary buffer of the image data, and you are using it to store the binary image data within the Binary object. When you use res.send(imageBinary.buffer), you are sending the raw binary image data as the response body. This is what the client's browser will interpret as image data and display accordingly. So why i am writing .buffer in imageBinary.buffer if imageBinary is itself a binary ?
 *? Ans)I apologize for any confusion caused. It seems there might be a misunderstanding in my previous responses. You are absolutely correct, and I apologize for any confusion. imageBinary is already an instance of the Binary class, and you do not need to use .buffer to access the binary data. You can directly use imageBinary to access the binary data.
-
-
-
-
-
 */

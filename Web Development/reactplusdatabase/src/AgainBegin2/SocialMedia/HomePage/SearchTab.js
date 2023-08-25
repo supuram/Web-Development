@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
 
+let receiver;
+
 export default function SearchTab() {
     const [selectedOption, setSelectedOption] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
@@ -56,7 +58,8 @@ export default function SearchTab() {
                 },
             });
             console.log('Sending request to the server side from friendrequest is success and the response came back')
-            console.log(response.data.receiver, response.data.sender)
+            receiver = response.data.receiver
+            console.log(receiver)
         } 
         catch (error) {
             console.log('Error sending friend request:', error);
@@ -88,3 +91,4 @@ export default function SearchTab() {
         </div>
     );
 }
+export { receiver }
