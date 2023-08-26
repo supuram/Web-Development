@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
+import { useDispatch } from 'react-redux';
+import { updateEmailSender } from './actions';
 
 let receiver;
+const dispatch = useDispatch();
 
 export default function SearchTab() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -25,7 +28,11 @@ export default function SearchTab() {
             const responseData = response.data;
             const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.innerHTML = '';
-            responseData.forEach((profile) => { // profile is a single object
+            // Access the array of users
+            const usersArray = responseData.users;
+            console.log('User info = ', usersArray)
+            console.log('Request send by = ', responseData.sender)
+            usersArray.forEach((profile) => { // profile is a single object
                 const profileElement = document.createElement('div');
                 const htmlContent = `<div>
                         <p>Name: ${profile.fullname}</p>
@@ -38,7 +45,8 @@ export default function SearchTab() {
                 resultsContainer.appendChild(profileElement);
 
                 const button = profileElement.querySelector('.editButton');
-                button.addEventListener('click', () => {handleFriendRequest(profile)})
+                button.addEventListener('click', () => {handleFriendRequest(profile.email, responseData.sender);
+                    handleFriendRequestCallback(profile.email, responseData.sender);})
             });
             console.log('Came back from server side in /searchprofiles');
         } 
@@ -47,11 +55,20 @@ export default function SearchTab() {
         }
     };
 
-    const handleFriendRequest = async(profile) => {
+    const handleFriendRequestCallback = (email, sender) => {
+        // dispatch an action to update the email and sender in the Redux store
+        dispatch(updateEmailSender(email, sender));
+    }
+
+    const handleFriendRequest = async(receiver, sender) => {
         const authToken = getAuthToken();
-        console.log('This is the client side of friendrequest and i am entering try catch block', profile)
+        console.log('This is the client side of friendrequest and i am entering try catch block')
         try {
-            const response = await Axios.post('/friendrequest', profile, {
+            const response = await Axios.post('/friendrequest', {
+                receiver: receiver,
+                sender: sender
+            }, 
+            {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${authToken}`,

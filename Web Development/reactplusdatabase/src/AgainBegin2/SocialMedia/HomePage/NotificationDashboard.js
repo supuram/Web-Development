@@ -1,26 +1,22 @@
 import React, { forwardRef, useState, useEffect } from 'react';
 import './NotificationDashboard.css'
 import { receiver } from './SearchTab.js'
-import { initializeSocket, getSocket } from '../Frontend/Socket';
+import { initializeSocket, getSocket } from '../Frontend/Socket.js';
+import { useSelector } from 'react-redux';
 
-const NotificationDashboard = forwardRef((props, ref) => {
-  const [sendernew, setSendernew] = useState('')
-  const [receivernew, setReceivernew] = useState('')
+const NotificationDashboard = forwardRef(({ clientEmail }, ref) => {
   
+  const [sendernew, setSendernew] = useState('')
+  const clients = useSelector(state => state.clients);
+  const client = clients.find(client => client.email === clientEmail);
+
   useEffect(() => {
-    setReceivernew(receiver)
-    initializeSocket(receivernew)
-    const ws = getSocket(receivernew);
-    const handleMessage = (event) => {
-      const data = JSON.parse(event.data); // used to parse JSON string into a JS object
-      // update state here
-      setSendernew(data);
-    };
-    ws.addEventListener('message', handleMessage);
-    return () => {
-      ws.removeEventListener('message', handleMessage);
-    };
-  }, [receiver, receivernew]);
+    if (client) {
+      const email = client.email;
+      const sender = client.sender;
+      setSendernew(sender)
+    }
+  }, [client]);
 
   return (
     <div className="divNotificationDashboard" ref={ref}>

@@ -10,7 +10,8 @@ import nodemailer from 'nodemailer'
 import multer from 'multer'
 import NodeCache from 'node-cache'
 import imageType from 'image-type'
-import { WebSocket } from 'ws'
+import http from 'http'
+import { Server } from 'socket.io';
 import a from './env.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -29,7 +30,8 @@ app.use(cors())
 app.use(express.json())
 const jwtSecret = process.env.JWT_SECRET
 const imageCache = new NodeCache();
-const wss = new WebSocket.Server({ noServer: true });
+const server = http.createServer(app);
+const io = new Server(server);
 const userSockets = {};
 
 async function startServer() {
@@ -48,15 +50,15 @@ async function startServer() {
             saveUninitialized: false
         }));
 /* ------------------------------------------------------------------------------------------------------------ */
-        wss.on('connection', (ws, req) => {
-            const userId = req.url.split('=')[1];
-            userSockets[userId] = ws;
+        io.on('connection', (socket) => {
+            const userId = socket.handshake.query.userId;
+            userSockets[userId] = socket;
         
-            ws.on('close', () => {
-                delete userSockets[userId];
+            socket.on('disconnect', () => {
+            delete userSockets[userId];
             });
         
-            ws.on('message', (message) => {
+            socket.on('message', (message) => {
             // Handle messages from the client if needed
             });
         });
@@ -260,10 +262,15 @@ async function startServer() {
             }
             const {searchQuery, selectedOption} = req.query
             try {
-                jwt.verify(token, jwtSecret);
+                const decoded = jwt.verify(token, jwtSecret);
+                const whoSendTheFriendReq = await collection.findOne({email: decoded.email})
+                if (!whoSendTheFriendReq) {
+                    console.log('User profile not found in friendrequest', decoded)
+                    return res.status(404).json({ error: 'User profile not found' });
+                }
                 console.log('Token Verified for searchprofiles')
                 const usersCursor = collection.find({ [selectedOption]: searchQuery });
-                const projection = {fullname: 1, school: 1, college: 1, university: 1};
+                const projection = {email: 1, fullname: 1, school: 1, college: 1, university: 1};
                 usersCursor.project(projection);
                 // Convert the cursor to an array of documents as .find() returns a cursor and not an array of documents
                 const users = await usersCursor.toArray();
@@ -271,7 +278,15 @@ async function startServer() {
                     return res.status(404).send('User profile not found');
                 }
                 console.log(users)
-                res.send(users) // users is an array of objects
+                // res.send(users) // users is an array of objects
+                const responseObj = {
+                    users: users,
+                    sender: whoSendTheFriendReq.fullname
+                };
+                console.log('Sender mail = ', whoSendTheFriendReq.fullname)
+                console.log(responseObj)
+                // Send the response object
+                res.status(200).json(responseObj);
             } 
             catch (error) {
                 return res.status(403).send('Forbidden');
@@ -297,16 +312,27 @@ async function startServer() {
                     console.log('User profile not found in friendrequest', decoded)
                     return res.status(404).json({ error: 'User profile not found' });
                 }
+                console.log('In friendrequest after whoSendTheFriendReq')
+                sendToClient(receiver.email, { message: whoSendTheFriendReq.fullname, email: receiver.email });
                 function sendToClient(userId, data) {
-                    const ws = userSockets[userId];
-                    if (ws) {
-                      ws.send(JSON.stringify(data));
+                    try {
+                        const socket = userSockets[userId];
+                        if (socket) {
+                            socket.emit('message', data);
+                        } 
+                        else {
+                            console.log(`No socket found for userId: ${userId}`);
+                        }
+                    } 
+                    catch (error) {
+                        console.error(`Error while sending message to client: ${error}`);
                     }
-                }
-                sendToClient(receiver.email, { message: whoSendTheFriendReq.fullname });
-                res.status(200).json({
-                    receiver: receiver.email,
-                });
+                }                
+                console.log('after function sendToClient')
+                //sendToClient(receiver.email, { message: whoSendTheFriendReq.fullname, email: receiver.email });
+                console.log('after call to sendToClient')
+                res.status(200).json({ receiver: receiver.email });
+                console.log('After res.send')
             } 
             catch (error) {
                 return res.status(403).send('Forbidden');
