@@ -1,4 +1,3 @@
-// in reducer.js
 const initialState = {
     clients: []
 };
