@@ -10,8 +10,6 @@ import nodemailer from 'nodemailer'
 import multer from 'multer'
 import NodeCache from 'node-cache'
 import imageType from 'image-type'
-import http from 'http'
-import { Server } from 'socket.io';
 import a from './env.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -30,9 +28,6 @@ app.use(cors())
 app.use(express.json())
 const jwtSecret = process.env.JWT_SECRET
 const imageCache = new NodeCache();
-const server = http.createServer(app);
-const io = new Server(server);
-const userSockets = {};
 
 async function startServer() {
     try {
@@ -49,19 +44,6 @@ async function startServer() {
             resave: false,
             saveUninitialized: false
         }));
-/* ------------------------------------------------------------------------------------------------------------ */
-        io.on('connection', (socket) => {
-            const userId = socket.handshake.query.userId;
-            userSockets[userId] = socket;
-        
-            socket.on('disconnect', () => {
-            delete userSockets[userId];
-            });
-        
-            socket.on('message', (message) => {
-            // Handle messages from the client if needed
-            });
-        });
 /* ------------------------------------------------------------------------------------------------------------ */
 // *! Handles the upload of profile pictures. See ProfileImage.js
 
@@ -313,26 +295,7 @@ async function startServer() {
                     return res.status(404).json({ error: 'User profile not found' });
                 }
                 console.log('In friendrequest after whoSendTheFriendReq')
-                sendToClient(receiver.email, { message: whoSendTheFriendReq.fullname, email: receiver.email });
-                function sendToClient(userId, data) {
-                    try {
-                        const socket = userSockets[userId];
-                        if (socket) {
-                            socket.emit('message', data);
-                        } 
-                        else {
-                            console.log(`No socket found for userId: ${userId}`);
-                        }
-                    } 
-                    catch (error) {
-                        console.error(`Error while sending message to client: ${error}`);
-                    }
-                }                
-                console.log('after function sendToClient')
-                //sendToClient(receiver.email, { message: whoSendTheFriendReq.fullname, email: receiver.email });
-                console.log('after call to sendToClient')
-                res.status(200).json({ receiver: receiver.email });
-                console.log('After res.send')
+                return res.status(200).send('Ok')
             } 
             catch (error) {
                 return res.status(403).send('Forbidden');

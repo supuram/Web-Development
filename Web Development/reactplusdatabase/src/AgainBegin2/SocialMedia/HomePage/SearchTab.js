@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
-import { useDispatch } from 'react-redux';
-import { updateEmailSender } from './actions';
+import NotificationDashboard from './NotificationDashboard.js'
 
 let receiver;
-const dispatch = useDispatch();
 
 export default function SearchTab() {
     const [selectedOption, setSelectedOption] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
+    const [notificationData, setNotificationData] = useState(null);
+    const [usersArray, setUsersArray] = useState([]);
+    const [responseData, setResponsedata] = useState('')
 
     const handleSearch = async (event) => {
         event.preventDefault();
@@ -24,30 +25,11 @@ export default function SearchTab() {
                     searchQuery: searchQuery, // Pass the search query as a parameter
                 },
             });
-
-            const responseData = response.data;
+            setResponsedata(response.data)
             const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.innerHTML = '';
             // Access the array of users
-            const usersArray = responseData.users;
-            console.log('User info = ', usersArray)
-            console.log('Request send by = ', responseData.sender)
-            usersArray.forEach((profile) => { // profile is a single object
-                const profileElement = document.createElement('div');
-                const htmlContent = `<div>
-                        <p>Name: ${profile.fullname}</p>
-                        <p>School: ${profile.school}</p>
-                        <p>College: ${profile.college}</p>
-                        <p>University: ${profile.university}</p>                        
-                    </div>
-                    <button class="editButton">Friend Request</button>`;
-                profileElement.innerHTML = htmlContent;
-                resultsContainer.appendChild(profileElement);
-
-                const button = profileElement.querySelector('.editButton');
-                button.addEventListener('click', () => {handleFriendRequest(profile.email, responseData.sender);
-                    handleFriendRequestCallback(profile.email, responseData.sender);})
-            });
+            setUsersArray(response.data.users);
             console.log('Came back from server side in /searchprofiles');
         } 
         catch (error) {
@@ -55,16 +37,11 @@ export default function SearchTab() {
         }
     };
 
-    const handleFriendRequestCallback = (email, sender) => {
-        // dispatch an action to update the email and sender in the Redux store
-        dispatch(updateEmailSender(email, sender));
-    }
-
     const handleFriendRequest = async(receiver, sender) => {
         const authToken = getAuthToken();
         console.log('This is the client side of friendrequest and i am entering try catch block')
         try {
-            const response = await Axios.post('/friendrequest', {
+            await Axios.post('/friendrequest', {
                 receiver: receiver,
                 sender: sender
             }, 
@@ -74,9 +51,8 @@ export default function SearchTab() {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
-            console.log('Sending request to the server side from friendrequest is success and the response came back')
-            receiver = response.data.receiver
-            console.log(receiver)
+            console.log('Sending request to the server side from friendrequest is success and the response came back', receiver, sender)
+            setNotificationData({ receiver, sender });
         } 
         catch (error) {
             console.log('Error sending friend request:', error);
@@ -86,6 +62,8 @@ export default function SearchTab() {
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value); // Update the selected option state
     };
+
+    //const currentUserProfile = a;
 
     return (
         <div>
@@ -104,7 +82,27 @@ export default function SearchTab() {
                 placeholder="Search..."
             />
             <button onClick={handleSearch}>Search</button>
-            <div id="resultsContainer"></div> 
+            <div id="resultsContainer">
+                {usersArray ? (usersArray.map((receiver) => (
+                    <div key={receiver.email}>
+                        <p>Name: {receiver.fullname}</p>
+                        <p>School: {receiver.school}</p>
+                        <p>College: {receiver.college}</p>
+                        <p>University: {receiver.university}</p>
+                        <button
+                            className="editButton"
+                            onClick={() => handleFriendRequest(receiver.email, responseData.sender)}
+                        >
+                            Friend Request
+                        </button>
+                    </div>
+                ))) : (
+                    <p>Loading user profiles...</p>
+                )}
+            </div> 
+            
+                <NotificationDashboard receiver={notificationData.receiver} sender={notificationData.sender} />
+            
         </div>
     );
 }

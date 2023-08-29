@@ -4,7 +4,6 @@ import Axios from "axios";
 import Register_Button from "./Register_Button.js";
 import ForgotPasswordButton from './ForgotPasswordButton.js'
 import { setAuthToken } from "./AuthTokenExport.js";
-import { initializeSocket } from "./Socket.js";
 
 export default function Login_Page(){
     function getCookie(name) {
@@ -35,13 +34,6 @@ redirected */
                       Authorization: `Bearer ${getCookie('authToken')}`
                     }
                 })
-                .then(res => {
-                    initializeSocket(res.data.email)
-                })
-                .catch(error => {
-                    console.log('Error:', error);
-                });
-                  
             }
         })
         .catch(err => console.log(err))
