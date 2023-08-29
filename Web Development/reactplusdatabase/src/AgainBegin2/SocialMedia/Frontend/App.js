@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Axios from 'axios'
 import Home from './LoggedOutHomePage.js'
@@ -12,15 +12,14 @@ import PasswordResetPage from './PasswordResetPage.js'
 import VerifyForgotPasswordEmail from './VerifyForgotPasswordEmail.js'
 import EmailContext from './EmailContext.js';
 import FullProfile from "../HomePage/FullProfile.js";
-import { AuthProvider } from './../HomePage/AuthContext.js';
 
 Axios.defaults.baseURL='http://localhost:5000'
 
 export default function App() {
   const [email, setEmail] = useState('');
+  
   return (
     <Router>
-      <AuthProvider>
         <EmailContext.Provider value={{ email, setEmail }}>
           <Routes>
             <Route exact path="/" element={<Home/>} />
@@ -35,7 +34,6 @@ export default function App() {
             <Route path='/fullprofile' element={<FullProfile />} />
           </Routes>
         </EmailContext.Provider>
-      </AuthProvider>
     </Router>
   );
 }

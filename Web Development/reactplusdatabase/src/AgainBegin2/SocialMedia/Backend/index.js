@@ -569,7 +569,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
             }
         })
 
-        // For the form inside Login_Page.js on the client side 
+// *! For the form inside Login_Page.js on the client side 
         app.post('/Login-Page-Form', async (req, res) => {
             const {email, password} = req.body
             try {
@@ -601,22 +601,19 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                     res.redirect('/')
                     return
                 }
-                // else{
-                //     console.log('Invalid email or password again')
-                //     res.status(401).send({ message: 'Invalid email or password' });
-                //     return
-                // }
             } 
             catch (error) {
                 console.log(error)
                 res.status(500).send('Error saving form data')
             }
         })
-        
+/* -------------------------------------------------------------------------------------------------------------- */
+      
         app.listen(5000, () => {
             console.log('App is running')
         })
-    } catch (error) {
+    } 
+    catch (error) {
         console.log(error)
     }
 }
