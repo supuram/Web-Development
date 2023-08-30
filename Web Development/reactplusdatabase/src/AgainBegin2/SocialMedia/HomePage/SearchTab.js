@@ -24,20 +24,20 @@ export default function SearchTab() {
             const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.innerHTML = '';
             const usersArray = responseData.users;
-            usersArray.forEach((profile) => { // profile is a single object
+            usersArray.forEach((receiver) => { // profile is a single object
                 const profileElement = document.createElement('div');
                 const htmlContent = `<div>
-                        <p>Name: ${profile.fullname}</p>
-                        <p>School: ${profile.school}</p>
-                        <p>College: ${profile.college}</p>
-                        <p>University: ${profile.university}</p>                        
+                        <p>Name: ${receiver.fullname}</p>
+                        <p>School: ${receiver.school}</p>
+                        <p>College: ${receiver.college}</p>
+                        <p>University: ${receiver.university}</p>                        
                     </div>
                     <button class="editButton">Friend Request</button>`;
                 profileElement.innerHTML = htmlContent;
                 resultsContainer.appendChild(profileElement);
 
                 const button = profileElement.querySelector('.editButton');
-                button.addEventListener('click', () => {handleFriendRequest(profile.email, responseData.sender)})
+                button.addEventListener('click', () => {handleFriendRequest(receiver.email, responseData.sender)})
             });
             console.log('Came back from server side in /searchprofiles');
         } 
@@ -46,17 +46,18 @@ export default function SearchTab() {
         }
     };
 
-    const handleFriendRequest = async(profile) => {
+    const handleFriendRequest = async(receiver, sender) => {
         const authToken = getAuthToken();
-        console.log('This is the client side of friendrequest and i am entering try catch block', profile)
+        console.log('This is the client side of friendrequest and i am entering try catch block', receiver, sender)
         try {
-            const response = await Axios.post('/friendrequest', profile, {
+            const response = await Axios.post('/friendrequest', {receiver}, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${authToken}`,
                 },
             });
             console.log('Sending request to the server side from friendrequest is success and the response came back')
+            console.log(response.data.receiver, response.data.sender)
         } 
         catch (error) {
             console.log('Error sending friend request:', error);
@@ -85,6 +86,7 @@ export default function SearchTab() {
             />
             <button onClick={handleSearch}>Search</button>
             <div id="resultsContainer"></div> 
+            
         </div>
     );
 }

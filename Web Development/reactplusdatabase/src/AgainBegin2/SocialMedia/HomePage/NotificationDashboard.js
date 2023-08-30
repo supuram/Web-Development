@@ -1,13 +1,11 @@
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef } from 'react';
 import './NotificationDashboard.css'
 
 const NotificationDashboard = forwardRef((props, ref) => {
-  const { sender } = props;
+  const {message} = props
   return (
     <div className="divNotificationDashboard" ref={ref}>
-      <div>
-        <p>Received friend request from {sender}</p>   
-      </div>
+      <p>{message}</p>
     </div>
   );
 });

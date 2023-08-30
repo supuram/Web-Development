@@ -278,6 +278,7 @@ async function startServer() {
 // *! For friend request. See SearchTab.js
         app.post('/friendrequest', async(req, res) => {
             const profile = req.body
+            console.log(profile)
             const authHeader = req.headers.authorization;
             const token = authHeader && authHeader.split(' ')[1];
             if (!token) {
@@ -286,8 +287,8 @@ async function startServer() {
             try {
                 const decoded = jwt.verify(token, jwtSecret);
                 console.log('Token Verified for friendrequest', decoded)
-                const receiver = await collection.findOne({_id: profile._id}) // to whom friend request is sent
-                console.log('Just Testing = ', profile._id)
+                const receiver = await collection.findOne({email: profile.receiver}) // to whom friend request is sent
+                console.log('Just Testing = ', receiver.email)
 
                 const whoSendTheFriendReq = await collection.findOne({email: decoded.email})
                 if (!whoSendTheFriendReq) {
@@ -295,8 +296,36 @@ async function startServer() {
                     return res.status(404).json({ error: 'User profile not found' });
                 }
                 console.log('In friendrequest after whoSendTheFriendReq')
-                return res.status(200).send('Ok')
+                await collection.updateOne({ email: receiver.email }, { $set: {friendrequestsender: whoSendTheFriendReq.fullname, friendrequestsenderemail: whoSendTheFriendReq.email} })
+                res.status(200).json({
+                    receiver: receiver.email,
+                    sender: whoSendTheFriendReq.fullname
+                });
             } 
+            catch (error) {
+                return res.status(403).send('Forbidden');
+            }
+        })
+/* -------------------------------------------------------------------------------------------------------------- */
+// *! See Notification.js
+        app.get('/friendreqcheck', async(req, res) => {
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized in friendrequest');
+            }
+            try {
+                const decoded = jwt.verify(token, jwtSecret);
+                const loggedInUser = await collection.findOne({ email: decoded.email })
+                if (!loggedInUser) {
+                    console.log('User profile not found in friendrequest')
+                    return res.status(404).json({ error: 'User profile not found' });
+                }
+                const checkUser = await collection.findOne({ email: loggedInUser.email })
+                if(checkUser){
+                    return res.status(200).json({ nameOfSender: checkUser.friendrequestsender })
+                }
+            }
             catch (error) {
                 return res.status(403).send('Forbidden');
             }
