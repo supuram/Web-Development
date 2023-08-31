@@ -3,11 +3,11 @@ import './Contact.css'
 import './../Home/Home.css'
 import Topbar from './../Home/Topbar/Topbar.js'
 import Navbar from './../Home/Button/Navbar.js'
-import firebase from 'firebase/compat/app';
+import { firebase } from './../firebase.js'; 
 import 'firebase/compat/firestore';
 
 const db = firebase.firestore();
-
+console.log('contact')
 export default function Contact(){
     const [name, setName] = useState('')
 
@@ -41,6 +41,7 @@ export default function Contact(){
                     <input type="name" value={name} placeholder="Name" onChange={event => {
                     setName(event.target.value)
                 }}></input>
+                    
                 <button>Submit</button>
                 </form>
             </div>

@@ -9,6 +9,8 @@ export default function Notification(){
     const [isVisible, setIsVisible] = useState(false);
     const subMenuRef = useRef();
     const [senderName, setSenderName] = useState('');
+    const [senderEmail, setSenderEmail] = useState('')
+    const [receiverEmail, setReceiverEmail] = useState('')
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -33,8 +35,10 @@ export default function Notification(){
                     Authorization: `Bearer ${authToken}`,
                 },
             })
-            const { nameOfSender } = response.data;
+            const { nameOfSender, emailOfReceiver, emailOfSender } = response.data;
             setSenderName(nameOfSender)
+            setReceiverEmail(emailOfReceiver)
+            setSenderEmail(emailOfSender)
         }
         catch (error) {
             console.log('Error sending friend request:', error);
@@ -44,7 +48,7 @@ export default function Notification(){
         <div className={`divNotification ${isVisible ? 'visible' : ''}`}>
             <img className='imgNotification' src={notification} alt='' onClick={toggleVisibility} style={{pointerEvents: "all"}}></img>
             {isVisible && (
-                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={senderName} />
+                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ senderName: senderName, receiverEmail: receiverEmail, senderEmail: senderEmail }} />
             )}
         </div>
     )

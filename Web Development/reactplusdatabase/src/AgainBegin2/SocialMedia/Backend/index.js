@@ -34,6 +34,8 @@ async function startServer() {
         await client.connect()
         const db = client.db('store')
         const collection = db.collection('user_registration_information')
+        const friends = db.collection('allfreinds')
+        const finalfriendslist = db.collection('finalfriendslist')
         app.get('/', (req, res) => {
             const data = { showHome: true }
             res.json(data)
@@ -296,7 +298,12 @@ async function startServer() {
                     return res.status(404).json({ error: 'User profile not found' });
                 }
                 console.log('In friendrequest after whoSendTheFriendReq')
-                await collection.updateOne({ email: receiver.email }, { $set: {friendrequestsender: whoSendTheFriendReq.fullname, friendrequestsenderemail: whoSendTheFriendReq.email} })
+                const insert = {
+                    receiveremail: receiver.email, 
+                    friendrequestsender: whoSendTheFriendReq.fullname, 
+                    friendrequestsenderemail: whoSendTheFriendReq.email
+                }
+                await friends.insertOne(insert)
                 res.status(200).json({
                     receiver: receiver.email,
                     sender: whoSendTheFriendReq.fullname
@@ -321,14 +328,35 @@ async function startServer() {
                     console.log('User profile not found in friendrequest')
                     return res.status(404).json({ error: 'User profile not found' });
                 }
-                const checkUser = await collection.findOne({ email: loggedInUser.email })
+                const checkUser = await friends.findOne({ receiveremail: loggedInUser.email })
                 if(checkUser){
-                    return res.status(200).json({ nameOfSender: checkUser.friendrequestsender })
+                    return res.status(200).json({ nameOfSender: checkUser.friendrequestsender, emailOfReceiver: checkUser.receiveremail, emailOfSender: checkUser.friendrequestsenderemail })
                 }
             }
             catch (error) {
                 return res.status(403).send('Forbidden');
             }
+        })
+
+// *! NotificationDashboard.js
+        app.get('/acceptfriendrequest', async(req, res) => {
+            const { receiverEmail, senderEmail } = req.query;
+            const findsenderEmail = await finalfriendslist.findOne({ mainEmail: senderEmail })
+            if(findsenderEmail){
+                await finalfriendslist.updateOne({ mainEmail: senderEmail }, { $push: { friendsEmail: receiverEmail }})
+            }
+            else{
+                await finalfriendslist.insertOne({ mainEmail: senderEmail, friendsEmail: [receiverEmail] })
+            }
+
+            const findreceiverEmail = await finalfriendslist.findOne({ mainEmail: receiverEmail })
+            if(findreceiverEmail){
+                await finalfriendslist.updateOne({ mainEmail: receiverEmail }, { $push: { friendsEmail: senderEmail }})
+            }
+            else{
+                await finalfriendslist.insertOne({ mainEmail: receiverEmail, friendsEmail: [senderEmail] })
+            }
+            return res.status(200).send('OK')
         })
 /* -------------------------------------------------------------------------------------------------------------- */
 
