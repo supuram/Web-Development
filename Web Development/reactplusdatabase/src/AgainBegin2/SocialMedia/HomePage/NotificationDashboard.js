@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { acceptFriendRequest } from '../Redux/friendRequestAction.js';
 
 const NotificationDashboard = forwardRef((props, ref) => {
-  const { senderName } = props.message
-  const { receiverEmail } = props.message
-  const { senderEmail } = props.message
+  const { senderName, receiverEmail, senderEmail, messagefriend, senderNamefriend } = props.message || {}
   const dispatch = useDispatch();
   const requestAccepted = useSelector(state => state.friendRequest.accepted);
 
@@ -25,13 +23,13 @@ const NotificationDashboard = forwardRef((props, ref) => {
 
   return (
     <div className="divNotificationDashboard" ref={ref}>
-      {senderName && !requestAccepted ? (
+      {senderName ? (
         <>
           <p>You have received a friend request from - {senderName}</p>
-          <button onClick={handleAcceptRequest}>Accept Request</button>
+          <button onClick={ handleAcceptRequest }>Accept Request</button>
           <button>Reject Request</button>
         </>
-      ) : ( <p>You are now friends with {senderName}</p> )}
+      ) : ( <p>{ messagefriend } { senderNamefriend }</p> )}
     </div>
   );
 });

@@ -21,6 +21,14 @@
     margin-bottom: 1.3rem;
 }
 
+.formdivContactus{
+    display: flex;
+    flex-direction: column;
+    width:20rem;
+    margin-left: 2rem;
+    gap:1rem;
+}
+
 /* Mobile-friendly adjustments */
 @media screen and (max-width: 768px) {
     .divContactus {
