@@ -1,13 +1,9 @@
 import React, { forwardRef } from 'react';
 import './NotificationDashboard.css'
 import Axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux';
-import { acceptFriendRequest } from '../Redux/friendRequestAction.js';
 
 const NotificationDashboard = forwardRef((props, ref) => {
   const { senderName, receiverEmail, senderEmail, messagefriend, senderNamefriend } = props.message || {}
-  const dispatch = useDispatch();
-  const requestAccepted = useSelector(state => state.friendRequest.accepted);
 
   const handleAcceptRequest = async() => {
     console.log(senderName, receiverEmail, senderEmail)
@@ -18,7 +14,6 @@ const NotificationDashboard = forwardRef((props, ref) => {
       }
     })
     console.log('Exit from acceptfriendrequest')
-    dispatch(acceptFriendRequest());
   }
 
   return (

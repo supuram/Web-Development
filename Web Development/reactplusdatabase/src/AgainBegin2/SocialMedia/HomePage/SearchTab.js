@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
-import { useSelector } from 'react-redux';
 
 export default function SearchTab() {
     const [selectedOption, setSelectedOption] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const requestAccepted = useSelector(state => state.friendRequest.accepted);
 
     const handleSearch = async (event) => {
         event.preventDefault();
@@ -39,14 +37,9 @@ export default function SearchTab() {
                 resultsContainer.appendChild(profileElement);
 
                 const button = profileElement.querySelector('.editButton');
-                button.addEventListener('click', () => {
-                    if (!requestAccepted) { 
-                        handleFriendRequest(receiver.email, responseData.sender);
-                        button.textContent = "Friend Request Sent";
-                    } 
-                    else {
-                        button.textContent = "Friends"; 
-                    }
+                button.addEventListener('click', () => { 
+                    handleFriendRequest(receiver.email, responseData.sender);
+                    button.textContent = "Send Friend Request";
                 });                
             });
             console.log('Came back from server side in /searchprofiles');

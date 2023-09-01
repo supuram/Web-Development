@@ -262,6 +262,29 @@ async function startServer() {
                     return res.status(404).send('User profile not found');
                 }
                 console.log(users)
+
+                users.forEach(async(profile) => {
+                    console.log('Entered forEach of users')
+                    const friendReq_Send_or_NotSend = await finalfriendslist.findOne({ 
+                        mainEmail: profile.email 
+                    })
+                    console.log('friendReq_Send_or_NotSend success')
+                    if(!friendReq_Send_or_NotSend){
+                        console.log('!friendReq_Send_or_NotSend')
+                        profile.buttonText = 'Send Friend Request'
+                    }
+                    else{
+                        console.log('else of users')
+                        friendReq_Send_or_NotSend.forEach((element) => {
+                            if(element.email == whoSendTheFriendReq.email && element.status == 'notfriends'){
+                                profile.buttonText = 'Friend Request Already Sent'
+                            }
+                            else if(element.email == whoSendTheFriendReq.email && element.status == 'friends'){
+                                profile.buttonText = 'You are Friends'
+                            }
+                        })
+                    }                
+                })
                 // res.send(users) // users is an array of objects
                 const responseObj = {
                     users: users,
@@ -304,6 +327,8 @@ async function startServer() {
                     friendrequestsenderemail: whoSendTheFriendReq.email
                 }
                 await friends.insertOne(insert)
+                await finalfriendslist.insertOne({ mainEmail: whoSendTheFriendReq.email, friendsEmail: [{ receiverEmail: receiver.email, status: 'notfriends' }]})
+                await finalfriendslist.insertOne({ mainEmail: receiver.email, friendsEmail: [{ senderEmail: whoSendTheFriendReq.email, status: 'notfriends' }]})
                 res.status(200).json({
                     receiver: receiver.email,
                     sender: whoSendTheFriendReq.fullname
@@ -360,7 +385,7 @@ async function startServer() {
             }
         })
 
-// *! NotificationDashboard.js
+// *! NotificationDashboard.js, after Accept Request button is clicked
         app.get('/acceptfriendrequest', async(req, res) => {
             const { receiverEmail, senderEmail } = req.query;
 
