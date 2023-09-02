@@ -261,9 +261,8 @@ async function startServer() {
                 if (!users || users.length === 0) {
                     return res.status(404).send('User profile not found');
                 }
-                console.log(users)
 
-                users.forEach(async(profile) => {
+                for(const profile of users) {
                     console.log('Entered forEach of users')
                     const friendReq_Send_or_NotSend = await finalfriendslist.findOne({ 
                         mainEmail: profile.email 
@@ -275,16 +274,18 @@ async function startServer() {
                     }
                     else{
                         console.log('else of users')
-                        friendReq_Send_or_NotSend.forEach((element) => {
+                        const friendsEmailCheck = friendReq_Send_or_NotSend.friendsEmail
+                        for(const element of friendsEmailCheck) {
                             if(element.email == whoSendTheFriendReq.email && element.status == 'notfriends'){
                                 profile.buttonText = 'Friend Request Already Sent'
                             }
                             else if(element.email == whoSendTheFriendReq.email && element.status == 'friends'){
                                 profile.buttonText = 'You are Friends'
                             }
-                        })
+                        }
                     }                
-                })
+                }
+                console.log(users)
                 // res.send(users) // users is an array of objects
                 const responseObj = {
                     users: users,
@@ -300,7 +301,7 @@ async function startServer() {
             }
         })
 /* -------------------------------------------------------------------------------------------------------------- */
-// *! For friend request. See SearchTab.js
+// *! When a 'Send Friend Request' button is clicked this gets executed inside handleFriendRequest function in SearchTab.js
         app.post('/friendrequest', async(req, res) => {
             const profile = req.body
             console.log(profile)
@@ -327,8 +328,8 @@ async function startServer() {
                     friendrequestsenderemail: whoSendTheFriendReq.email
                 }
                 await friends.insertOne(insert)
-                await finalfriendslist.insertOne({ mainEmail: whoSendTheFriendReq.email, friendsEmail: [{ receiverEmail: receiver.email, status: 'notfriends' }]})
-                await finalfriendslist.insertOne({ mainEmail: receiver.email, friendsEmail: [{ senderEmail: whoSendTheFriendReq.email, status: 'notfriends' }]})
+                await finalfriendslist.insertOne({ mainEmail: whoSendTheFriendReq.email, friendsEmail: [{ email: receiver.email, status: 'notfriends' }]})
+                await finalfriendslist.insertOne({ mainEmail: receiver.email, friendsEmail: [{ email: whoSendTheFriendReq.email, status: 'notfriends' }]})
                 res.status(200).json({
                     receiver: receiver.email,
                     sender: whoSendTheFriendReq.fullname
@@ -358,51 +359,77 @@ async function startServer() {
                 }
                 console.log('after !loggedInUser')
                 const checkUser = await friends.findOne({ receiveremail: loggedInUser.email })
-                console.log('after checkUser')
-                const checkreceiveremail = await finalfriendslist.findOne({ mainEmail: checkUser.receiveremail })
-                console.log('after checkreceiveremail')
-                if(checkreceiveremail){
-                    console.log('server side friendreqcheck checkreceiveremail')
-                    const friendsEmailarray = checkreceiveremail.friendsEmail
-                    for(let i = 0; i < friendsEmailarray.length; i++){
-                        if(friendsEmailarray[i].senderEmail == checkUser.friendrequestsenderemail){
-                            console.log('if of checkreceiveremail', checkUser.friendrequestsender)
-                            return res.status(200).json({ message: 'You are friends with', nameOfSender: checkUser.friendrequestsender })
+                console.log('after checkUser = ', checkUser)
+
+        // *! For Notification of the receiver
+                if(checkUser){
+                    const checkreceiveremail = await finalfriendslist.findOne({ mainEmail: loggedInUser.email })
+                    console.log('after checkreceiveremail', checkreceiveremail)
+                    if(checkreceiveremail){
+                        console.log('server side friendreqcheck checkreceiveremail')
+                        const friendsEmailarray = checkreceiveremail.friendsEmail
+                        for(let i = 0; i < friendsEmailarray.length; i++){
+                            console.log(friendsEmailarray[i].email)
+                            if(friendsEmailarray[i].email == checkUser.friendrequestsenderemail && friendsEmailarray[i].status == 'friends'){
+                                console.log('if of checkreceiveremail', checkUser.friendrequestsender)
+                                return res.status(200).json({ message: 'You are friends with', nameOfSender: checkUser.friendrequestsender })
+                            }
+    
+                            if(friendsEmailarray[i].email == checkUser.friendrequestsenderemail && friendsEmailarray[i].status == 'notfriends'){
+                                return res.status(200).json({ nameOfSender: checkUser.friendrequestsender, emailOfReceiver: checkUser.receiveremail, emailOfSender: checkUser.friendrequestsenderemail })
+                            }
                         }
-                        else{
-                            console.log('else of checkreceiveremail = ', checkUser.friendrequestsender)
-                            return res.status(200).json({ nameOfSender: checkUser.friendrequestsender, emailOfReceiver: checkUser.receiveremail, emailOfSender: checkUser.friendrequestsenderemail })
+                    }
+                    else{
+                        console.log('complete else in friendreqcheck = ', checkUser.receiveremail)
+                        return res.status(200).json({ nameOfSender: checkUser.friendrequestsender, emailOfReceiver: checkUser.receiveremail, emailOfSender: checkUser.friendrequestsenderemail })
+                    }
+                }
+
+        // *! For Notification of the Sender
+                const chechUserSender = await friends.findOne({ friendrequestsenderemail: loggedInUser.email })
+                if(chechUserSender){
+                    const checksenderemail = await finalfriendslist.findOne({ mainEmail: loggedInUser.email })
+                    console.log('after checksenderemail', checksenderemail)
+                    if(checksenderemail){
+                        console.log('server side friendreqcheck checksenderemail')
+                        const friendsEmailarray = checksenderemail.friendsEmail
+                        for(let i = 0; i < friendsEmailarray.length; i++){
+                            console.log(friendsEmailarray[i].email)
+                            if(friendsEmailarray[i].email == chechUserSender.receiveremail && friendsEmailarray[i].status == 'friends'){
+                                console.log('if of checksenderemail', chechUserSender.receiveremail)
+                                return res.status(200).json({ message: 'Your friend request has been approved' })
+                            }
                         }
                     }
                 }
-                else{
-                    console.log('complete else in friendreqcheck = ', checkUser.receiveremail)
-                    return res.status(200).json({ nameOfSender: checkUser.friendrequestsender, emailOfReceiver: checkUser.receiveremail, emailOfSender: checkUser.friendrequestsenderemail })
-                }
             }
             catch (error) {
+                console.error('Error in friendreqcheck = ', error)
                 return res.status(403).send('Forbidden');
             }
         })
-
+/* -------------------------------------------------------------------------------------------------------------- */
 // *! NotificationDashboard.js, after Accept Request button is clicked
         app.get('/acceptfriendrequest', async(req, res) => {
             const { receiverEmail, senderEmail } = req.query;
 
             const findsenderEmail = await finalfriendslist.findOne({ mainEmail: senderEmail })
             if(findsenderEmail){
-                await finalfriendslist.updateOne({ mainEmail: senderEmail }, { $push: { friendsEmail: { receiverEmail: receiverEmail, status: 'friends' }}})
+                await finalfriendslist.updateOne({ mainEmail: senderEmail }, { $pull: { friendsEmail: { email: receiverEmail, status: 'notfriends' }}})
+                await finalfriendslist.updateOne({ mainEmail: senderEmail }, { $push: { friendsEmail: { email: receiverEmail, status: 'friends' }}})
             }
             else{
-                await finalfriendslist.insertOne({ mainEmail: senderEmail, friendsEmail: [{ receiverEmail: receiverEmail, status: 'friends' }] })
+                await finalfriendslist.insertOne({ mainEmail: senderEmail, friendsEmail: [{ email: receiverEmail, status: 'friends' }] })
             }
 
             const findreceiverEmail = await finalfriendslist.findOne({ mainEmail: receiverEmail })
             if(findreceiverEmail){
-                await finalfriendslist.updateOne({ mainEmail: receiverEmail }, { $push: { friendsEmail: { senderEmail: senderEmail, status: 'friends'}}})
+                await finalfriendslist.updateOne({ mainEmail: receiverEmail }, { $pull: { friendsEmail: { email: senderEmail, status: 'notfriends'}}})
+                await finalfriendslist.updateOne({ mainEmail: receiverEmail }, { $push: { friendsEmail: { email: senderEmail, status: 'friends'}}})
             }
             else{
-                await finalfriendslist.insertOne({ mainEmail: receiverEmail, friendsEmail: [{ senderEmail: senderEmail, status: 'friends' }]})
+                await finalfriendslist.insertOne({ mainEmail: receiverEmail, friendsEmail: [{ email: senderEmail, status: 'friends' }]})
             }
             return res.status(200).send('OK')
         })

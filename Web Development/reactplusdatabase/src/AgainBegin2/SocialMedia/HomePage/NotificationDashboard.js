@@ -3,7 +3,7 @@ import './NotificationDashboard.css'
 import Axios from 'axios'
 
 const NotificationDashboard = forwardRef((props, ref) => {
-  const { senderName, receiverEmail, senderEmail, messagefriend, senderNamefriend } = props.message || {}
+  const { senderName, receiverEmail, senderEmail, messagefriend, senderNamefriend, messageinSenderDashboard } = props.message || {}
 
   const handleAcceptRequest = async() => {
     console.log(senderName, receiverEmail, senderEmail)
@@ -24,7 +24,11 @@ const NotificationDashboard = forwardRef((props, ref) => {
           <button onClick={ handleAcceptRequest }>Accept Request</button>
           <button>Reject Request</button>
         </>
-      ) : ( <p>{ messagefriend } { senderNamefriend }</p> )}
+      ) : messagefriend ? ( 
+        <p>{ messagefriend } { senderNamefriend }</p> 
+      ) : messageinSenderDashboard ? (
+        <p>{messageinSenderDashboard}</p>
+      ) : null}
     </div>
   );
 });

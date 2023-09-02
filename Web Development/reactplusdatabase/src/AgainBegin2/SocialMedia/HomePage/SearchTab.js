@@ -35,12 +35,23 @@ export default function SearchTab() {
                     <button class="editButton">Friend Request</button>`;
                 profileElement.innerHTML = htmlContent;
                 resultsContainer.appendChild(profileElement);
-
+                console.log('receiver.buttonText = ', receiver.buttonText)
                 const button = profileElement.querySelector('.editButton');
-                button.addEventListener('click', () => { 
-                    handleFriendRequest(receiver.email, responseData.sender);
+                const a = receiver.buttonText === 'Send Friend Request'
+                console.log('a=', a)
+                if(receiver.buttonText === 'Send Friend Request'){
                     button.textContent = "Send Friend Request";
-                });                
+                    button.addEventListener('click', () => { 
+                        handleFriendRequest(receiver.email, responseData.sender);
+                        button.textContent = 'Friend Request Already Sent'
+                    }); 
+                }
+                else if(receiver.buttonText === 'Friend Request Already Sent'){
+                    button.textContent = 'Friend Request Already Sent'
+                }
+                else if(receiver.buttonText === 'You are Friends'){
+                    button.textContent = 'You are Friends'
+                }
             });
             console.log('Came back from server side in /searchprofiles');
         } 

@@ -13,6 +13,7 @@ export default function Notification(){
     const [receiverEmail, setReceiverEmail] = useState('')
     const [messagefriend, setMessagefriend] = useState('')
     const [senderNamefriend, setSendernamefriend] = useState('')
+    const [messageinSenderDashboard, setMessageinSenderDashboard] = useState('')
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -40,14 +41,19 @@ export default function Notification(){
             })
             console.log('Response came back from friendreqcheck in toggleVisibility')
 
-            if(response.data.message == 'You are friends with'){
-                console.log(response.data.message)
+            if(response.data.message == 'You are friends with'){ // *! for receiver
+                console.log('You are friends with', response.data.message)
                 const { messagefriend, senderNamefriend } = response.data
                 setMessagefriend(messagefriend)
                 setSendernamefriend(senderNamefriend)
             }
+            else if(response.data.message == 'Your friend request has been approved'){ // *! for sender
+                console.log('request has been approved', response.data.message)
+                const { messageinSenderDashboard } = response.data
+                setMessageinSenderDashboard(messageinSenderDashboard)
+            }
             else{
-                console.log(response.data.emailOfSender)
+                console.log('response.data.emailOfSender', response.data.emailOfSender)
                 const { nameOfSender, emailOfReceiver, emailOfSender } = response.data;
                 setSenderName(nameOfSender)
                 setReceiverEmail(emailOfReceiver)
@@ -61,10 +67,13 @@ export default function Notification(){
     return(
         <div className={`divNotification ${isVisible ? 'visible' : ''}`}>
             <img className='imgNotification' src={notification} alt='' onClick={toggleVisibility} style={{pointerEvents: "all"}}></img>
+
             {(isVisible && senderName) ? (
                 <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ senderName: senderName, receiverEmail: receiverEmail, senderEmail: senderEmail }} />
             ) : (isVisible && messagefriend) ? (
-                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ messagefriend: messagefriend, senderNamefriend: senderNamefriend }} />) : null}
+                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ messagefriend: messagefriend, senderNamefriend: senderNamefriend }} />) : (isVisible && messageinSenderDashboard) ? (
+                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ messageinSenderDashboard: messageinSenderDashboard }} />
+            ) : null}
         </div>
     )
 }
