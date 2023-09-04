@@ -375,7 +375,8 @@ async function startServer() {
                                 return res.status(200).json({ message: 'You are friends with', nameOfSender: checkUser.friendrequestsender })
                             }
     
-                            if(friendsEmailarray[i].email == checkUser.friendrequestsenderemail && friendsEmailarray[i].status == 'notfriends'){
+                            else if(friendsEmailarray[i].email == checkUser.friendrequestsenderemail && friendsEmailarray[i].status == 'notfriends'){
+                                console.log('notfriends in friendreqcheck checkreceiveremail')
                                 return res.status(200).json({ nameOfSender: checkUser.friendrequestsender, emailOfReceiver: checkUser.receiveremail, emailOfSender: checkUser.friendrequestsenderemail })
                             }
                         }
@@ -395,7 +396,7 @@ async function startServer() {
                         console.log('server side friendreqcheck checksenderemail')
                         const friendsEmailarray = checksenderemail.friendsEmail
                         for(let i = 0; i < friendsEmailarray.length; i++){
-                            console.log(friendsEmailarray[i].email)
+                            console.log('friendsEmailarray[i].email', friendsEmailarray[i].email)
                             if(friendsEmailarray[i].email == chechUserSender.receiveremail && friendsEmailarray[i].status == 'friends'){
                                 console.log('if of checksenderemail', chechUserSender.receiveremail)
                                 return res.status(200).json({ message: 'Your friend request has been approved' })

@@ -8,12 +8,22 @@ import { getAuthToken } from "../Frontend/AuthTokenExport.js";
 export default function Notification(){
     const [isVisible, setIsVisible] = useState(false);
     const subMenuRef = useRef();
-    const [senderName, setSenderName] = useState('');
-    const [senderEmail, setSenderEmail] = useState('')
-    const [receiverEmail, setReceiverEmail] = useState('')
-    const [messagefriend, setMessagefriend] = useState('')
-    const [senderNamefriend, setSendernamefriend] = useState('')
-    const [messageinSenderDashboard, setMessageinSenderDashboard] = useState('')
+    const [senderNameinNotification, setSenderNameinNotification] = useState('');
+    const [senderEmailinNotification, setSenderEmailinNotification] = useState('')
+    const [receiverEmailinNotification, setReceiverEmailinNotification] = useState('')
+    const [messagefriendinNotification, setMessagefriendinNotification] = useState('')
+    const [senderNamefriendinNotification, setSendernamefriendinNotification] = useState('')
+    const [messageinSenderDashboardinNotification, setMessageinSenderDashboardinNotification] = useState('')
+
+    useEffect(() => {
+        // Reset the variables when the component is mounted
+        setSenderNameinNotification('');
+        setSenderEmailinNotification('');
+        setReceiverEmailinNotification('');
+        setMessagefriendinNotification('');
+        setSendernamefriendinNotification('');
+        setMessageinSenderDashboardinNotification('');
+      }, []);
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -29,6 +39,14 @@ export default function Notification(){
         };
     }, []);
 
+    useEffect(() => {
+        console.log('isVisible:', isVisible);
+        console.log('senderName:', senderNameinNotification);
+        console.log('messagefriend and senderNamefriend:', messagefriendinNotification, senderNamefriendinNotification);
+        console.log('messageinSenderDashboard:', messageinSenderDashboardinNotification);
+      }, [isVisible, senderNameinNotification, senderNamefriendinNotification, messagefriendinNotification, messageinSenderDashboardinNotification]);
+      
+
     const toggleVisibility = async() => {
         const authToken = getAuthToken();
         setIsVisible(prevState => !prevState.isVisible);
@@ -42,22 +60,19 @@ export default function Notification(){
             console.log('Response came back from friendreqcheck in toggleVisibility')
 
             if(response.data.message == 'You are friends with'){ // *! for receiver
-                console.log('You are friends with', response.data.message)
-                const { messagefriend, senderNamefriend } = response.data
-                setMessagefriend(messagefriend)
-                setSendernamefriend(senderNamefriend)
+                console.log('You are friends with -------------------- ', response.data.message)
+                setMessagefriendinNotification(response.data.message)
+                setSendernamefriendinNotification(response.data.nameOfSender)
             }
             else if(response.data.message == 'Your friend request has been approved'){ // *! for sender
-                console.log('request has been approved', response.data.message)
-                const { messageinSenderDashboard } = response.data
-                setMessageinSenderDashboard(messageinSenderDashboard)
+                console.log('request has been approved @@@@@@@@@@@@@@@@@@@@@@@@@@@@', response.data.message)
+                setMessageinSenderDashboardinNotification(response.data.message)
             }
             else{
-                console.log('response.data.emailOfSender', response.data.emailOfSender)
-                const { nameOfSender, emailOfReceiver, emailOfSender } = response.data;
-                setSenderName(nameOfSender)
-                setReceiverEmail(emailOfReceiver)
-                setSenderEmail(emailOfSender)
+                console.log('response.data.emailOfSender *************************', response.data.emailOfSender)
+                setSenderNameinNotification(response.data.nameOfSender)
+                setReceiverEmailinNotification(response.data.emailOfReceiver)
+                setSenderEmailinNotification(response.data.emailOfSender)
             }
         }
         catch (error) {
@@ -67,12 +82,15 @@ export default function Notification(){
     return(
         <div className={`divNotification ${isVisible ? 'visible' : ''}`}>
             <img className='imgNotification' src={notification} alt='' onClick={toggleVisibility} style={{pointerEvents: "all"}}></img>
-
-            {(isVisible && senderName) ? (
-                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ senderName: senderName, receiverEmail: receiverEmail, senderEmail: senderEmail }} />
-            ) : (isVisible && messagefriend) ? (
-                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ messagefriend: messagefriend, senderNamefriend: senderNamefriend }} />) : (isVisible && messageinSenderDashboard) ? (
-                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ messageinSenderDashboard: messageinSenderDashboard }} />
+            {console.log('Notification client side')}
+            {isVisible ? (
+                senderNameinNotification ? (
+                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ senderName: senderNameinNotification, receiverEmail: receiverEmailinNotification, senderEmail: senderEmailinNotification }} />
+                ) : messagefriendinNotification ? (
+                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ messagefriend: messagefriendinNotification, senderNamefriend: senderNamefriendinNotification }} />
+                ) : messageinSenderDashboardinNotification ? (
+                <NotificationDashboard ref={subMenuRef} style={{display:'block'}} message={{ messageinSenderDashboard: messageinSenderDashboardinNotification }} />
+                ) : null
             ) : null}
         </div>
     )
