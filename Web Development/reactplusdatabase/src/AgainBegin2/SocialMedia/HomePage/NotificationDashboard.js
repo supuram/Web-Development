@@ -31,6 +31,12 @@ const NotificationDashboard = forwardRef((props, ref) => {
     setLocalMessagefriend(messagefriend || null);
     setLocalSenderNamefriend(senderNamefriend || null);
     setLocalMessageinSenderDashboard(messageinSenderDashboard || null);
+    console.log('localSenderName =', localSenderName)
+    console.log('localReceiverEmail = ', localReceiverEmail)
+    console.log('localSenderEmail = ', localSenderEmail)
+    console.log('localMessagefriend = ', localMessagefriend)
+    console.log('localSenderNamefriend = ', localSenderNamefriend)
+    console.log('localMessageinSenderDashboard = ', localMessageinSenderDashboard)
   }, [senderName, receiverEmail, senderEmail, messagefriend, senderNamefriend, messageinSenderDashboard]);
 
   const handleAcceptRequest = async() => {
@@ -42,6 +48,8 @@ const NotificationDashboard = forwardRef((props, ref) => {
       }
     });
     setRequestAccepted(true);
+    setRequestAccepted(false)
+    setLocalSenderName(null);
     console.log('Exit from acceptfriendrequest');
   }
 

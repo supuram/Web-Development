@@ -49,6 +49,7 @@ export default function Notification(){
 
     const toggleVisibility = async() => {
         const authToken = getAuthToken();
+        setSenderNameinNotification('');
         setIsVisible(prevState => !prevState.isVisible);
         console.log('Entered toggleVisibility')
         try{
