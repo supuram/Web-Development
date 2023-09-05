@@ -253,7 +253,10 @@ async function startServer() {
                     return res.status(404).json({ error: 'User profile not found' });
                 }
                 console.log('Token Verified for searchprofiles')
-                const usersCursor = collection.find({ [selectedOption]: searchQuery });
+                const usersCursor = collection.find({
+                    [selectedOption]: searchQuery,
+                    email: { $ne: whoSendTheFriendReq.email }
+                });
                 const projection = {email: 1, fullname: 1, school: 1, college: 1, university: 1};
                 usersCursor.project(projection);
                 // Convert the cursor to an array of documents as .find() returns a cursor and not an array of documents
@@ -262,7 +265,36 @@ async function startServer() {
                     return res.status(404).send('User profile not found');
                 }
 
-                for(const profile of users) {
+                const findLoggedIn = await finalfriendslist.findOne({ mainEmail: whoSendTheFriendReq.email })
+                for(const profile of users){
+                    if(!findLoggedIn){
+                        profile.buttonText = 'Send Friend Request'
+                    }
+                    else if(findLoggedIn){
+                        const findLoggedInFriends = findLoggedIn.friendsEmail
+                        let count = 0;
+                        for(const element of findLoggedInFriends){
+                            if(profile.email == element.email){
+                                count = count + 1
+                            }
+                        }
+                        if(count > 0){
+                            for(const element of findLoggedInFriends){
+                                if(profile.email == element.email && element.status == 'notfriends'){
+                                    profile.buttonText = 'Friend Request Already Sent'
+                                }
+                                else if(profile.email == element.email && element.status == 'friends'){
+                                    profile.buttonText = 'You are Friends'
+                                }
+                            }
+                        }
+                        else if(count == 0){
+                            profile.buttonText = 'Send Friend Request'
+                        }
+                    }
+                }
+
+                /*for(const profile of users) {
                     console.log('Entered forEach of users')
                     const friendReq_Send_or_NotSend = await finalfriendslist.findOne({ 
                         mainEmail: profile.email 
@@ -282,11 +314,19 @@ async function startServer() {
                             else if(element.email == whoSendTheFriendReq.email && element.status == 'friends'){
                                 profile.buttonText = 'You are Friends'
                             }
+                            else if(element.email != whoSendTheFriendReq.email){
+                                profile.buttonText = 'Send Friend Request'
+                            }
+                            if(element.email != whoSendTheFriendReq.email && element.status == 'notfriends'){
+                                profile.buttonText = 'Friend Request Already Sent'
+                            }
+                            else if(element.email != whoSendTheFriendReq.email && element.status == 'friends'){
+                                profile.buttonText = 'You are Friends'
+                            }
                         }
                     }                
-                }
+                }*/
                 console.log(users)
-                // res.send(users) // users is an array of objects
                 const responseObj = {
                     users: users,
                     sender: whoSendTheFriendReq.fullname
@@ -328,8 +368,8 @@ async function startServer() {
                     friendrequestsenderemail: whoSendTheFriendReq.email
                 }
                 await friends.insertOne(insert)
-                await finalfriendslist.insertOne({ mainEmail: whoSendTheFriendReq.email, friendsEmail: [{ email: receiver.email, status: 'notfriends' }]})
-                await finalfriendslist.insertOne({ mainEmail: receiver.email, friendsEmail: [{ email: whoSendTheFriendReq.email, status: 'notfriends' }]})
+                await finalfriendslist.updateOne({ mainEmail: whoSendTheFriendReq.email }, { $push: { friendsEmail: { email: receiver.email, status: 'notfriends' }}})
+                await finalfriendslist.updateOne({ mainEmail: receiver.email }, { $push: { friendsEmail: { email: whoSendTheFriendReq.email, status: 'notfriends'}}})
                 res.status(200).json({
                     receiver: receiver.email,
                     sender: whoSendTheFriendReq.fullname
