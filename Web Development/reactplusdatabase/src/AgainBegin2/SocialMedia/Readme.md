@@ -1,0 +1,3 @@
+This includes an authentication system and a friend request system. 
+Unfortunately a person can only send one friend request to another as I didn't knew anything about a notification system library and the notification system i did manually can only have one notification and a proper queue mechanism where one notification come after another is not implemented.
+Anyways you will enjoy at least understand the logic of sending friend request and its backend implementation. This is my 101th day of starting a journey in software development. 
