@@ -1,57 +1,41 @@
-import Navbar from "./../components/Navbar.jsx";
-import "./app.css";
-import Home from "./../pages/Home.jsx";
-import Post from "./../pages/Post.jsx";
-import Login from "./../pages/Login.jsx";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Axios from 'axios'
+import Home from './LoggedOutHomePage.js'
+import LogInHome from "./../HomePage/LoggedInHomePage.js";
+import About from "./About.js";
+import Login_Page from "./Login_Page.js";
+import Register_Page from "./Register_Page.js";
+import VerifyEmailPage from './verifyEmail.js'
+import ForgotPassword from './ForgotPassword.js'
+import PasswordResetPage from './PasswordResetPage.js'
+import VerifyForgotPasswordEmail from './VerifyForgotPasswordEmail.js'
+import EmailContext from './EmailContext.js';
+import FullProfile from "../HomePage/FullProfile.js";
+import Google_Button from './Google_Button.js'
 
-const App = () => {
-  const [user, setUser] = useState(null);
+Axios.defaults.baseURL='http://localhost:5000'
 
-  useEffect(() => {
-    const getUser = () => {
-      fetch("http://localhost:5000/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
-        })
-        .then((resObject) => {
-          setUser(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getUser();
-  }, []);
-
+export default function App() {
+  const [email, setEmail] = useState('');
+  
   return (
-    <BrowserRouter>
-      <div>
-        <Navbar user={user} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" /> : <Login />}
-          />
-          <Route
-            path="/post/:id"
-            element={user ? <Post /> : <Navigate to="/login" />}
-          />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <Router>
+        <EmailContext.Provider value={{ email, setEmail }}>
+          <Routes>
+            <Route exact path="/" element={<Home/>} />
+            <Route path="/auth/google" component={<Google_Button />} />
+            <Route path="/about" element={<About/>} />
+            <Route path="/LoginPage" element={<Login_Page/>} />
+            <Route path="/RegisterPage" element={<Register_Page/>} />
+            <Route path="/LoggedInHomePage" element={<LogInHome/>} />
+            <Route path="/verify" element={<VerifyEmailPage/>} />
+            <Route path='/ForgotPassword' element={<ForgotPassword/>} />
+            <Route path='/PasswordResetPage' element={<PasswordResetPage />} />
+            <Route path="/verify-forgot-password-email" element={<VerifyForgotPasswordEmail />} />
+            <Route path='/fullprofile' element={<FullProfile />} />
+          </Routes>
+        </EmailContext.Provider>
+    </Router>
   );
-};
-
-export default App;
+}
