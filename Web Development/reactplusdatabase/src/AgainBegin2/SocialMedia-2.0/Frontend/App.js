@@ -12,7 +12,6 @@ import PasswordResetPage from './PasswordResetPage.js'
 import VerifyForgotPasswordEmail from './VerifyForgotPasswordEmail.js'
 import EmailContext from './EmailContext.js';
 import FullProfile from "../HomePage/FullProfile.js";
-import Google_Button from './Google_Button.js'
 
 Axios.defaults.baseURL='http://localhost:5000'
 
@@ -24,7 +23,7 @@ export default function App() {
         <EmailContext.Provider value={{ email, setEmail }}>
           <Routes>
             <Route exact path="/" element={<Home/>} />
-            <Route path="/auth/google" component={<Google_Button />} />
+            <Route path="/auth/google" element={<></>} />
             <Route path="/about" element={<About/>} />
             <Route path="/LoginPage" element={<Login_Page/>} />
             <Route path="/RegisterPage" element={<Register_Page/>} />

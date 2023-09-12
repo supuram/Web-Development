@@ -107,10 +107,15 @@ async function startServer() {
         // Define routes for initiating Google and Facebook authentication
         app.get(
             '/auth/google',
+            (req, res, next) => {
+                console.log('/auth/google');
+                next();
+            },
             passport.authenticate('google', {
-            scope: ['profile', 'email'], // Define the required scopes
+                scope: ['profile', 'email'], // Define the required scopes
             })
         );
+        
         
         app.get(
             '/auth/facebook',
@@ -122,6 +127,10 @@ async function startServer() {
         // Define the callback routes for Google and Facebook authentication
         app.get(
             '/auth/google/callback',
+            (req, res, next) => {
+                console.log('/auth/google/callback');
+                next();
+            },
             passport.authenticate('google', { failureRedirect: '/Login-Page-Form' }),
             async(req, res) => {
             // Successful Google authentication
