@@ -116,7 +116,6 @@ async function startServer() {
             })
         );
         
-        
         app.get(
             '/auth/facebook',
             passport.authenticate('facebook', {
@@ -134,9 +133,27 @@ async function startServer() {
             passport.authenticate('google', { failureRedirect: '/Login-Page-Form' }),
             async(req, res) => {
             // Successful Google authentication
-            const user = req.user
-            await collection.insertOne(user);
-            res.redirect('/LoggedInHomePage'); // Redirect to the profile page or any other page
+                const user = req.user
+                const newUser = {
+                    username: user.displayName,
+                    email: user.emails[0].value,
+                    verified: user.emails[0].verified
+                };
+                const existingUser = await collection.findOne({ email: newUser.email });
+
+                if (existingUser) {
+                    const token = jwt.sign({ email: existingUser.email }, jwtSecret, { expiresIn: '1000h' });
+                    console.log(token)
+                    res.cookie('authToken', token, { path: '/' });
+                    res.redirect('http://localhost:3000/LoggedInHomePage'); 
+                } 
+                else {
+                    await collection.insertOne(newUser);
+                    const token = jwt.sign({ email: newUser.email }, jwtSecret, { expiresIn: '1000h' });
+                    console.log(token)
+                    res.cookie('authToken', token, { path: '/' });
+                    res.redirect('http://localhost:3000/LoggedInHomePage'); 
+                }
             }
         );
   
@@ -144,10 +161,10 @@ async function startServer() {
             '/auth/facebook/callback',
             passport.authenticate('facebook', { failureRedirect: '/Login-Page-Form' }),
             async(req, res) => {
-            // Successful Facebook authentication
-            const user = req.user
-            await collection.insertOne(user);
-            res.redirect('/LoggedInHomePage'); // Redirect to the profile page or any other page
+                // Successful Facebook authentication
+                const user = req.user
+                await collection.insertOne(user);
+                res.redirect('/LoggedInHomePage'); // Redirect to the profile page or any other page
             }
         );
 
@@ -220,7 +237,6 @@ async function startServer() {
             if (!token) {
                 return res.status(401).send('Unauthorized');
             }
-        
             let userEmail;
             try {
                 const decoded = jwt.verify(token, jwtSecret);
@@ -313,7 +329,8 @@ async function startServer() {
             if (response.modifiedCount === 1) {
                 console.log('Profile updated successfully');
                 res.sendStatus(200);
-            } else {
+            } 
+            else {
                 console.log('Profile update failed');
                 res.sendStatus(500); // Internal Server Error
             }
@@ -619,21 +636,21 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
                     console.log(password)
                     if(isPasswordMatch){
                         if(userExist.verified){
-                            const token = jwt.sign({email}, jwtSecret, {expiresIn: '10h'})
+                            const token = jwt.sign({email}, jwtSecret, {expiresIn: '1000h'})
                             console.log(token)
                             res.status(200).send({token})
                             return
                         }
                         else{
-                             console.log('Please verify your email before logging in')
-                             res.status(401).send({ message: 'Please verify your email before logging in' });
-                             return;
+                            console.log('Please verify your email before logging in')
+                            res.status(401).send({ message: 'Please verify your email before logging in' });
+                            return;
                         }
                     }
                     else{
-                         console.log('Invalid email or password')
-                         res.status(401).send({ message: 'Invalid email or password' });
-                         return
+                        console.log('Invalid email or password')
+                        res.status(401).send({ message: 'Invalid email or password' });
+                        return
                     }
                 }
                 else{
