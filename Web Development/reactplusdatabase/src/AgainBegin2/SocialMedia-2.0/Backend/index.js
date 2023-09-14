@@ -1,4 +1,7 @@
 import express from 'express'
+import { Storage } from '@google-cloud/storage'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import cors from 'cors'
 import { MongoClient, Binary } from 'mongodb'
 import uri from './first.js'
@@ -212,6 +215,13 @@ async function startServer() {
                 console.log('Forbidden')
                 res.status(403).send('Forbidden')
             }
+            const type = getImageContentType(req.file.buffer);
+
+            // Check if the file is an image
+            if (!type.startsWith('image/')) {
+                console.log('Uploaded file is not an image');
+                return res.status(400).send('Uploaded file is not an image');
+            }
 // Buffer.from is a method provided by Node.js's built-in Buffer module. It is used to create a new Buffer object from various sources, including binary data. 
 // req.file.buffer: The buffer property of the req.file object contains the binary data of the uploaded file. The Binary class is a part of the MongoDB Node.js driver. It is used to represent binary data, such as images, in a format that MongoDB can handle.
             const imageBuffer = Buffer.from(req.file.buffer);
@@ -358,6 +368,49 @@ async function startServer() {
                 return res.status(403).send('Forbidden');
             }
         })
+/* -------------------------------------------------------------------------------------------------------------- */
+// *! From UploadImages.js
+        const uploadimage = multer({
+            storage: multer.memoryStorage(),
+            limits: {
+                fileSize: 5 * 1024 * 1024, // no larger than 5mb
+            },
+        });
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = dirname(__filename);
+        const cloudStorage = new Storage({
+            keyFilename: `${__dirname}/passportjstutorial-398405-3b89e26a40e4.json`,
+            projectId: "passportjstutorial-398405",
+        });
+        console.log('__dirname = ', __dirname)
+        const bucketName = "storeimagemy";
+        const bucket = cloudStorage.bucket(bucketName);
+
+        app.post("/upload-file-to-cloud-storage", uploadimage.single("image"), (req, res, next) => {
+            console.log('req.file = ', req.file, 'req.files=', req.files)
+            if (!req.file) {
+                console.log('Error in upload-file-to-cloud-storage')
+                res.status(400).send("No file uploaded.");
+                return;
+            }
+
+            const blob = bucket.file(req.file.originalname);
+            const blobStream = blob.createWriteStream();
+
+            blobStream.on("error", (err) => {
+                next(err);
+            });
+
+            blobStream.on("finish", () => {
+                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                res.status(200).json({ publicUrl });
+            });
+
+            blobStream.end(req.file.buffer);
+        }, (error, req, res, next) => {
+            console.log(error);
+            res.status(400).send({ error: error.message });
+        });
 /* -------------------------------------------------------------------------------------------------------------- */
 
         app.get('/logout', (req, res) => {

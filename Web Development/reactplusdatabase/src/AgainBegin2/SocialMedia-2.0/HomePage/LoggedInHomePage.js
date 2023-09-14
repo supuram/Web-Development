@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import TopBar from '../HomePage/TopBar.js'
 import { setAuthToken, getAuthToken } from "./../Frontend/AuthTokenExport.js";
+import UploadImages from "./UploadImages.js";
 
 export default function LogInHome(){
     useEffect(() => {
@@ -20,6 +21,7 @@ export default function LogInHome(){
     return(
         <div>
             <TopBar />
+            <UploadImages />
         </div>
     )
 }

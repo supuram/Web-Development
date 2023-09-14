@@ -7,8 +7,22 @@ export default function ProfileImage() {
 
     const handleImageUpload = async (event) => {
         event.preventDefault();
+        const file = event.target.files[0];
+    
+        // Check if the file is an image
+        if (!file.type.startsWith('image/')) {
+            console.log('Uploaded file is not an image');
+            return;
+        }
+        // Check if the file size is less than or equal to 3MB
+        const fileSizeInMB = file.size / (1024*1024);
+        const maxSizeInMB = 3;
+        if(fileSizeInMB > maxSizeInMB) {
+            console.log('Uploaded file exceeds the 3MB size limit');
+            return;
+        }
         const formData = new FormData();
-        formData.append("image", event.target.files[0]);
+        formData.append("image", file);
         console.log('appended formData')
         const authToken = getAuthToken();
 

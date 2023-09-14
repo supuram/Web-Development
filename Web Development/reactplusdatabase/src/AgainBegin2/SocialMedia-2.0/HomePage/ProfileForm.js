@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAuthToken } from "../Frontend/AuthTokenExport.js";
 import Axios from 'axios';
+import DOMPurify from 'dompurify';
 
 export default function ProfileForm() {
     const [name, setName] = useState('');
@@ -42,12 +43,12 @@ export default function ProfileForm() {
         const authToken = getAuthToken();
         try {
             const formData = {
-                name: name,
-                dob: dob,
-                school: school,
-                college: college,
-                uni: uni,
-                workplace: workplace
+                name: DOMPurify.sanitize(name),
+                dob: DOMPurify.sanitize(dob),
+                school: DOMPurify.sanitize(school),
+                college: DOMPurify.sanitize(college),
+                uni: DOMPurify.sanitize(uni),
+                workplace: DOMPurify.sanitize(workplace)
             };
             
             if (isEditMode) {
