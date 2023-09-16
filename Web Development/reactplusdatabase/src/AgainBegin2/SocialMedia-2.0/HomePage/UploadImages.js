@@ -45,6 +45,7 @@ export default function UploadImages() {
 
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import { getAuthToken } from "../Frontend/AuthTokenExport.js";
 
 export default function UploadImages() {
     const [selectedFile, setSelectedFile] = useState();
@@ -62,8 +63,13 @@ export default function UploadImages() {
             console.log('entered handleUpload in UploadImages.js')
             // Replace this with the URL of your upload API
             const uploadAPIUrl = "http://localhost:5000/upload-file-to-cloud-storage";
+            const authToken = getAuthToken();
             try{
-                const response = await axios.post(uploadAPIUrl, formData);
+                const response = await axios.post(uploadAPIUrl, formData, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                });
                 console.log('Came back on the client side from server side upload-file-to-cloud-storage = ')
                 setUploadedImageUrls(prevState => [...prevState, response.data.publicUrl]);
             }

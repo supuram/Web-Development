@@ -100,8 +100,7 @@ async function startServer() {
         await client.connect()
         const db = client.db('store')
         const collection = db.collection('user_registration_information')
-        //const friends = db.collection('allfriends')
-        //const finalfriendslist = db.collection('finalfriendslist')
+        const imageURLofuser = db.collection('imageURLofuser')
         app.get('/', (req, res) => {
             const data = { showHome: true }
             res.json(data)
@@ -386,14 +385,23 @@ async function startServer() {
         const bucketName = "storeimagemy";
         const bucket = cloudStorage.bucket(bucketName);
 
-        app.post("/upload-file-to-cloud-storage", uploadimage.single("image"), (req, res, next) => {
-            console.log('req.file = ', req.file, 'req.files=', req.files)
+        app.post("/upload-file-to-cloud-storage", uploadimage.single("image"), async(req, res, next) => {
+            // console.log('req.file = ', req.file, 'req.files=', req.files)
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized');
+            }
+        
+            let email;
             if (!req.file) {
                 console.log('Error in upload-file-to-cloud-storage')
                 res.status(400).send("No file uploaded.");
                 return;
             }
-
+            const decoded = jwt.verify(token, jwtSecret);
+            email = decoded.email;
+            const findEmail = await imageURLofuser.findOne({ email: email })
             const blob = bucket.file(req.file.originalname);
             const blobStream = blob.createWriteStream();
 
@@ -401,8 +409,23 @@ async function startServer() {
                 next(err);
             });
 
-            blobStream.on("finish", () => {
+            blobStream.on("finish", async() => {
                 const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                const fieldName = "images";
+                const uniqueKey = Date.now().toString();
+                // console.log('Hey i have entered blobStream')
+                if(findEmail){
+                    await imageURLofuser.updateOne({ email: email }, { $set: { [`${fieldName}.${uniqueKey}`]: publicUrl } })
+                }
+                else{
+                    const entry = {
+                        email: email,
+                        [fieldName]: {
+                            [uniqueKey]: publicUrl
+                        }
+                    }
+                    await imageURLofuser.insertOne( entry )
+                }
                 res.status(200).json({ publicUrl });
             });
 
@@ -411,6 +434,31 @@ async function startServer() {
             console.log(error);
             res.status(400).send({ error: error.message });
         });
+/* -------------------------------------------------------------------------------------------------------------- */
+// *! ImagesUploadedinProfile.js
+        app.get('/fetch-uploaded-image', async(req, res) => {
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                return res.status(401).send('Unauthorized');
+            }
+            let email;
+            try {
+                const decoded = jwt.verify(token, jwtSecret);
+                email = decoded.email;
+                const findEmail = await imageURLofuser.findOne({ email: email })
+                if (findEmail) {
+                    const images = findEmail.images;
+                    res.status(200).json(images);
+                } 
+                else {
+                    res.status(404).send('No images found for this email.');
+                }
+            } 
+            catch (error) {
+                return res.status(403).send('Forbidden');
+            }
+        })
 /* -------------------------------------------------------------------------------------------------------------- */
 
         app.get('/logout', (req, res) => {
