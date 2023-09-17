@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import TopBar from '../HomePage/TopBar.js'
 import { setAuthToken, getAuthToken } from "./../Frontend/AuthTokenExport.js";
 import UploadImages from "./UploadImages.js";
+import SearchTab from "../Message/SearchTab.js";
+import { Link } from 'react-router-dom';
 
 export default function LogInHome(){
     useEffect(() => {
@@ -22,6 +24,16 @@ export default function LogInHome(){
         <div>
             <TopBar />
             <UploadImages />
+            <Link 
+                to="/LoggedInHomePage/messagereceived"
+                style={{
+                    textDecoration:'none',
+                    display:'block', 
+                    fontSize: '4rem',
+                    color: 'black'
+                }}>MessageReceived
+            </Link>
+            <SearchTab />
         </div>
     )
 }

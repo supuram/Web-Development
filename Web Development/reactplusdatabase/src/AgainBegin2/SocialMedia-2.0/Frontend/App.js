@@ -12,6 +12,8 @@ import PasswordResetPage from './PasswordResetPage.js'
 import VerifyForgotPasswordEmail from './VerifyForgotPasswordEmail.js'
 import EmailContext from './EmailContext.js';
 import FullProfile from "../HomePage/FullProfile.js";
+import MessageSend from "../Message/MessageSend.js";
+import MessageReceived from "../Message/MessageReceived.js";
 
 Axios.defaults.baseURL='http://localhost:5000'
 
@@ -33,6 +35,8 @@ export default function App() {
             <Route path='/PasswordResetPage' element={<PasswordResetPage />} />
             <Route path="/verify-forgot-password-email" element={<VerifyForgotPasswordEmail />} />
             <Route path='/fullprofile' element={<FullProfile />} />
+            <Route path="/LoggedInHomePage/messagesend/:receiverEmail/:senderEmail" element={<MessageSend />} />
+            <Route path='/LoggedInHomePage/messagereceived' element={<MessageReceived />} />
           </Routes>
         </EmailContext.Provider>
     </Router>

@@ -227,7 +227,7 @@ async function startServer() {
             const imageBinary = new Binary(imageBuffer);
             await collection.updateOne(
                 { email: userEmail },
-                { $set: { filename: req.file.originalname, image: imageBinary } }
+                { $set: { filename: req.file.originalname, image: imageBinary, contentType: req.file.mimetype  } }
             );
             
             // Serialize the imageBinary before storing it in the cache
@@ -237,9 +237,10 @@ async function startServer() {
             return res.status(200).send('Image upload successful');
         });
         app.use(express.static('public'));   
+/* ------------------------------------------------------------------------------------------------------------ */
+// *! See ProfileImage.js
         
         app.get('/user/image', async (req, res) => {
-            // Verify the user's token and extract their email
             console.log('Entered server side /user/image')
             const authHeader = req.headers.authorization;
             const token = authHeader && authHeader.split(' ')[1];
@@ -454,6 +455,47 @@ async function startServer() {
                 else {
                     res.status(404).send('No images found for this email.');
                 }
+            } 
+            catch (error) {
+                return res.status(403).send('Forbidden');
+            }
+        })
+/* -------------------------------------------------------------------------------------------------------------- */
+        app.get('/searchprofiles', async(req, res) => {
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) {
+                console.log('Error in searchprofiles')
+                return res.status(401).send('Unauthorized');
+            }
+            const { searchQuery, selectedOption } = req.query
+            try {
+                const decoded = jwt.verify(token, jwtSecret);
+                const whoSendTheFriendReq = await collection.findOne({email: decoded.email})
+                if (!whoSendTheFriendReq) {
+                    console.log('User profile not found in friendrequest', decoded)
+                    return res.status(404).json({ error: 'User profile not found' });
+                }
+                console.log('Token Verified for searchprofiles')
+                const usersCursor = collection.find({
+                    [selectedOption]: searchQuery,
+                    email: { $ne: whoSendTheFriendReq.email }
+                });
+                const projection = {email: 1, fullname: 1, image: 1, contentType: 1, _id: 1};
+                usersCursor.project(projection);
+                // Convert the cursor to an array of documents as .find() returns a cursor and not an array of documents
+                const users = await usersCursor.toArray();
+                if (!users || users.length === 0) {
+                    console.log('User profile not found')
+                    return res.status(404).send('User profile not found');
+                }
+                const responseObj = {
+                    users: users,
+                    senderName: whoSendTheFriendReq.fullname,
+                    senderEmail: whoSendTheFriendReq.email
+                };
+                console.log('Sender mail = ', whoSendTheFriendReq.fullname)
+                res.status(200).json(responseObj);
             } 
             catch (error) {
                 return res.status(403).send('Forbidden');
