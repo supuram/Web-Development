@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "./../Frontend/AuthTokenExport.js";
-import { Link } from 'react-router-dom';
+import './SearchTab.css'
+import MessageDashBoard from './MessageDashBoard.js'
 
 export default function SearchTab() {
     const [selectedOption, setSelectedOption] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [usersArray, setUsersArray] = useState([]);
     const [senderEmail, setSenderEmail] = useState('')
+
+    const [isVisible, setIsVisible] = useState(false);
+    const subMenuRef = useRef();
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+        if (subMenuRef.current && !subMenuRef.current.contains(event.target)) {
+            setIsVisible(false);
+        }
+        };
+
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, []);
+
+    const toggleVisibility = () => {
+        setIsVisible(prevState => !prevState.isVisible);
+        <MessageDashBoard ref={subMenuRef} style={{display:'block'}}/>
+    };
 
     const handleSearch = async (event) => {
         event.preventDefault();
@@ -63,18 +85,11 @@ export default function SearchTab() {
                         <div key={receiver._id}>
                             <p>Name: {receiver.fullname}</p>
                             <img src={uploadedImage} alt="Uploaded" style={{width: '4rem', height: '3rem'}} />
-                            
-                            <div>
-                                <Link 
-                                    to={{
-                                        pathname: "/LoggedInHomePage/messagesend",
-                                        state: { receiverEmail: receiver.email, senderEmail: senderEmail }
-                                    }}
-                                    style={{
-                                        textDecoration:'none',
-                                        display:'block'
-                                    }}>Message
-                                </Link>
+                            <div className={`divMessageProfile ${isVisible ? 'visible' : ''}`}>
+                                <button className="buttonMessageProfile" onClick={toggleVisibility}>Send a Message</button>
+                                {isVisible && (
+                                    <MessageDashBoard ref={subMenuRef} style={{display:'block'}}/>
+                                )}
                             </div>
                         </div>
                     );
