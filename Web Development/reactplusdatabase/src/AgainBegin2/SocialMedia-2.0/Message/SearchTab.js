@@ -1,35 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Axios from 'axios';
 import { getAuthToken } from "./../Frontend/AuthTokenExport.js";
-import './SearchTab.css'
-import MessageDashBoard from './MessageDashBoard.js'
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchTab() {
+    const navigate = useNavigate()
     const [selectedOption, setSelectedOption] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [usersArray, setUsersArray] = useState([]);
     const [senderEmail, setSenderEmail] = useState('')
-
-    const [isVisible, setIsVisible] = useState(false);
-    const subMenuRef = useRef();
-
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-        if (subMenuRef.current && !subMenuRef.current.contains(event.target)) {
-            setIsVisible(false);
-        }
-        };
-
-        document.addEventListener('mousedown', handleOutsideClick);
-        return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-        };
-    }, []);
-
-    const toggleVisibility = () => {
-        setIsVisible(prevState => !prevState.isVisible);
-        <MessageDashBoard ref={subMenuRef} style={{display:'block'}}/>
-    };
 
     const handleSearch = async (event) => {
         event.preventDefault();
@@ -58,6 +37,10 @@ export default function SearchTab() {
         setSelectedOption(e.target.value); // Update the selected option state
     };
 
+    const handleButtonClick = (receiverEmail, senderEmail) => {
+        navigate(`/LoggedInHomePage/messagesend`, { state: { receiverEmail, senderEmail } });
+    }
+
     return (
         <div>
             <select id="employeeName" value={selectedOption} onChange={handleOptionChange}>
@@ -80,17 +63,12 @@ export default function SearchTab() {
                     const imageBase64 = receiver.image;
                     const imageContentType = receiver.contentType; 
                     const uploadedImage = `data:${imageContentType};base64,${imageBase64}`;
-
+                    
                     return (
                         <div key={receiver._id}>
                             <p>Name: {receiver.fullname}</p>
                             <img src={uploadedImage} alt="Uploaded" style={{width: '4rem', height: '3rem'}} />
-                            <div className={`divMessageProfile ${isVisible ? 'visible' : ''}`}>
-                                <button className="buttonMessageProfile" onClick={toggleVisibility}>Send a Message</button>
-                                {isVisible && (
-                                    <MessageDashBoard ref={subMenuRef} style={{display:'block'}}/>
-                                )}
-                            </div>
+                            <button onClick={() => handleButtonClick(receiver.email, senderEmail)}>Send a Message</button>
                         </div>
                     );
                 })}
