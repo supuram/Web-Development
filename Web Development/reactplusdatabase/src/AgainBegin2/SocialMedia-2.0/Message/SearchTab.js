@@ -62,7 +62,8 @@ export default function SearchTab() {
                     return (
                         <div key={receiver._id}>
                             <p>Name: {receiver.fullname}</p>
-                            <img src={uploadedImage} alt="Uploaded" style={{width: '4rem', height: '3rem', borderRadius: '100%'}} />
+                            <img src={uploadedImage} alt="Uploaded" style={{width: '4rem', height: '3rem'}} />
+                            
                             <div>
                                 <Link 
                                     to={{

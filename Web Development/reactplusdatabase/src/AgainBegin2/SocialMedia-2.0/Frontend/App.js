@@ -35,7 +35,7 @@ export default function App() {
             <Route path='/PasswordResetPage' element={<PasswordResetPage />} />
             <Route path="/verify-forgot-password-email" element={<VerifyForgotPasswordEmail />} />
             <Route path='/fullprofile' element={<FullProfile />} />
-            <Route path="/LoggedInHomePage/messagesend/:receiverEmail/:senderEmail" element={<MessageSend />} />
+            <Route path='/LoggedInHomePage/messagesend' element={<MessageSend />} />
             <Route path='/LoggedInHomePage/messagereceived' element={<MessageReceived />} />
           </Routes>
         </EmailContext.Provider>
