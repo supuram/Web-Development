@@ -16,6 +16,8 @@ import imageType from 'image-type'
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
+const http = require('http');
+const socketIo = require('socket.io');
 import a from './env.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -30,6 +32,9 @@ const transporter = nodemailer.createTransport({
 
 const client = new MongoClient(uri)
 const app = express()
+const server = http.createServer(app);
+const io = socketIo(server);
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -501,6 +506,22 @@ async function startServer() {
                 return res.status(403).send('Forbidden');
             }
         })
+/* -------------------------------------------------------------------------------------------------------------- */
+// *! MessageSend.js
+        io.on('connection', (socket) => {
+            socket.on('join', ({ senderEmail, receiverEmail }) => {
+            const room = createRoom(senderEmail, receiverEmail); // function to create a unique room name
+            socket.join(room);
+            });
+        
+            socket.on('message', async ({ senderEmail, receiverEmail, message }) => {
+            const newMessage = new Message({ senderEmail, receiverEmail, message });
+            await newMessage.save();
+        
+            const room = createRoom(senderEmail, receiverEmail);
+            io.to(room).emit('message', { senderEmail, message });
+            });
+        });
 /* -------------------------------------------------------------------------------------------------------------- */
 
         app.get('/logout', (req, res) => {

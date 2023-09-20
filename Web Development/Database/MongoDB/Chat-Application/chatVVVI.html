@@ -96,7 +96,7 @@ event and broadcast the message to other connected clients. */
             item.textContent = msg;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
-          });
+        });
 /*Q)Instead of socket.on can't we use io.on here ?
 Ans)No, io.on and socket.on serve different purposes and cannot be used interchangeably. io.on is used on the 
 server side to listen for incoming connections, while socket.on is used on both the client and server sides to 
