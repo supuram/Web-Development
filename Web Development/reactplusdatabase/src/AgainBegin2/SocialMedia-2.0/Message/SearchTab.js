@@ -38,7 +38,7 @@ export default function SearchTab() {
     };
 
     const handleButtonClick = (receiverEmail, senderEmail) => {
-        navigate(`/LoggedInHomePage/messagesend`, { state: { receiverEmail, senderEmail } });
+        navigate(`/LoggedInHomePage/messagesend/chat`, { state: { receiverEmail, senderEmail } });
     }
 
     return (

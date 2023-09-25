@@ -16,8 +16,8 @@ import imageType from 'image-type'
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
-const http = require('http');
-const socketIo = require('socket.io');
+import http from 'http'
+import * as socketIo from 'socket.io'
 import a from './env.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -33,7 +33,8 @@ const transporter = nodemailer.createTransport({
 const client = new MongoClient(uri)
 const app = express()
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = new socketIo.Server(server);
+io.attach(server);
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -106,6 +107,7 @@ async function startServer() {
         const db = client.db('store')
         const collection = db.collection('user_registration_information')
         const imageURLofuser = db.collection('imageURLofuser')
+        const usermessage = db.collection('usermessage')
         app.get('/', (req, res) => {
             const data = { showHome: true }
             res.json(data)
@@ -508,19 +510,26 @@ async function startServer() {
         })
 /* -------------------------------------------------------------------------------------------------------------- */
 // *! MessageSend.js
-        io.on('connection', (socket) => {
+        const chatNamespace = io.of('/LoggedInHomePage/messagesend/chat');
+        chatNamespace.on('connection', (socket) => {
             socket.on('join', ({ senderEmail, receiverEmail }) => {
-            const room = createRoom(senderEmail, receiverEmail); // function to create a unique room name
-            socket.join(room);
+                const room1 = createRoom(senderEmail, receiverEmail);
+                const room2 = createRoom(receiverEmail, senderEmail); // Create a reversed room
+                socket.join(room1);
+                socket.join(room2);
             });
         
             socket.on('message', async ({ senderEmail, receiverEmail, message }) => {
-            const newMessage = new Message({ senderEmail, receiverEmail, message });
-            await newMessage.save();
-        
-            const room = createRoom(senderEmail, receiverEmail);
-            io.to(room).emit('message', { senderEmail, message });
-            });
+                try {
+                    const newMessage = { senderEmail, receiverEmail, message }
+                    await usermessage.insertOne(newMessage)
+                    const room = createRoom(senderEmail, receiverEmail);
+                    chatNamespace.to(room).emit('message', { senderEmail, receiverEmail, message });
+                } 
+                catch (error) {
+                    console.error(`Error: ${error}`);
+                }
+            });            
         });
 /* -------------------------------------------------------------------------------------------------------------- */
 
