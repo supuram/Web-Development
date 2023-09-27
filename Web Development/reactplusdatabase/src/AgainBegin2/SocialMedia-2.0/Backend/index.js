@@ -17,6 +17,8 @@ import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 import http from 'http'
+import { createServer } from 'http'
+import { Server } from "socket.io";
 import * as socketIo from 'socket.io'
 import a from './env.js'
 import dotenv from 'dotenv'
@@ -32,9 +34,10 @@ const transporter = nodemailer.createTransport({
 
 const client = new MongoClient(uri)
 const app = express()
-const server = http.createServer(app);
-const io = new socketIo.Server(server);
-io.attach(server);
+
+// const server = http.createServer(app);
+// const io = new socketIo.Server(server);
+// io.attach(server);
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -43,6 +46,10 @@ app.use((req, res, next) => {
 });  
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 app.use(express.json())
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, { path: '/chat', serveClient: false, pingInterval: 10000, pingTimeout: 5000, });
+
 const jwtSecret = process.env.JWT_SECRET
 const imageCache = new NodeCache();
 
@@ -510,11 +517,12 @@ async function startServer() {
         })
 /* -------------------------------------------------------------------------------------------------------------- */
 // *! MessageSend.js
-        const chatNamespace = io.of('/LoggedInHomePage/messagesend/chat');
+        const chatNamespace = io.of('/chat');
         chatNamespace.on('connection', (socket) => {
             socket.on('join', ({ senderEmail, receiverEmail }) => {
                 const room1 = createRoom(senderEmail, receiverEmail);
                 const room2 = createRoom(receiverEmail, senderEmail); // Create a reversed room
+                console.log('socket.on in server side')
                 socket.join(room1);
                 socket.join(room2);
             });
@@ -524,6 +532,7 @@ async function startServer() {
                     const newMessage = { senderEmail, receiverEmail, message }
                     await usermessage.insertOne(newMessage)
                     const room = createRoom(senderEmail, receiverEmail);
+                    console.log('after inserting in database in server side for socket')
                     chatNamespace.to(room).emit('message', { senderEmail, receiverEmail, message });
                 } 
                 catch (error) {
@@ -839,7 +848,7 @@ to /submit-form, if the server responds with a status of 200 (OK), the client-si
         })
 /* -------------------------------------------------------------------------------------------------------------- */
       
-        app.listen(5000, () => {
+        httpServer.listen(5000, () => {
             console.log('App is running')
         })
     } 
