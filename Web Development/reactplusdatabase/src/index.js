@@ -6,7 +6,8 @@ import ReactDOM from 'react-dom/client';
 //import App from './AgainBegin2/Education_New/App.js'
 //import App from './AgainBegin2/EducationWebsite/App.js'
 //import App from './AgainBegin2/SocialMedia/Frontend/App.js'
-import App from './AgainBegin2/SocialMedia-2.0/Frontend/App.js'
+//import App from './AgainBegin2/SocialMedia-2.0/Frontend/App.js'
+import App from './AgainBegin2/education2/App.js'
 //import App from './AgainBegin2/ChickenWebsite/App.js'
 //import App from './Beginner/React_Tutorials/React-Toastify.js'
 import reportWebVitals from './reportWebVitals.js';
